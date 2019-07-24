@@ -1,0 +1,73 @@
+C weyl.tex 1. Weyl modules
+S 1.1. Creating Weyl modules
+F 1.1. WeylModule
+F 1.1. WeylModule
+F 1.1. IsWeylModule
+S 1.2. Creating quotients of Weyl modules
+F 1.2. QuotientWeylModule
+F 1.2. IsQuotientWeylModule
+S 1.3. Basis, dimension, and other miscellaneous commands
+F 1.3. TheLieAlgebra
+F 1.3. BasisVecs
+F 1.3. Dim
+F 1.3. Generator
+F 1.3. TheCharacteristic
+F 1.3. ActOn
+S 1.4. Weight of a vector; weights of a list of vectors
+F 1.4. Weight
+F 1.4. List
+S 1.5. Structure of Weyl modules
+F 1.5. SubmoduleStructure
+F 1.5. SocleWeyl
+F 1.5. ExtWeyl
+F 1.5. MaximalSubmodule
+S 1.6. Maximal and primitive vectors; homomorphisms between Weyl modules
+F 1.6. MaximalVectors
+F 1.6. MaximalVectors
+F 1.6. IsMaximalVector
+F 1.6. IsMaximalVector
+F 1.6. PrimitiveVectors
+S 1.7. Submodules
+F 1.7. SubWeylModule
+F 1.7. SubWeylModule
+F 1.7. IsWithin
+S 1.8. Weights and weight spaces
+F 1.8. Weights
+F 1.8. DominantWeights
+F 1.8. WeightSpaces
+F 1.8. DominantWeightSpaces
+F 1.8. WeightSpace
+C weyl.tex 2. Characters and decomposition numbers
+S 2.1. Characters
+F 2.1. Character
+F 2.1. SimpleCharacter
+F 2.1. SimpleCharacter
+F 2.1. Character
+F 2.1. DifferenceCharacter
+S 2.2. Decomposition numbers
+F 2.2. DecompositionNumbers
+S 2.3. Decomposing tensor products
+F 2.3. ProductCharacter
+F 2.3. DecomposeCharacter
+C weyl.tex 3. Schur algebras and Symmetric Groups
+S 3.1. Compositions and Weights
+F 3.1. CompositionToWeight
+F 3.1. WeightToComposition
+F 3.1. BoundedPartitions
+F 3.1. BoundedPartitions
+S 3.2. Schur Algebras
+F 3.2. SchurAlgebraWeylModule
+F 3.2. DecompositionNumbers
+F 3.2. SchurAlgebraDecompositionMatrix
+S 3.3. Symmetric groups
+F 3.3. SymmetricGroupDecompositionNumbers
+F 3.3. SymmetricGroupDecompositionMatrix
+F 3.3. AllPartitions
+F 3.3. pRestrictedPartitions
+S 3.4. The Mullineux correspondence
+F 3.4. Mullineux
+F 3.4. pRegularPartitions
+S 3.5. Miscellaneous functions for partitions
+F 3.5. Conjugate
+F 3.5. pRestricted
+F 3.5. pRegular

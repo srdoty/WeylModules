@@ -1,0 +1,22 @@
+\chapcontents {\tocstrut }{Copyright Notice}{5}
+\chapcontents {1}{Weyl modules}{6}
+\seccontents {1.1}{Creating Weyl modules} {6}
+\seccontents {1.2}{Creating quotients of Weyl modules} {7}
+\seccontents {1.3}{Basis, dimension, and other miscellaneous commands} {7}
+\seccontents {1.4}{Weight of a vector; weights of a list of vectors} {8}
+\seccontents {1.5}{Structure of Weyl modules} {9}
+\seccontents {1.6}{Maximal and primitive vectors; homomorphisms between Weyl modules} {11}
+\seccontents {1.7}{Submodules} {12}
+\seccontents {1.8}{Weights and weight spaces} {13}
+\chapcontents {2}{Characters and decomposition numbers}{15}
+\seccontents {2.1}{Characters} {15}
+\seccontents {2.2}{Decomposition numbers} {16}
+\seccontents {2.3}{Decomposing tensor products} {17}
+\chapcontents {3}{Schur algebras and Symmetric Groups}{18}
+\seccontents {3.1}{Compositions and Weights} {18}
+\seccontents {3.2}{Schur Algebras} {19}
+\seccontents {3.3}{Symmetric groups} {20}
+\seccontents {3.4}{The Mullineux correspondence} {20}
+\seccontents {3.5}{Miscellaneous functions for partitions} {21}
+\chapcontents {}{Bibliography}{23}
+\chapcontents {}{Index}{24}

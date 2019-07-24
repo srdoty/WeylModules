@@ -1,0 +1,83 @@
+\makelabel{weyl:Copyright Notice}{{\setbox 0=\hbox {1}\vrule width 0pt height\ht 0}}
+\makelabel{weyl:Weyl modules}{1}
+\makelabel{weyl:Creating Weyl modules}{1.1}
+\makelabel{weyl:WeylModule}{1.1.1}
+\makelabel{weyl:WeylModule}{1.1.1}
+\makelabel{weyl:IsWeylModule}{1.1.2}
+\makelabel{weyl:Creating quotients of Weyl modules}{1.2}
+\makelabel{weyl:QuotientWeylModule}{1.2.1}
+\makelabel{weyl:IsQuotientWeylModule}{1.2.2}
+\makelabel{weyl:Basis, dimension, and other miscellaneous commands}{1.3}
+\makelabel{weyl:TheLieAlgebra}{1.3.1}
+\makelabel{weyl:BasisVecs}{1.3.1}
+\makelabel{weyl:Dim}{1.3.1}
+\makelabel{weyl:Generator}{1.3.1}
+\makelabel{weyl:TheCharacteristic}{1.3.1}
+\makelabel{weyl:ActOn}{1.3.2}
+\makelabel{weyl:Weight of a vector; weights of a list of vectors}{1.4}
+\makelabel{weyl:Weight}{1.4.1}
+\makelabel{weyl:List}{1.4.2}
+\makelabel{weyl:Structure of Weyl modules}{1.5}
+\makelabel{weyl:SubmoduleStructure}{1.5.1}
+\makelabel{weyl:SocleWeyl}{1.5.2}
+\makelabel{weyl:ExtWeyl}{1.5.3}
+\makelabel{weyl:MaximalSubmodule}{1.5.4}
+\makelabel{weyl:Maximal and primitive vectors; homomorphisms between Weyl modules}{1.6}
+\makelabel{weyl:MaximalVectors}{1.6.1}
+\makelabel{weyl:MaximalVectors}{1.6.1}
+\makelabel{weyl:IsMaximalVector}{1.6.2}
+\makelabel{weyl:IsMaximalVector}{1.6.2}
+\makelabel{weyl:PrimitiveVectors}{1.6.3}
+\makelabel{weyl:Submodules}{1.7}
+\makelabel{weyl:SubWeylModule}{1.7.1}
+\makelabel{weyl:SubWeylModule}{1.7.1}
+\makelabel{weyl:IsWithin}{1.7.2}
+\makelabel{weyl:Weights and weight spaces}{1.8}
+\makelabel{weyl:Weights}{1.8.1}
+\makelabel{weyl:DominantWeights}{1.8.1}
+\makelabel{weyl:WeightSpaces}{1.8.1}
+\makelabel{weyl:DominantWeightSpaces}{1.8.1}
+\makelabel{weyl:WeightSpace}{1.8.1}
+\makelabel{weyl:Characters and decomposition numbers}{2}
+\makelabel{weyl:Characters}{2.1}
+\makelabel{weyl:Character}{2.1.1}
+\makelabel{weyl:SimpleCharacter}{2.1.2}
+\makelabel{weyl:SimpleCharacter}{2.1.2}
+\makelabel{weyl:Character}{2.1.3}
+\makelabel{weyl:DifferenceCharacter}{2.1.4}
+\makelabel{weyl:Decomposition numbers}{2.2}
+\makelabel{weyl:DecompositionNumbers}{2.2.1}
+\makelabel{weyl:Decomposing tensor products}{2.3}
+\makelabel{weyl:ProductCharacter}{2.3.1}
+\makelabel{weyl:DecomposeCharacter}{2.3.1}
+\makelabel{weyl:Schur algebras and Symmetric Groups}{3}
+\makelabel{weyl:Compositions and Weights}{3.1}
+\makelabel{weyl:CompositionToWeight}{3.1.1}
+\makelabel{weyl:WeightToComposition}{3.1.1}
+\makelabel{weyl:BoundedPartitions}{3.1.2}
+\makelabel{weyl:BoundedPartitions}{3.1.2}
+\makelabel{weyl:Schur Algebras}{3.2}
+\makelabel{weyl:SchurAlgebraWeylModule}{3.2.1}
+\makelabel{weyl:DecompositionNumbers}{3.2.2}
+\makelabel{weyl:SchurAlgebraDecompositionMatrix}{3.2.3}
+\makelabel{weyl:Symmetric groups}{3.3}
+\makelabel{weyl:SymmetricGroupDecompositionNumbers}{3.3.1}
+\makelabel{weyl:SymmetricGroupDecompositionMatrix}{3.3.2}
+\makelabel{weyl:AllPartitions}{3.3.3}
+\makelabel{weyl:pRestrictedPartitions}{3.3.3}
+\makelabel{weyl:The Mullineux correspondence}{3.4}
+\makelabel{weyl:Mullineux}{3.4.1}
+\makelabel{weyl:pRegularPartitions}{3.4.2}
+\makelabel{weyl:Miscellaneous functions for partitions}{3.5}
+\makelabel{weyl:Conjugate}{3.5.1}
+\makelabel{weyl:pRestricted}{3.5.2}
+\makelabel{weyl:pRegular}{3.5.2}
+\makelabel{weyl:Bibliography}{}
+\setcitlab {CPS}{CPS75}
+\setcitlab {DM}{DM08}
+\setcitlab {Irving}{Irv86}
+\setcitlab {Green}{Gre07}
+\setcitlab {James}{Jam78}
+\setcitlab {Jantzen}{Jan03}
+\setcitlab {Xi}{Xi99}
+\makelabel{weyl:Index}{}

@@ -1,0 +1,40 @@
+\begin{thebibliography}{CPS75}
+
+\bibitem[CPS75]{CPS}
+Edward Cline, Brian Parshall, and Leonard Scott,
+\newblock Cohomology of finite groups of Lie type, I,
+\newblock {\em Inst. Hautes \'{E}tudes Sci. Publ. Math.} 45 (1975), 169--191.
+
+\bibitem[DM08]{DM}
+Stephen Doty and Stuart Martin,
+\newblock Decomposition of tensor products of modular irreducible
+  representations for ${\rm SL}_3$,
+\newblock {\em preprint} 2008.
+
+\bibitem[Irv86]{Irving}
+Ronald~S.~Irving,
+\newblock The structure of certain highest weight modules for ${\rm SL}\sb 3$,
+\newblock {\em J. Algebra} 99 (1986), 438--457.
+
+\bibitem[Gre07]{Green} J.A.~Green, \newblock {\em Polynomial
+  representations of ${\rm GL}\sb {n}$}, Second corrected and augmented
+  edition; With an appendix on Schensted correspondence and Littelmann
+  paths by K.~Erdmann, Green and M.~Schocker; Lecture Notes in
+  Mathematics, 830, Springer, Berlin, 2007.
+
+\bibitem[Jam78]{James} Gordon D.~James, \newblock {\em The representation
+    theory of the symmetric groups}, Lecture Notes in Mathematics,
+  682, Springer, Berlin, 1978.
+
+\bibitem[Jan03]{Jantzen}
+Jens~C.~Jantzen,
+\newblock {\em Representations of Algebraic Groups, Second edition},
+\newblock Mathematical Surveys and Monographs, 107, American Mathematical
+  Society, Providence, RI, 2003.
+
+\bibitem[Xi99]{Xi}
+Nanhua Xi,
+\newblock Maximal and primitive elements in Weyl modules for type $A_2$.
+\newblock {\em J. Algebra} 215 (1999), 735--756.
+
+\end{thebibliography}

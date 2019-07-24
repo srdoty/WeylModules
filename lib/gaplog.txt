@@ -1,0 +1,150 @@
+gap> V:=WeylModule(2,[2,2],"A",2);
+<Type A2 Weyl module of highest weight [ 2, 2 ] at prime p = 2>
+gap> L:=TheLieAlgebra(V);
+<Lie algebra of dimension 8 over Rationals>
+gap> g:=LatticeGeneratorsInUEA(L);
+[ y1, y2, y3, x1, x2, x3, ( h7/1 ), ( h8/1 ) ]
+gap> y1:=g[1]; y2:=g[2]; y3:=g[3];
+y1
+y2
+y3
+gap> v0:=Generator(V);
+1*v0
+gap> m:=MaximalVectors(V);
+[ 1*v0, y1*v0, y2*v0, y1*y2*y3*v0 ]
+gap> ActOn(V,y3*y1*y2,v0);
+y1*y2*y3*v0
+gap> ActOn(V,y3*y2*y1,v0);
+y1*y2*y3*v0
+gap> ActOn(V,y2*y3*y1,v0);
+y1*y2*y3*v0
+gap> ActOn(V,y2*y1*y3,v0);
+y1*y2*y3*v0
+gap> ActOn(V,y1*y3*y2,v0);
+y1*y2*y3*v0
+gap> 
+gap> V:=WeylModule(3,[4,4],"A",2);
+<Type A2 Weyl module of highest weight [ 4, 4 ] at prime p = 3>
+gap> L:=TheLieAlgebra(V);
+<Lie algebra of dimension 8 over Rationals>
+gap> g:=LatticeGeneratorsInUEA(L);
+[ y1, y2, y3, x1, x2, x3, ( h7/1 ), ( h8/1 ) ]
+gap> y1:=g[1]; y2:=g[2]; y3:=g[3];
+y1
+y2
+y3
+gap> v0:=Generator(V);
+1*v0
+gap> m:=MaximalVectors(V);
+[ 1*v0, y1*y2*v0+y3*v0, y1^(2)*v0, y2^(2)*v0, -1*y1*y3*v0+y1^(2)*y2*v0, 
+  y1*y2^(2)*v0, y1^(2)*y2^(2)*y3^(2)*v0 ]
+gap> ActOn(V,y1^2*y2^2*y3^2,v0);
+2*y1^(2)*y2^(2)*y3^(2)*v0
+gap> ActOn(V,y1^2*y2^2*y3^2/8,v0);
+y1^(2)*y2^(2)*y3^(2)*v0
+gap> ActOn(V,y1^2*y3^2*y2^2/8,v0);
+y1^(2)*y2^(2)*y3^(2)*v0
+gap> ActOn(V,y2^2*y3^2*y1^2/8,v0);
+y1^(2)*y2^(2)*y3^(2)*v0
+gap> ActOn(V,y2^2*y1^2*y3^2/8,v0);
+y1^(2)*y2^(2)*y3^(2)*v0
+gap> ActOn(V,y3^2*y1^2*y2^2/8,v0);
+y1^(2)*y2^(2)*y3^(2)*v0
+gap> ActOn(V,y3^2*y2^2*y1^2/8,v0);
+y1^(2)*y2^(2)*y3^(2)*v0
+gap> ActOn(V,y1*y2*y3*y1*y2*y3/8,v0);
+y1^(2)*y2^(2)*y3^(2)*v0
+gap> ActOn(V,y1*y2*y1*y2*y3^2/8,v0);
+y1^(2)*y2^(2)*y3^(2)*v0
+gap> m[2] == ActOn(V,y2*y1,v0);
+Syntax error: expression expected
+m[2] == ActOn(V,y2*y1,v0);
+      ^
+gap> ActOn(V,y2*y1,v0);
+y1*y2*v0+2*y3*v0
+gap> ActOn(V,y2*y1^2/2,v0);
+2*y1*y3*v0+y1^(2)*y2*v0
+gap> 
+gap> V:=WeylModule(2,[2,2],"B",2);
+<Type B2 Weyl module of highest weight [ 2, 2 ] at prime p = 2>
+gap> L:=TheLieAlgebra(V);
+<Lie algebra of dimension 10 over Rationals>
+gap> g:=LatticeGeneratorsInUEA(L);
+[ y1, y2, y3, y4, x1, x2, x3, x4, ( h9/1 ), ( h10/1 ) ]
+gap> y1:=g[1]; y2:=g[2]; y3:=g[3]; y4:=g[4];
+y1
+y2
+y3
+y4
+gap> v0:=Generator(V);
+1*v0
+gap> m:=MaximalVectors(V);
+[ 1*v0, y1*v0, y2*v0, y1*y2*v0+y3*v0, y2*y3*v0, y1*y2*y3*v0, y1*y2*y3*y4*v0 ]
+gap> ActOn(V,y2*y1,v0);
+y1*y2*v0+y3*v0
+gap> ActOn(V,y4*y3*y2*y1,v0);
+y1*y2*y3*y4*v0
+gap> ActOn(V,y4*y1*y2*y3,v0);
+y1*y2*y3*y4*v0
+gap> ActOn(V,y4*y2*y1*y3,v0);
+y1*y2*y3*y4*v0
+gap> ActOn(V,y4*y3*y1*y2,v0);
+y1*y2*y3*y4*v0
+gap> 
+gap> V:=WeylModule(3,[4,4],"B",2);
+<Type B2 Weyl module of highest weight [ 4, 4 ] at prime p = 3>
+gap> v0:=Generator(V);
+1*v0
+gap> m:=MaximalVectors(V);
+[ 1*v0, y1^(2)*v0, y2^(2)*v0, y1*y2^(2)*v0, 
+  -1*y1*y2*y3^(2)*v0+y1*y3*y4*v0-1*y1^(2)*y2*y4*v0+y1^(2)*y2^(2)*y3*v0, 
+  y1^(2)*y2^(2)*y3^(2)*y4^(2)*v0 ]
+gap> ActOn(V,y3*y2^2/2*y1^2/2,v0);
+2*y1*y2*y3^(2)*v0+y1^(2)*y2*y4*v0+y1^(2)*y2^(2)*y3*v0
+gap> ActOn(V,y3^2/2*y2^*y1,v0);
+Syntax error: expression expected
+ActOn(V,y3^2/2*y2^*y1,v0);
+                  ^
+gap> ActOn(V,y3^2/2*y2*y1,v0);
+y1*y2*y3^(2)*v0+y1*y3*y4*v0
+gap> ActOn(V,y3*y4*y1,v0);
+y1*y3*y4*v0
+gap> ActOn(V,y2^2/2*y1^2/2*y3,v0);
+2*y1*y2*y3^(2)*v0+2*y1*y3*y4*v0+y1^(2)*y2^(2)*y3*v0
+gap> ActOn(V,y2^2/2*y3*y1^2/2,v0);
+2*y1*y2*y3^(2)*v0+2*y1*y3*y4*v0+y1^(2)*y2^(2)*y3*v0
+gap> ActOn(V,y2*y4*y1^2/2,v0);
+y1*y3*y4*v0+y1^(2)*y2*y4*v0
+gap> ActOn(V,y3*y1^2/2*y2^2/2,v0);
+y1^(2)*y2*y4*v0+y1^(2)*y2^(2)*y3*v0
+gap> ActOn(V,y1^2/2*y3*y2^2/2,v0);
+y1^(2)*y2*y4*v0+y1^(2)*y2^(2)*y3*v0
+gap> ActOn(V,y3*y1*y2*y1*y2/4,v0);
+2*y1*y2*y3^(2)*v0+2*y1*y3*y4*v0+y1^(2)*y2*y4*v0+y1^(2)*y2^(2)*y3*v0
+gap> ActOn(V,y1*y2*y3*y1*y2/4,v0);
+2*y1*y2*y3^(2)*v0+2*y1*y3*y4*v0+2*y1^(2)*y2*y4*v0+y1^(2)*y2^(2)*y3*v0
+gap> ActOn(V,y2*y1*y3*y1*y2/4,v0);
+y1*y2*y3^(2)*v0+y1*y3*y4*v0+2*y1^(2)*y2*y4*v0+y1^(2)*y2^(2)*y3*v0
+gap> ActOn(V,y2*y1*y3*y2*y1/4,v0);
+y1*y3*y4*v0+2*y1^(2)*y2*y4*v0+y1^(2)*y2^(2)*y3*v0
+gap> ActOn(V,y2*y1*y2*y3*y1/4,v0);
+2*y1*y3*y4*v0+y1^(2)*y2^(2)*y3*v0
+gap> ActOn(V,y1*y2*y1*y2*y1*y2*y1*y2,v0);
+2*y1^(2)*y2^(2)*y3^(2)*v0+y1^(2)*y4^(2)*v0
+gap> ActOn(V,y1*y2*y1*y2*y1*y2*y1*y2/(24*24),v0);
+ModRat: for <r>/<s> mod <n>, <s>/gcd(<r>,<s>) and <n> must be coprime at
+res := lu[k] mod p;
+ called from
+h ^ v mod p called from
+<function>( <arguments> ) called from read-eval-loop
+Entering break read-eval-print loop ...
+you can 'quit;' to quit to outer loop, or
+you can replace the integer <n> via 'return <n>;' to continue
+brk> quit;
+gap> ActOn(V,y2*y1*y2*y1*y2*y1*y2*y1,v0);
+2*y1*y3^(2)*y4*v0+2*y1^(2)*y2*y3*y4*v0+2*y1^(2)*y2^(2)*y3^(2)*v0
+gap> ActOn(V,y3^4/24,v0);
+y3^(4)*v0
+gap> ActOn(V,y3^8/(2*3*4*5*6*7*8),v0);
+y3^(8)*v0
+gap> 
