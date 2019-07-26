@@ -1,60 +1,27 @@
                              The Weyl modules package
 
-This is the README file for the GAP package "Weyl Modules".
+This is the README file for the GAP package "Weyl Modules". You must
+have a working copy of GAP installed in order to use this package.
 
-This package provides functions for doing computations with Weyl modules
+The package provides functions for doing computations with Weyl modules
 in positive characteristic for a semisimple simply-connected algebraic
 group. 
 
-The  package is not yet submitted to GAP.  For updates
-between releases of GAP itself check the package Web page
-     http://doty.math.luc.edu/WeylModules
+The package is not yet submitted to GAP.  For updates between releases
+of GAP itself check the package Web page, at
+
+     http://doty.math.luc.edu/WeylModules .
   
+After downloading the package, start GAP from the download directory,
+and type
 
-The Example package uses an external binary and therefore  a  complete
-installation only works on UNIX systems  or  systems  that  support  a
-UNIX-like environment, e.g. Macintosh OSX,  or  Windows  with  Cygwin.
-However,  a  partial  installation  without  the  external  binary  is
-possible on any system.
+  LoadPackage("WeylModules");
 
-     Installing  a complete Example package (with external binary)
+or if stating GAP from a different directory, then run SetPackagePath
+or ExtendRootDirectories to tell GAP where to find the package. (See
+Chapter 76 of the [GAP
+Manual](https://www.gap-system.org/Manuals/doc/ref/).)
 
-To  complete the  installation of  the ``Example''  package go  to the
-directory `example'  created (the  directory contains  a copy  of this
-README file) and call
-
-  /bin/sh ./configure <path>
-
-where <path> is a path to the main GAP root directory; so normally you
-would call
-
-  /bin/sh ./configure ../..
-
-(the ../.. is the default and so may be omitted) and then call
-
-  make 
-  
-to compile the binary.
-
-If you installed GAP on several architectures, you  must  execute  the
-configure/make steps for  the  ``Example''  package  on  each  of  the
-architectures  immediately  after  configuring  GAP  itself  on   this
-architecture.
-
-That's it. Now start GAP and type
-
-  LoadPackage("example");
-
-The ``Example" package banner should appear on the screen. If you have
-not compiled the external binary, you  should  receive  a  warning  of
-this.
-
-For details on  how  to  use  the  Example  package  see  the  package
+For details on  how  to  use  the  WeylModules  package  see  the  package
 documentation in the `doc' subdirectory (view either `manual.dvi'  via
-`xdvi' or or `manual.pdf' via a PDF viewer). You will find  additional
-information on how to create a GAP package  in  the  Appendix  of  the
-manual.
-
-  Werner Nickel,
-  Greg Gamble -- 12 February, 2002; 13 January, 2003; 20 June, 2003;
-                 31 January, 2006.
+`xdvi' or or `manual.pdf' via a PDF viewer).
