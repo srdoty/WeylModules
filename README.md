@@ -16,10 +16,10 @@ and type
 ```
   LoadPackage("WeylModules");
 ```
-or if stating GAP from a different directory, then run `SetPackagePath`
+or if starting GAP from a different directory, then run `SetPackagePath`
 or `ExtendRootDirectories` to tell GAP where to find the package. (See
 Chapter 76 of the
-[GAP Manual](https://www.gap-system.org/Manuals/doc/ref/chap76.html).
+[GAP Manual](https://www.gap-system.org/Manuals/doc/ref/chap76.html).)
 
 For details on  how  to  use  the  WeylModules  package  see  the  package
 documentation in the `doc' subdirectory (view either `manual.dvi'  via
