@@ -11,11 +11,21 @@
 #############################################################################
 
 DeclareCategory( "IsWeylModule", 
-CategoryCollections(IsLeftAlgebraModuleElement) );
+  CategoryCollections(IsLeftAlgebraModuleElement) );
+
+DeclareCategory( "IsSubWeylModule", 
+  CategoryCollections(IsLeftAlgebraModuleElement) );
+
+# The following command is not documented at this time
+DeclareOperation( "SortedCharacter", [IsList] );
 
 DeclareOperation( "WeylModule", [IsPosInt, IsList, IsString, IsPosInt] );
 
 DeclareOperation( "WeylModule", [IsWeylModule,IsList] );
+
+DeclareOperation( "IsAmbiguous",  [IsWeylModule]);
+
+DeclareOperation( "AmbiguousMaxVecs",  [IsWeylModule]);
 
 DeclareOperation( "TheLieAlgebra",  [IsWeylModule]);
 
@@ -43,8 +53,6 @@ DeclareOperation( "WeightSpaces", [IsWeylModule]);
 
 DeclareOperation( "Character", [IsWeylModule]);
 
-DeclareOperation( "Character", [IsList]);
-
 DeclareOperation( "DifferenceCharacter", [IsList,IsList]);
 
 # The following command is not documented at this time
@@ -54,20 +62,51 @@ DeclareOperation( "DominantWeightSpaces", [IsWeylModule]);
 
 DeclareOperation( "WeightSpace", [IsWeylModule,IsList]);
 
-DeclareOperation( "IsWithin", [IsWeylModule,IsList,IsLeftAlgebraModuleElement]);
+DeclareOperation( "RowVec", [IsWeylModule,IsLeftAlgebraModuleElement]);
+
+DeclareOperation( "IsWithin", [IsSubWeylModule,IsLeftAlgebraModuleElement]);
+
+DeclareOperation( "HighestPrimePower", [IsPosInt,IsInt]);
+
+DeclareOperation( "SimpleLieAlgGens", [IsWeylModule]);
 
 DeclareOperation( "IsMaximalVector", [IsWeylModule,IsLeftAlgebraModuleElement]);
 
 DeclareOperation("IsMaximalVector", 
-        [IsWeylModule,IsList,IsLeftAlgebraModuleElement]);
+        [IsSubWeylModule,IsLeftAlgebraModuleElement]);
 
 DeclareOperation( "MaximalVectors", [IsWeylModule,IsList]);
 
 DeclareOperation( "MaximalVectors", [IsWeylModule]);
 
+############################################################################
 DeclareOperation( "SubWeylModule", [IsWeylModule,IsLeftAlgebraModuleElement]);
 
+DeclareOperation( "SubWeylModule",
+     [IsSubWeylModule,IsLeftAlgebraModuleElement]);
+
 DeclareOperation("SubWeylModule", [IsWeylModule,IsList]);
+
+DeclareOperation("SubWeylModuleDirectSum", [IsList]);
+
+DeclareOperation("Generators", [IsSubWeylModule]);
+
+DeclareOperation("BasisVecs", [IsSubWeylModule]);
+
+DeclareOperation("Dim", [IsSubWeylModule]);
+
+DeclareOperation("AmbientWeylModule", [IsSubWeylModule]);
+
+DeclareOperation("Weights", [IsSubWeylModule]);
+
+DeclareOperation("WeightSpaces", [IsSubWeylModule]);
+
+DeclareOperation("Character", [IsSubWeylModule]);
+
+DeclareOperation("DominantWeightSpaces", [IsSubWeylModule]);
+
+DeclareOperation("WeightSpace", [IsSubWeylModule,IsList]);
+
 
 # The following command is not documented at this time
 DeclareOperation("SubWeylModule", [IsWeylModule,IsPosInt,IsPosInt,IsList]);
@@ -78,9 +117,21 @@ DeclareOperation("ActOn",
 ############################################################################
 
 DeclareCategory( "IsQuotientWeylModule", 
-        CategoryCollections(IsLeftAlgebraModuleElement) );
+  CategoryCollections(IsLeftAlgebraModuleElement) );
 
-DeclareOperation( "QuotientWeylModule", [IsWeylModule, IsList] );
+DeclareCategory( "IsSubQuotientWeylModule", 
+  CategoryCollections(IsLeftAlgebraModuleElement) );
+
+
+DeclareOperation( "QuotientWeylModule", [IsSubWeylModule] );
+
+DeclareOperation( "DefiningKernel", [IsQuotientWeylModule]);
+
+DeclareOperation( "AmbientWeylModule", [IsQuotientWeylModule]);
+
+DeclareOperation( "IsAmbiguous",  [IsQuotientWeylModule]);
+
+DeclareOperation( "AmbiguousMaxVecs",  [IsQuotientWeylModule]);
 
 DeclareOperation( "TheLieAlgebra", [IsQuotientWeylModule]);
 
@@ -115,6 +166,8 @@ DeclareOperation( "MaximalVectors", [IsQuotientWeylModule]);
 
 DeclareOperation("PrimitiveVectors", [IsWeylModule]);
 
+DeclareOperation("SimpleQuotient", [IsWeylModule]);
+
 DeclareOperation("MaximalSubmodule", [IsWeylModule]);
 
 # The following command is not documented at this time
@@ -124,13 +177,38 @@ DeclareOperation("SimpleTopFactorCharacter", [IsWeylModule]);
 DeclareOperation("SimpleTopFactorDim", [IsWeylModule]);
 
 DeclareOperation( "IsWithin", 
-            [IsQuotientWeylModule,IsList,IsLeftAlgebraModuleElement]);
+            [IsSubQuotientWeylModule,IsLeftAlgebraModuleElement]);
 
 DeclareOperation( "SubWeylModule", 
             [IsQuotientWeylModule,IsLeftAlgebraModuleElement]);
 
 DeclareOperation( "SubWeylModule", 
+            [IsSubQuotientWeylModule,IsLeftAlgebraModuleElement]);
+
+DeclareOperation( "SubWeylModule", 
             [IsQuotientWeylModule,IsList]);
+
+
+######################################################################
+DeclareOperation("Generators", [IsSubQuotientWeylModule]);
+
+DeclareOperation("BasisVecs", [IsSubQuotientWeylModule]);
+
+DeclareOperation("Dim", [IsSubQuotientWeylModule]);
+
+DeclareOperation("AmbientQuotient", [IsSubQuotientWeylModule]);
+
+DeclareOperation("Weights", [IsSubQuotientWeylModule]);
+
+DeclareOperation("WeightSpaces", [IsSubQuotientWeylModule]);
+
+DeclareOperation("Character", [IsSubQuotientWeylModule]);
+
+DeclareOperation("DominantWeightSpaces", [IsSubQuotientWeylModule]);
+
+DeclareOperation("WeightSpace", [IsSubQuotientWeylModule,IsList]);
+
+######################################################################
 
 
 DeclareOperation( "SimpleCharacter", [IsPosInt, IsList, IsString, IsPosInt] );
@@ -141,13 +219,15 @@ DeclareOperation("SocleWeyl", [IsQuotientWeylModule]);
 
 DeclareOperation("SocleWeyl", [IsWeylModule]);
 
+DeclareOperation("NextSocle", [IsSubWeylModule]);
+
+DeclareOperation("SocleSeries", [IsWeylModule]);
+
 DeclareOperation("ExtWeyl", [IsWeylModule,IsList]);
 
 DeclareOperation("SubmoduleStructure", [IsWeylModule]);
 
 DeclareOperation("DecompositionNumbers", [IsWeylModule]);
-
-
 
 DeclareOperation("CompositionToWeight", [IsList]);
 

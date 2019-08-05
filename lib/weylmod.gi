@@ -10,6 +10,29 @@
 ##
 #############################################################################
 
+
+# The following function is not documented at this time
+#############################################################################
+InstallMethod(SortedCharacter, "for a list of weights and multiplicities",
+true, [IsList], 0,
+function(char)
+ local k, wts, mults, ans;
+ wts:= []; mults:=[];
+ for k in [2,4..Length(char)] do
+    Add(wts, char[k-1]);
+    Add(mults, char[k]);
+ od;
+ SortParallel(wts,mults);
+ ans:=[];
+ for k in [1..Length(mults)] do
+    Add(ans, wts[k]);
+    Add(ans, mults[k]);
+ od;
+ return ans;
+end );
+    
+
+#############################################################################
 InstallMethod(WeylModule, 
 "for a prime <p>, a list <wt>, and a simple Lie algebra of type <t>, rank <r>",
 true, [IsPosInt, IsList, IsString, IsPosInt], 0, 
@@ -19,8 +42,8 @@ function(p, wt, t, r)
   V:= HighestWeightModule(L, wt);
   W:= Objectify(NewType( FamilyObj(V), IsWeylModule ), 
               rec(prime:=p,highestWeight:=wt,type:=t,rank:=r,LieAlgebra:=L,
-                  module:=V,maximalVecs:=[],submoduleVectors:=[],
-                  submodules:=[]) 
+                  module:=V,maximalVecs:=[],maximalVecsAmbiguous:=[],
+		  simpleQuotient:=[]) 
               );
   return(W);
 end );
@@ -40,8 +63,8 @@ function(M, wt)
   V:= HighestWeightModule(L, wt);
   W:= Objectify(NewType( FamilyObj(V), IsWeylModule ), 
               rec(prime:=p,highestWeight:=wt,type:=t,rank:=r,LieAlgebra:=L,
-                  module:=V,maximalVecs:=[],submoduleVectors:=[],
-                  submodules:=[])  
+                  module:=V,maximalVecs:=[],maximalVecsAmbiguous:=[],
+		  simpleQuotient:=[])  
       );
   return(W);
 end );
@@ -52,6 +75,20 @@ InstallMethod(PrintObj, "for Weyl modules", true,
 function(W)
   Print("<Type ",  W!.type, W!.rank, " Weyl module of highest weight ", 
          W!.highestWeight, " at prime p = ", W!.prime, ">");
+end );
+
+#############################################################################
+InstallMethod(IsAmbiguous,  "for a Weyl module", true, 
+[IsWeylModule], 0, 
+function(W)
+  if Length(W!.maximalVecsAmbiguous) > 0 then return true; fi;
+end );
+
+#############################################################################
+InstallMethod(AmbiguousMaxVecs,  "for a Weyl module", true, 
+[IsWeylModule], 0, 
+function(W)
+  return(W!.maximalVecsAmbiguous);
 end );
 
 #############################################################################
@@ -172,26 +209,18 @@ end );
 
 
 #############################################################################
-InstallMethod(WeightSpaces, "for a Weyl module", true, 
-[IsWeylModule], 0, 
+InstallMethod(WeightSpaces, "for a Weyl module", true,
+[IsWeylModule], 0,
 function(V)
- # returns a list of the weight spaces of a given module V
- local i,out,currentwt,space, bb;
- bb:= BasisVecs(V);
- out:= [ ]; i:=1;
- while i <= Length(bb) do
-     currentwt:= Weight( bb[i] );
-     Add(out, currentwt);
-     space:= [ bb[i] ];
-     i:= i + 1;
-     if i <= Length(bb) then
-       while Weight( bb[i] ) = currentwt do
-         Add(space, bb[i]);
-         i:= i + 1;
-         od;
-       fi;
-       Add(out, space);
-     od;     
+ # returns a list of the weights and weight spaces of <V>
+ local wts,out,w;
+
+ wts:=Weights(V);
+ out:= [ ];
+ for w in wts do
+   Add(out, w);
+   Add(out, WeightSpace(V,w));
+ od;
  return(out);
 end );
 
@@ -200,7 +229,8 @@ end );
 InstallMethod(Character, "for a Weyl module", true, 
 [IsWeylModule], 0, 
 function(V)
- # returns a list of the weights and multiplicities for V
+ # returns the character (a list of the weights and their multiplicities)
+ # for the given WeyModule V
  local ws, k, out;
  out:= [ ];
  ws:= WeightSpaces(V);
@@ -211,27 +241,6 @@ function(V)
  return(out);
 end );
    
-
-#############################################################################
-InstallMethod(Character, "for a submodule basis", true, 
-[IsList], 0, 
-function(basis)
- # returns a list of the weights and multiplicities for the
- # given submodule spanned by the basis
- local wt, k, b, out;
- out:= [ ];
- for b in basis do
-   wt:= Weight(b);
-   if wt in out then 
-     out[Position(out,wt)+1]:= out[Position(out,wt)+1] + 1;
-   else
-     Add(out, wt);
-     Add(out, 1);
-   fi;
- od;
- return(out);
-end );
-
 
 #############################################################################
 InstallMethod(DifferenceCharacter, "for two characters", true, 
@@ -274,7 +283,7 @@ function(ch)
  return(out);
 end );
 
-
+#############################################################################
 InstallMethod(DominantWeightSpaces, "for a Weyl module", true, 
 [IsWeylModule], 0, 
 function(V)
@@ -295,31 +304,20 @@ end );
 InstallMethod(WeightSpace, "for a Weyl module", true, 
 [IsWeylModule,IsList], 0, 
 function(V,wt)
- # returns a basis for the given weight space in V of weight <wt>
- local k,splist;
- splist:= WeightSpaces(V);
- for k in [1..Length(splist)] do
-   if splist[k] = wt then break; fi;
-   od;
- if k+1 <= Length(splist) then
-   return( splist[k+1] );
- else
-   return( fail );
- fi;
-
+ # returns a basis for the given weight space in <V> of weight <wt>
+ local bb,out,b;
+ bb:=BasisVecs(V); out:=[ ];
+ for b in bb do
+   if Weight(b) = wt then Add(out,b); fi;
+ od;
+ return(out);
 end );
 
-
 #############################################################################
-InstallMethod(IsWithin, 
-"for a Weyl module, a submodule basis, and a given weight vector", true, 
-[IsWeylModule,IsList,IsLeftAlgebraModuleElement], 0, 
-function(V,basis,vec)
- # Returns True if the given <vec> lies within the submodule 
- # spanned by the given <basis> vectors.
- local p, row, rowbasis, v, rowvec, S; 
-
- row:= function(vec)
+InstallMethod(RowVec,
+"for a Weyl module and a given weight vector", true,
+[IsWeylModule,IsLeftAlgebraModuleElement], 0, 
+function(V,vec)
   # converts <vec> to a row vector with mod p coefficients
   local e,k,out,p;
   p:= V!.prime;
@@ -330,46 +328,46 @@ function(V,basis,vec)
      out[ e[k-1][1] ] := e[k]*Z(p)^0;
   od;
   return( out );
-  end;
+  end );
 
- p:= V!.prime;
- rowbasis := [];
- for v in basis do
-    rowvec := row(v);
-    Add(rowbasis, rowvec);
- od;
- S:= VectorSpace(GF(p), rowbasis);
- rowvec:= row(vec);
- if rowvec in S then
+#############################################################################
+InstallMethod(IsWithin, 
+"for a sub Weyl module and a given weight vector", true, 
+[IsSubWeylModule,IsLeftAlgebraModuleElement], 0, 
+function(S,vec)
+ # Returns True if the given <vec> lies within the given submodule S
+ local V,rowbasis, v, rowvec, SS; 
+ V:=S!.weylModule;
+ rowbasis:=S!.repbasis;
+ SS:= VectorSpace(GF(V!.prime), rowbasis);
+ rowvec:= RowVec(V,vec);
+ if rowvec in SS then
     return true;
  else
     return false;
  fi;
-
 end );  
 
-
 #############################################################################
-InstallMethod(IsMaximalVector, "for a Weyl module and weight vector", true, 
-[IsWeylModule,IsLeftAlgebraModuleElement], 0, 
-function(V,vec)
- # Tests <vec> to see if it is maximal in <V>. See below for a relative
- # version of this function.
-
- local rank,j,k,p,zerovec,height,highestPrimePower,
-       simpleGens,xy,xsimple,ysimple;
-
- highestPrimePower:= function(p,n)
+InstallMethod(HighestPrimePower,
+"for a prime and a positive integer", true,
+[IsPosInt,IsInt], 0,
+function(p,n)
    #returns 1 plus the highest power of <p> that is less than or equal to <n>
    local k;
    k:= 0;
    while p^k <= n do k:= k+1; od;
    return(k);
- end;
+ end );
 
- simpleGens:= function(L)
+#############################################################################
+InstallMethod(SimpleLieAlgGens,
+"for a WeylModule", true,
+[IsWeylModule], 0,
+function(V)
    # returns xsimple & ysimple
-   local rank, noPosRoots, k, g;
+   local L, rank, noPosRoots, k, g, xsimple, ysimple;
+   L:=V!.LieAlgebra;
    g:= LatticeGeneratorsInUEA( L );
    rank:= Length(CanonicalGenerators(RootSystem(L))[1]);
    noPosRoots:= Length(ChevalleyBasis(L)[1]);
@@ -379,13 +377,23 @@ function(V,vec)
      Add(xsimple, g[k+noPosRoots]);
    od;
    return( [xsimple, ysimple] );
- end;
+ end );
+
+
+#############################################################################
+InstallMethod(IsMaximalVector, "for a Weyl module and weight vector", true, 
+[IsWeylModule,IsLeftAlgebraModuleElement], 0, 
+function(V,vec)
+ # Tests <vec> to see if it is maximal in <V>. See below for a relative
+ # version of this function.
+
+ local rank,j,k,p,zerovec,height,xy,xsimple,ysimple;
 
  p:= V!.prime;
- xy:= simpleGens(V!.LieAlgebra); xsimple:=xy[1]; ysimple:=xy[2];
+ xy:= SimpleLieAlgGens(V); xsimple:=xy[1]; ysimple:=xy[2];
  zerovec:= 0*vec;
  rank:= Length(xsimple);
- height:= highestPrimePower(p, Sum(V!.highestWeight));
+ height:= HighestPrimePower(p, Sum(V!.highestWeight));
  for j in [1..rank] do 
      for k in [0..height] do 
        if not (xsimple[j]^(p^k)/Factorial(p^k))^vec mod p = zerovec then 
@@ -397,46 +405,23 @@ end );
 
 #############################################################################
 InstallMethod(IsMaximalVector, 
-        "for a Weyl module, a basis, and weight vector", true, 
-        [IsWeylModule,IsList,IsLeftAlgebraModuleElement], 0, 
-function(V,basis,vec)
- # Tests <vec> to see if it is maximal in <V>/<submodule>, for the 
- # <submodule> generated by the given <basis> vectors. In other words,
- # if this returns "true" then <vec> is primitive.
+        "for a sub Weyl module and a weight vector", true, 
+        [IsSubWeylModule,IsLeftAlgebraModuleElement], 0, 
+function(S,vec)
+ # Tests <vec> to see if it is maximal in <V>/<S>, for the 
+ # given submodule <S>. In other words,
+ # if this returns "true" then <vec> is primitive in <V>.
  
- local rank,j,k,p,zerovec,height,highestPrimePower,
-       simpleGens,xy,xsimple,ysimple;
-
- highestPrimePower:= function(p,n)
-   #returns 1 plus the highest power of <p> that is less than or equal to <n>
-   local k;
-   k:= 0;
-   while p^k <= n do k:= k+1; od;
-   return(k);
- end;
-
- simpleGens:= function(L)
-   # returns xsimple & ysimple
-   local rank, noPosRoots, k, g;
-   g:= LatticeGeneratorsInUEA( L );
-   rank:= Length(CanonicalGenerators(RootSystem(L))[1]);
-   noPosRoots:= Length(ChevalleyBasis(L)[1]);
-   xsimple:= [ ]; ysimple:= [ ];
-   for k in [1..rank] do 
-     Add(ysimple, g[k]);
-     Add(xsimple, g[k+noPosRoots]);
-   od;
-   return( [xsimple, ysimple] );
- end;
-
+ local V,rank,j,k,p,zerovec,height,xy,xsimple,ysimple;
+ V:=S!.weylModule;
  p:= V!.prime;
- xy:= simpleGens(V!.LieAlgebra); xsimple:=xy[1]; ysimple:=xy[2];
+ xy:= SimpleLieAlgGens(V); xsimple:=xy[1]; ysimple:=xy[2];
  zerovec:= 0*vec;
  rank:= Length(xsimple);
- height:= highestPrimePower(p, Sum(V!.highestWeight));
+ height:= HighestPrimePower(p, Sum(V!.highestWeight));
  for j in [1..rank] do 
      for k in [0..height] do 
-       if not IsWithin(V,basis,(xsimple[j]^(p^k)/Factorial(p^k))^vec mod p) then
+       if not IsWithin(S,(xsimple[j]^(p^k)/Factorial(p^k))^vec mod p) then
          return(false); fi;
      od;
  od;
@@ -444,31 +429,17 @@ function(V,basis,vec)
 end );
 
 #############################################################################
-# At the moment, operations depending on the following are not 
-# likely to work if we obtain more than one independent maximal
-# vector in the given weight space. A warning message is issued
-# in such a case.
+# At the moment, operations depending on the following are not likely
+# to work if we obtain more than one independent maximal vector in the
+# given weight space. In such a case, the multiple maximal vectors in
+# question are stored in the Weyl module, and a warning is printed.
 #############################################################################
-InstallMethod(MaximalVectors, "for a Weyl module and weight", true, 
-[IsWeylModule,IsList], 0, 
-function(V,wt)
- # Returns maximal vectors of a given weight space in a module, if possible
+InstallMethod(MaximalVectors, "for a Weyl module and weight", true,
+[IsWeylModule,IsList], 0, function(V,wt)
+# Returns maximal vectors of a given weight space in a module, if possible
 
- local rank,i,j,k,p,height,highestPrimePower,vec,rowvec,finalmatrix,wtspace,
-       item,outlist,result,join,row,S,matrix,simpleGens,xy,xsimple,ysimple,z;
-
- row:= function(vec)
-  # converts <vec> to a row vector with mod p coefficients
-  local e,k,out,p;
-  p:= V!.prime;
-  out := [ ];
-  for k in [1..Dim(V)] do Add(out, 0*Z(p)^0); od;
-  e:= ExtRepOfObj(ExtRepOfObj(vec));
-  for k in [2,4..Length(e)] do
-     out[ e[k-1][1] ] := e[k]*Z(p)^0;
-  od;
-  return( out );
-  end;
+ local rank,i,j,k,p,height,vec,rowvec,finalmatrix,wtspace,
+       item,outlist,result,join,S,matrix,xy,xsimple,ysimple,z;
 
  join:= function(A,B)
    # Given matrices A,B compute an augmented matrix M such that the
@@ -488,39 +459,17 @@ function(V,wt)
    return( TransposedMatMutable(tA) );
    end; 
 
- highestPrimePower:= function(p,n)
-   #returns 1 plus the highest power of <p> that is less than or equal to <n>
-   local k;
-   k:= 0;
-   while p^k <= n do k:= k+1; od;
-   return(k);
- end;
-
- simpleGens:= function(L)
-   # returns xsimple & ysimple
-   local rank, noPosRoots, k, g;
-   g:= LatticeGeneratorsInUEA( L );
-   rank:= Length(CanonicalGenerators(RootSystem(L))[1]);
-   noPosRoots:= Length(ChevalleyBasis(L)[1]);
-   xsimple:= [ ]; ysimple:= [ ];
-   for k in [1..rank] do 
-     Add(ysimple, g[k]);
-     Add(xsimple, g[k+noPosRoots]);
-   od;
-   return( [xsimple, ysimple] );
- end;
-
  p:= V!.prime;
  wtspace:= WeightSpace(V,wt);
- xy:= simpleGens(V!.LieAlgebra); xsimple:=xy[1]; ysimple:=xy[2];
+ xy:= SimpleLieAlgGens(V); xsimple:=xy[1]; ysimple:=xy[2];
  rank:= Length(xsimple);
- height:= highestPrimePower(p, Sum(V!.highestWeight));
+ height:= HighestPrimePower(p, Sum(V!.highestWeight));
  finalmatrix:= [];
  for j in [1..rank] do 
    for k in [0..height] do
      matrix:= []; 
      for vec in wtspace do
-       rowvec:= row( (xsimple[j]^(p^k)/Factorial(p^k))^vec mod p );
+       rowvec:= RowVec(V, (xsimple[j]^(p^k)/Factorial(p^k))^vec mod p );
        Add(matrix, rowvec);
      od;
      finalmatrix:= join(finalmatrix, matrix); 
@@ -537,12 +486,10 @@ function(V,wt)
    Add(outlist, result);
  od;
  if Length(outlist) > 1 then
-    Print(  "********************************************************");
-    Print("\n** WARNING! Dimension > 1 detected");
-    Print("\n** in maximal vecs of weight ", wt);
-    Print("\n** in Weyl module of highest weight");
-    Print("\n** ", V!.highestWeight);
-    Print("\n********************************************************\n");
+    Add(V!.maximalVecsAmbiguous, outlist);
+    if Length(V!.maximalVecsAmbiguous) = 1 then # first time
+       Print("***** WARNING: Ambiguous module detected *****\n");
+    fi;
  fi; 
  return(outlist);
 end );  
@@ -576,42 +523,24 @@ end );
 InstallMethod(SubWeylModule, "for a Weyl module and vector", true, 
 [IsWeylModule,IsLeftAlgebraModuleElement], 0, 
 function(W,vec)
- # finds a basis for the submodule of <W> generated by <vec>
- local i,j,k,rowbasis,lbasis,newvec,rowvec,S,L,row,
-       p,zerotensor,extendbasis,highestPrimePower,g,gens,noPosRoots,
-       height,comps,wt;
-
- highestPrimePower:= function(p,n)
-   #returns the highest power of <p> that is less than or equal to <n>
-   local k;
-   k:= 0;
-   while p^k <= n do k:= k+1; od;
-   return(k-1);
- end;
-
- row:= function(vec)
-  # converts <vec> to a row vector with mod p coefficients
-  local e,k,out,p;
-  p:= W!.prime;
-  out := [ ];
-  for k in [1..Dim(W)] do Add(out, 0*Z(p)^0); od;
-  e:= ExtRepOfObj(ExtRepOfObj(vec));
-  for k in [2,4..Length(e)] do
-     out[ e[k-1][1] ] := e[k]*Z(p)^0;
-  od;
-  return( out );
-  end;
+ # constructs the submodule of <W> generated by <vec>
+ local i,j,k,rowbasis,lbasis,newvec,rowvec,S,L,
+       p,extendbasis,g,gens,noPosRoots,height,comps,wt,SM,v;
   
- if vec = Generator(W) then return BasisVecs(W); fi;
- if vec in W!.submoduleVectors then 
-    i:= Position(W!.submoduleVectors, vec);
-    return W!.submodules[i];
+ if vec = Generator(W) then
+    lbasis:= BasisVecs(W);
+    rowbasis:=[];
+    for v in lbasis do
+       Add(rowbasis, RowVec(W,v));
+    od;   
+    SM:=Objectify(NewType(FamilyObj(W), IsSubWeylModule),
+     rec(eltbasis:=lbasis,repbasis:=rowbasis,gens:=[vec],weylModule:=W) );
+    return(SM);
  fi;
 
  p:= W!.prime;
  wt:= W!.highestWeight;
- height:= highestPrimePower(p, Sum(wt));
-
+ height:= HighestPrimePower(p, Sum(wt));
  L:= W!.LieAlgebra;
  g:= LatticeGeneratorsInUEA( L );
  noPosRoots:= Length(ChevalleyBasis(L)[1]);
@@ -622,15 +551,15 @@ function(W,vec)
     od;
  od;
 
- rowbasis:= [ row(vec) ]; lbasis:= [ vec ];
+ rowbasis:= [ RowVec(W,vec) ]; lbasis:= [ vec ];
  S:= VectorSpace(GF(p), rowbasis);   
 
- extendbasis:= function(v)
+ extendbasis:= function(v)  # helper function
    local i;
    for i in gens do
        newvec:= (i^v) mod p;
        if newvec <> 0*v then  
-         rowvec:= row(newvec);
+         rowvec:= RowVec(W,newvec);
          if not (rowvec in S) then
             Add( rowbasis, rowvec);
             S:= VectorSpace(GF(p), rowbasis);
@@ -646,30 +575,192 @@ function(W,vec)
     extendbasis(lbasis[j]); 
     j:= j+1;
  od;
- Add(W!.submoduleVectors, vec);
- Add(W!.submodules, lbasis);
- return( lbasis );
+ 
+ SM:=Objectify(NewType(FamilyObj(W), IsSubWeylModule),
+     rec(eltbasis:=lbasis,repbasis:=rowbasis,gens:=[vec],weylModule:=W) );
+ return(SM);
 end );
 
+#############################################################################
+InstallMethod(SubWeylModule, "for a sub Weyl module and a vector", true, 
+[IsSubWeylModule, IsLeftAlgebraModuleElement], 0, 
+function(W,vec)
+ # Returns the submodule of the ambient Weyl module generated by the
+ # given submodule <W> and given vector <vec>.
 
+ local V, p, U, rowbasis, lbasis, S, generators, ulbasis, urowbasis, i, SM;
+
+ V:=W!.weylModule; p:=V!.prime;
+ lbasis:=ShallowCopy(W!.eltbasis);
+ if Length(lbasis) = 0 then  # W is the zero module
+    return( SubWeylModule(V,vec) );
+ fi;
+ rowbasis:=ShallowCopy(W!.repbasis);
+ generators:=ShallowCopy(W!.gens);
+ Add(generators, vec);
+
+ U:=SubWeylModule(V,vec);
+ ulbasis:= U!.eltbasis;
+ urowbasis:=U!.repbasis;
+ for i in [1..Length(ulbasis)] do
+   S:=VectorSpace(GF(p), rowbasis);
+   if not (urowbasis[i] in S) then
+     Add(lbasis, ulbasis[i]);
+     Add(rowbasis, urowbasis[i]);
+   fi;
+ od;
+
+ SM:=Objectify(NewType(FamilyObj(V), IsSubWeylModule),
+     rec(eltbasis:=lbasis,repbasis:=rowbasis,gens:=generators,
+     weylModule:=V) );
+ return(SM);
+end );
+
+#############################################################################
 InstallMethod(SubWeylModule, "for a Weyl module and list of vectors", true, 
 [IsWeylModule, IsList], 0, 
 function(V,vecs)
- # Returns a basis for the submodule generated by the given vectors
+ # Returns the sub Weyl module generated by the given vectors
 
- local basis, v, bv, s;
-
- basis:= ShallowCopy( SubWeylModule(V, vecs[1]) );
+ local S, v, SM;
+ if Length(vecs) = 0 then
+   SM:=Objectify(NewType(FamilyObj(V), IsSubWeylModule),
+     rec(eltbasis:=[],repbasis:=[],gens:=[],
+     weylModule:=V) );
+   return(SM);
+ fi;
+ 
+ S:= SubWeylModule(V, vecs[1]); # to start
  for v in vecs{ [2..Length(vecs)] } do
-   s:= SubWeylModule(V,v);
-   for bv in s do
-     if not IsWithin(V,basis,bv) then
-       Add(basis, bv);
-     fi;
-   od;
+   S:= SubWeylModule(S,v);
  od;
- return( basis );
+ return(S);
 end );
+
+#############################################################################
+InstallMethod(SubWeylModuleDirectSum, "for a list of sub Weyl modules", true,
+[IsList], 0,
+function(inlist)
+ # returns the direct sum of the inputs (which are assumed independent)
+ # Note: No checking of the assumption is done!
+
+ local V, S, lbasis, rowbasis, generators, SM;
+
+ lbasis:= []; rowbasis:= []; generators:= [];
+ V:=inlist[1]!.weylModule;
+ for S in inlist do
+    Append(lbasis, S!.eltbasis);
+    Append(rowbasis, S!.repbasis);
+    Append(generators, S!.gens);
+    Assert(0,V = S!.weylModule);
+ od;
+
+ SM:= Objectify(NewType(FamilyObj(V), IsSubWeylModule),
+     rec(eltbasis:=lbasis,repbasis:=rowbasis,gens:=generators,
+     weylModule:=V) );
+ return(SM);
+end );
+
+#############################################################################
+InstallMethod(PrintObj, "for a sub Weyl module", true,
+[IsSubWeylModule], 0,
+function(S)
+ Print("<SubWeylModule of dimension ", Dim(S), ", generated by elements ",
+ S!.gens, " of weights ", List(S!.gens, Weight), ">, in\n", S!.weylModule);
+end );
+
+InstallMethod(Generators, "for a sub Weyl module", true,
+[IsSubWeylModule], 0,
+function(S)
+ return(S!.gens);
+end );
+
+InstallMethod(BasisVecs, "for a sub Weyl module", true,
+[IsSubWeylModule], 0,
+function(S)
+ # returns the basis vectors of <S>
+ return(S!.eltbasis);
+end );
+
+InstallMethod(Dim, "for a sub Weyl module", true,
+[IsSubWeylModule], 0,
+function(S)
+ # returns the dimension of <S>
+ return(Length(S!.eltbasis));
+end );
+
+InstallMethod(AmbientWeylModule, "for a sub Weyl module", true,
+[IsSubWeylModule], 0,
+function(S)
+ # returns the ambient Weyl module
+ return(S!.weylModule);
+end );
+
+InstallMethod(Weights, "for a sub Weyl module", true, 
+[IsSubWeylModule], 0, 
+function(S)
+ # returns a list of the weight space labels of <S>
+ return( DuplicateFreeList(List(BasisVecs(S), Weight)) );
+end );
+
+InstallMethod(WeightSpaces, "for a sub Weyl module", true,
+[IsSubWeylModule], 0,
+function(S)
+ # returns a list of the weight spaces of <S>
+ local wts,out,w;
+
+ wts:=Weights(S);
+ out:= [ ];
+ for w in wts do
+   Add(out, w);
+   Add(out, WeightSpace(S,w));
+ od;
+ return(out);
+end );
+
+InstallMethod(Character, "for a sub Weyl module", true, 
+[IsSubWeylModule], 0, 
+function(S)
+ # returns the character (a list of the weights and their multiplicities)
+ # for the given sub Wey module S
+ local ws, k, out;
+ out:= [ ];
+ ws:= WeightSpaces(S);
+ for k in [2,4..Length(ws)] do
+   Add(out, ws[k-1]);
+   Add(out, Length(ws[k]));
+ od;
+ return(out);
+end );
+
+InstallMethod(DominantWeightSpaces, "for a sub Weyl module", true, 
+[IsSubWeylModule], 0, 
+function(S)
+ # returns a list of the dominant weight spaces of S
+ local out, k, ws;
+ out:= [ ];
+ ws:= WeightSpaces(S);
+ for k in [2,4..Length(ws)] do
+   if IsDominant( ws[k-1] ) then 
+     Add(out, ws[k-1]);
+     Add(out, ws[k]);
+   fi;
+ od;
+ return(out);
+end );
+
+InstallMethod(WeightSpace, "for a sub Weyl module", true, 
+[IsSubWeylModule,IsList], 0, 
+function(S,wt)
+ # returns a basis for the given weight space in <S> of weight <wt>
+ local bb,out,b;
+ bb:=BasisVecs(S); out:=[ ];
+ for b in bb do
+   if Weight(b) = wt then Add(out,b); fi;
+ od;
+ return(out);
+end );
+
 
 
 
@@ -792,35 +883,28 @@ end );
 
 #############################################################################
 InstallMethod(QuotientWeylModule, 
-"for a Weyl module and a basis of a submodule",
-true, [IsWeylModule, IsList], 0, 
-function(V, submodBasis) 
- # creates a quotient of a Weyl module by a submodule
- local row,p,rowbasis,v,rowvec,S,VV,Q,h,record,b,bb,cosetreps,vv,i,result;
+"for a sub Weyl module", true, [IsSubWeylModule], 0, 
+function(S) 
+ # creates the quotient V/S, where V is the ambient Weyl module
+ local V,p,submodBasis, rowbasis,v,rowvec,
+      VV,SS,Q,h,record,b,bb,cosetreps,vv,i,result;
 
- row:= function(vec)
-  # converts <vec> to a row vector with mod p coefficients
-  local e,k,out,p;
-  p:= V!.prime;
-  out := [ ];
-  for k in [1..Dim(V)] do Add(out, 0*Z(p)^0); od;
-  e:= ExtRepOfObj(ExtRepOfObj(vec));
-  for k in [2,4..Length(e)] do
-     out[ e[k-1][1] ] := e[k]*Z(p)^0;
-  od;
-  return( out );
-  end;
+ V:= S!.weylModule;
+ if Dim(S) = 0 then
+     record:= Objectify(NewType( FamilyObj(V), IsQuotientWeylModule ), 
+             rec(WeylModule:=V,kernel:=S,quotient:=V,homomorphism:=[], 
+             cosetReps:=BasisVecs(V),maximalVecs:=[],maximalVecsAmbiguous:=[]) 
+      );
+      return(record);
+ fi;
 
  p:= V!.prime;
- rowbasis := [];
- for v in submodBasis do
-    rowvec := row(v);
-    Add(rowbasis, rowvec);
- od;
- S:= VectorSpace(GF(p), rowbasis);
+ submodBasis:= BasisVecs(S);
+ rowbasis := S!.repbasis;
+ SS:= VectorSpace(GF(p), rowbasis);
  VV:= GF(p)^Dim(V);
- Q:= VV/S;
- h:= NaturalHomomorphismBySubspace(VV, S);
+ Q:= VV/SS;
+ h:= NaturalHomomorphismBySubspace(VV, SS);
  
  cosetreps:=[];
  b:= BasisVectors( Basis(Q) );
@@ -835,12 +919,10 @@ function(V, submodBasis)
  od;
 
  record:= Objectify(NewType( FamilyObj(V), IsQuotientWeylModule ), 
-                  rec(WeylModule:=V,submoduleBasis:=submodBasis,
-                      correspondingBasis:=rowbasis, bigspace:=VV, 
-                      subspace:=S,quotient:=Q,homomorphism:=h, 
-                      cosetReps:=cosetreps,maximalVecs:=[]) 
+             rec(WeylModule:=V,kernel:=S,quotient:=Q,homomorphism:=h, 
+             cosetReps:=cosetreps,maximalVecs:=[],maximalVecsAmbiguous:=[]) 
       );
-  return(record);
+ return(record);
 end );
 
 #############################################################################
@@ -852,6 +934,36 @@ function(Q)
   Print("<Quotient of Type ",  W!.type, W!.rank, 
   " Weyl module of highest weight ", 
   W!.highestWeight, " at prime p = ", W!.prime, ">");
+end );
+
+#############################################################################
+InstallMethod(AmbientWeylModule, "for quotient Weyl modules", true, 
+[IsQuotientWeylModule], 0, 
+function(Q)
+ # returns the ambient Weyl module of <Q>
+ return( Q!.WeylModule );
+end );
+
+#############################################################################
+InstallMethod(DefiningKernel, "for quotient Weyl modules", true, 
+[IsQuotientWeylModule], 0, 
+function(Q)
+ # returns the defining kernel of <Q>
+ return( Q!.kernel );
+end );
+
+#############################################################################
+InstallMethod(IsAmbiguous,  "for a quotient Weyl module", true, 
+[IsQuotientWeylModule], 0, 
+function(W)
+  if Length(W!.maximalVecsAmbiguous) > 0 then return true; fi;
+end );
+
+#############################################################################
+InstallMethod(AmbiguousMaxVecs,  "for a quotient Weyl module", true, 
+[IsQuotientWeylModule], 0, 
+function(W)
+  return(W!.maximalVecsAmbiguous);
 end );
 
 #############################################################################
@@ -916,26 +1028,18 @@ function(V)
 end );
 
 #############################################################################
-InstallMethod(WeightSpaces, "for a quotient Weyl module", true, 
-[IsQuotientWeylModule], 0, 
-function(V)
- # returns a list of the weight spaces of a given module V
- local i,out,currentwt,space, bb;
- bb:= BasisVecs(V);
- out:= [ ]; i:=1;
- while i <= Length(bb) do
-     currentwt:= Weight( bb[i] );
-     Add(out, currentwt);
-     space:= [ bb[i] ];
-     i:= i + 1;
-     if i <= Length(bb) then
-       while Weight( bb[i] ) = currentwt do
-         Add(space, bb[i]);
-         i:= i + 1;
-         od;
-       fi;
-       Add(out, space);
-     od;     
+InstallMethod(WeightSpaces, "for a quotient Weyl module", true,
+[IsQuotientWeylModule], 0,
+function(Q)
+ # returns a list of the weight spaces of <Q>
+ local wts,out,w;
+
+ wts:=Weights(Q);
+ out:= [ ];
+ for w in wts do
+   Add(out, w);
+   Add(out, WeightSpace(Q,w));
+ od;
  return(out);
 end );
 
@@ -974,18 +1078,14 @@ end );
 #############################################################################
 InstallMethod(WeightSpace, "for a quotient Weyl module", true, 
 [IsQuotientWeylModule,IsList], 0, 
-function(V,wt)
- # returns a basis for the given weight space in V of weight <wt>
- local k,splist;
- splist:= WeightSpaces(V);
- for k in [1..Length(splist)] do
-   if splist[k] = wt then break; fi;
-   od;
- if k+1 <= Length(splist) then
-   return( splist[k+1] );
- else
-   return( fail );
- fi;
+function(Q,wt)
+ # returns a basis for the given weight space in <Q> of weight <wt>
+ local bb,out,b;
+ bb:=BasisVecs(Q); out:=[ ];
+ for b in bb do
+   if Weight(b) = wt then Add(out,b); fi;
+ od;
+ return(out);
 end );
 
 #############################################################################
@@ -996,24 +1096,10 @@ function(Q,x,v)
  # returns the result of acting by x on v
  local h,p,V,result,row,bb,vv,ans,i;
 
- V:= Q!.WeylModule;
-
- row:= function(vec)
-  # converts <vec> to a row vector with mod p coefficients
-  local e,k,out,p;
-  p:= V!.prime;
-  out := [ ];
-  for k in [1..Dim(V)] do Add(out, 0*Z(p)^0); od;
-  e:= ExtRepOfObj(ExtRepOfObj(vec));
-  for k in [2,4..Length(e)] do
-     out[ e[k-1][1] ] := e[k]*Z(p)^0;
-  od;
-  return( out );
-  end;
-
+ V:= AmbientWeylModule(Q);
  h:= Q!.homomorphism;
  p:= V!.prime;
- result:= Image(h, row(x^v mod p));
+ result:= Image(h, RowVec(V, x^v mod p));
  
  bb:= BasisVecs(V);
  vv:= PreImagesRepresentative(h, result);
@@ -1025,10 +1111,10 @@ function(Q,x,v)
 end );
 
 #############################################################################
-# At the moment, operations depending on the following are not 
-# likely to work if we obtain more than one independent maximal
-# vector in the given weight space. A warning message is issued
-# in such a case.
+# At the moment, operations depending on the following are not likely
+# to work if we obtain more than one independent maximal vector in the
+# given weight space. Such ambiguous vectors are stored in the module,
+# and a warning message is issued in such a case.
 #############################################################################
 InstallMethod(MaximalVectors, "for a quotient Weyl module and a weight", true, 
 [IsQuotientWeylModule,IsList], 0, 
@@ -1041,21 +1127,6 @@ function(Q,wt)
  local rank,i,j,k,p,height,highestPrimePower,vec,rowvec,finalmatrix,wtspace,
        item,outlist,result,join,row,S,matrix,simpleGens,xy,xsimple,ysimple,
        z,V;
- 
- V:= Q!.WeylModule;
-  
- row:= function(vec)
-  # converts <vec> to a row vector with mod p coefficients
-  local e,k,out,p;
-  p:= V!.prime;
-  out := [ ];
-  for k in [1..Dim(V)] do Add(out, 0*Z(p)^0); od;
-  e:= ExtRepOfObj(ExtRepOfObj(vec));
-  for k in [2,4..Length(e)] do
-     out[ e[k-1][1] ] := e[k]*Z(p)^0;
-  od;
-  return( out );
-  end;
 
  join:= function(A,B)
    # Given matrices A,B compute an augmented matrix M such that the
@@ -1075,39 +1146,18 @@ function(Q,wt)
    return( TransposedMatMutable(tA) );
    end; 
 
- highestPrimePower:= function(p,n)
-   #returns 1 plus the highest power of <p> that is less than or equal to <n>
-   local k;
-   k:= 0;
-   while p^k <= n do k:= k+1; od;
-   return(k);
- end;
-
- simpleGens:= function(L)
-   # returns xsimple & ysimple
-   local rank, noPosRoots, k, g;
-   g:= LatticeGeneratorsInUEA( L );
-   rank:= Length(CanonicalGenerators(RootSystem(L))[1]);
-   noPosRoots:= Length(ChevalleyBasis(L)[1]);
-   xsimple:= [ ]; ysimple:= [ ];
-   for k in [1..rank] do 
-     Add(ysimple, g[k]);
-     Add(xsimple, g[k+noPosRoots]);
-   od;
-   return( [xsimple, ysimple] );
- end;
-
+ V:= AmbientWeylModule(Q);
  wtspace:= WeightSpace(Q,wt);
  p:= V!.prime;
- xy:= simpleGens(V!.LieAlgebra); xsimple:=xy[1]; ysimple:=xy[2];
+ xy:= SimpleLieAlgGens(V); xsimple:=xy[1]; ysimple:=xy[2];
  rank:= Length(xsimple);
- height:= highestPrimePower(p, Sum(V!.highestWeight));
+ height:= HighestPrimePower(p, Sum(V!.highestWeight));
  finalmatrix:= [];
  for j in [1..rank] do 
    for k in [0..height] do
      matrix:= []; 
      for vec in wtspace do
-       rowvec:= row( ActOn(Q, (xsimple[j]^(p^k)/Factorial(p^k)), vec) );
+       rowvec:= RowVec(V, ActOn(Q, (xsimple[j]^(p^k)/Factorial(p^k)), vec) );
        Add(matrix, rowvec);
      od;
      finalmatrix:= join(finalmatrix, matrix); 
@@ -1123,13 +1173,11 @@ function(Q,wt)
    od;
    Add(outlist, result);
  od;
- if Length(outlist) > 1 then 
-    Print(  "*********************************************************");
-    Print("\n** WARNING! Dimension > 1 detected ");
-    Print("\n** in maximal vecs of weight ", wt);
-    Print("\n** in quotient Weyl module of highest"); 
-    Print("\n** weight ", V!.highestWeight); 
-    Print("\n*********************************************************\n");
+ if Length(outlist) > 1 then
+    Add(V!.maximalVecsAmbiguous, outlist);
+    if Length(V!.maximalVecsAmbiguous) = 1 then # first time
+       Print("***** WARNING: Ambiguous quotient module detected *****\n");
+    fi;
  fi; 
  return(outlist);
 end );  
@@ -1158,6 +1206,48 @@ function(Q)
    return Q!.maximalVecs; 
  fi;   
 end );
+
+#############################################################################
+InstallMethod(NextSocle, "for a sub Weyl module", true,
+[IsSubWeylModule], 0, 
+function(S)
+ # Returns the next socle of V (the submodule that maps onto soc(V/S))
+
+ local V, Q,mvecs, m, sub, lam, p, t, r, ans;
+ V:= AmbientWeylModule(S);
+ ans:= S; # initially
+ p:=V!.prime; t:=V!.type; r:=V!.rank;
+
+ Q:= QuotientWeylModule(S);
+ mvecs:= MaximalVectors(Q);
+ for m in mvecs do
+    sub:= SubWeylModule(Q, m);
+    lam:= Weight(m);
+    if SortedCharacter(Character(sub))
+       = SortedCharacter(SimpleCharacter(p,lam,t,r)) then
+       ans:= SubWeylModule(ans, m);
+    fi;
+ od;
+ return ans;
+end );
+
+#############################################################################
+InstallMethod(SocleSeries, "for a Weyl module", true, [IsWeylModule], 0, 
+function(V)
+ # Returns the socle series of V
+
+ local S, ans;
+
+ S:= SocleWeyl(V);
+ ans:= [S];
+ 
+ while Dim(S) < Dim(V) do
+   S:= NextSocle(S);
+   Add(ans,S);
+ od;
+ return ans;
+end );
+
 
 #############################################################################
 InstallMethod(ExtWeyl, "for a Weyl module and a list of vectors", true, 
@@ -1213,25 +1303,38 @@ end );
 
 
 #############################################################################
-InstallMethod(MaximalSubmodule, "for a Weyl module", true, 
+InstallMethod(SimpleQuotient, "for a Weyl module", true, 
 [IsWeylModule], 0, 
 function(V)
-    # returns a basis of the maximal submodule of the given Weyl module
-    local mvecs,sub,pgens,v;
-    mvecs:= MaximalVectors(V);
-    pgens:= [];
-    if Length(mvecs) = 1 then return pgens; fi;
+ # returns the quotient of the given Weyl module by the maximal submodule
+ local mvecs,S,Q;
+
+ Q:= V!.simpleQuotient;
+ if Q <> [ ] then return(Q[1]); fi;
+ # else compute and save it as follows
+ S:=SubWeylModule(V,[ ]); # zero module
+ mvecs:= MaximalVectors(V);
+ if Length(mvecs) = 1 then
+    return(QuotientWeylModule(S));
+ fi;
     
-    while Length(mvecs) > 1 do
-       for v in mvecs do
-          if v <> Generator(V) then
-              Add(pgens,v);
-          fi;
-       od;
-       sub:= SubWeylModule(V,pgens);
-       mvecs:= MaximalVectors( QuotientWeylModule(V,sub) );
-    od;
-    return sub; 
+ while Length(mvecs) > 1 do
+    S:=SubWeylModule(S,mvecs[2]);
+    Q:=QuotientWeylModule(S);
+    mvecs:=MaximalVectors(Q);
+ od;
+ Add(V!.simpleQuotient, Q); # save it
+ return(Q);
+end );
+
+#############################################################################
+InstallMethod(MaximalSubmodule, "for a Weyl module", true,
+[IsWeylModule], 0,
+function(V)
+ # returns the (unique) maximal submodule of <V>
+ local Q;
+ Q:=SimpleQuotient(V);
+ return(DefiningKernel(Q));
 end );
 
 #############################################################################
@@ -1240,11 +1343,7 @@ InstallMethod(SimpleTopFactorCharacter, "for a Weyl module", true,
 function(V)
  # returns the character of the simple top factor of the given 
  # Weyl module
-
- local a,b;
- a:= Character(V);
- b:= Character(MaximalSubmodule(V));
- return( DifferenceCharacter(a,b) );
+ return( Character(SimpleQuotient(V)) );
 end );
 
 
@@ -1259,40 +1358,22 @@ function(V)
 end );
  
 
+
 #############################################################################
 InstallMethod(IsWithin, 
-"for a quotient Weyl module, a submodule basis, and a given weight vector", 
-true, [IsQuotientWeylModule,IsList,IsLeftAlgebraModuleElement], 0, 
-function(Q,basis,vec)
- # Returns True if the given <vec> lies within the submodule 
- # spanned by the given <basis> vectors.
- local p, row, rowbasis, v, rowvec, S, V, h; 
-
- V:= Q!.WeylModule;
-
- row:= function(vec)
-  # converts <vec> to a row vector with mod p coefficients
-  local e,k,out,p;
-  p:= V!.prime;
-  out := [ ];
-  for k in [1..Dim(V)] do Add(out, 0*Z(p)^0); od;
-  e:= ExtRepOfObj(ExtRepOfObj(vec));
-  for k in [2,4..Length(e)] do
-     out[ e[k-1][1] ] := e[k]*Z(p)^0;
-  od;
-  return( out );
-  end;
-
- p:= V!.prime;
+"for a sub quotient Weyl module and a given weight vector", true, 
+[IsSubQuotientWeylModule,IsLeftAlgebraModuleElement], 0, 
+function(S,vec)
+ # Returns true if the given <vec> lies within the given submodule S
+ local Q,h,V,rowbasis, v, rowvec, SS; 
+ Q:=S!.quotientWeylModule;
+ V:=AmbientWeylModule(Q);
  h:= Q!.homomorphism;
- rowbasis := [];
- for v in basis do
-    rowvec := Image(h, row(v));
-    Add(rowbasis, rowvec);
- od;
- S:= VectorSpace(GF(p), rowbasis);
- rowvec:= Image(h, row(vec));
- if rowvec in S then
+
+ rowbasis:=S!.repbasis;
+ SS:= VectorSpace(GF(V!.prime), rowbasis);
+ rowvec:= Image(h, RowVec(V,vec));
+ if rowvec in SS then
     return true;
  else
     return false;
@@ -1300,44 +1381,33 @@ function(Q,basis,vec)
 end );  
 
 
+
 #############################################################################
 InstallMethod(SubWeylModule, "for a quotient Weyl module and vector", true, 
 [IsQuotientWeylModule,IsLeftAlgebraModuleElement], 0, 
 function(Q,vec)
  # finds a basis for the submodule of <Q> generated by <vec>
- local i,j,k,rowbasis,lbasis,newvec,rowvec,S,L,row,
-       p,zerotensor,extendbasis,highestPrimePower,g,gens,noPosRoots,
-       height,comps,wt,W,h;
+ local i,j,k,rowbasis,lbasis,newvec,rowvec,S,L,
+       p,zerotensor,extendbasis,g,gens,noPosRoots,v,
+       height,comps,wt,W,h,SM;
 
- highestPrimePower:= function(p,n)
-   #returns the highest power of <p> that is less than or equal to <n>
-   local k;
-   k:= 0;
-   while p^k <= n do k:= k+1; od;
-   return(k-1);
- end;
-
- W:= Q!.WeylModule;
-
- row:= function(vec)
-  # converts <vec> to a row vector with mod p coefficients
-  local e,k,out,p;
-  p:= W!.prime;
-  out := [ ];
-  for k in [1..Dim(W)] do Add(out, 0*Z(p)^0); od;
-  e:= ExtRepOfObj(ExtRepOfObj(vec));
-  for k in [2,4..Length(e)] do
-     out[ e[k-1][1] ] := e[k]*Z(p)^0;
-  od;
-  return( out );
-  end;
-  
- if vec = Generator(W) then return BasisVecs(Q); fi;
+ W:= AmbientWeylModule(Q);
+ if vec = Generator(W) then
+    lbasis:= BasisVecs(Q);
+    rowbasis:=[];
+    for v in lbasis do
+       Add(rowbasis, RowVec(W,v));
+    od;   
+    SM:=Objectify(NewType(FamilyObj(Q), IsSubQuotientWeylModule),
+     rec(eltbasis:=lbasis,repbasis:=rowbasis,gens:=[vec],
+     quotientWeylModule:=Q) );
+    return(SM);
+ fi;
 
  h:= Q!.homomorphism;
  p:= W!.prime;
  wt:= W!.highestWeight;
- height:= highestPrimePower(p, Sum(wt));
+ height:= HighestPrimePower(p, Sum(wt));
 
  L:= W!.LieAlgebra;
  g:= LatticeGeneratorsInUEA( L );
@@ -1349,7 +1419,7 @@ function(Q,vec)
     od;
  od;
 
- rowbasis:= [ Image(h, row(vec)) ]; lbasis:= [ vec ];
+ rowbasis:= [ Image(h, RowVec(W,vec)) ]; lbasis:= [ vec ];
  S:= VectorSpace(GF(p), rowbasis);   
 
  extendbasis:= function(v)
@@ -1357,7 +1427,7 @@ function(Q,vec)
    for i in gens do
        newvec:= ActOn(Q, i, v);
        if newvec <> 0*v then  
-         rowvec:= Image(h, row(newvec));
+         rowvec:= Image(h, RowVec(W,newvec));
          if not (rowvec in S) then
             Add( rowbasis, rowvec);
             S:= VectorSpace(GF(p), rowbasis);
@@ -1374,29 +1444,171 @@ function(Q,vec)
     j:= j+1;
  od;
 
- return( lbasis );
+ SM:=Objectify(NewType(FamilyObj(Q), IsSubQuotientWeylModule),
+     rec(eltbasis:=lbasis,repbasis:=rowbasis,gens:=[vec],
+     quotientWeylModule:=Q) );
+ return(SM);
+end );
+
+
+#############################################################################
+InstallMethod(SubWeylModule, "for a sub quotient and a vector", true, 
+[IsSubQuotientWeylModule, IsLeftAlgebraModuleElement], 0, 
+function(W,vec)
+ # Returns the submodule of the ambient quotient Weyl module generated by the
+ # given submodule <W> and given vector <vec>.
+
+ local Q, p, U, rowbasis, lbasis, S, generators, ulbasis, urowbasis, i, SM;
+
+ Q:=W!.quotientWeylModule; p:=AmbientWeylModule(Q)!.prime;
+ lbasis:=ShallowCopy(W!.eltbasis);
+ if Length(lbasis) = 0 then  # W is the zero module
+    return( SubWeylModule(Q,vec) );
+ fi;
+ rowbasis:=ShallowCopy(W!.repbasis);
+ generators:=ShallowCopy(W!.gens);
+ Add(generators, vec);
+
+ U:=SubWeylModule(Q,vec);
+ ulbasis:= U!.eltbasis;
+ urowbasis:=U!.repbasis;
+ for i in [1..Length(ulbasis)] do
+   S:=VectorSpace(GF(p), rowbasis);
+   if not (urowbasis[i] in S) then
+     Add(lbasis, ulbasis[i]);
+     Add(rowbasis, urowbasis[i]);
+   fi;
+ od;
+
+ SM:=Objectify(NewType(FamilyObj(Q), IsSubQuotientWeylModule),
+     rec(eltbasis:=lbasis,repbasis:=rowbasis,gens:=generators,
+     quotientWeylModule:=Q) );
+ return(SM);
 end );
 
 #############################################################################
 InstallMethod(SubWeylModule, 
 "for a quotient Weyl module and list of vectors", true, 
 [IsQuotientWeylModule, IsList], 0, 
-function(V,vecs)
- # Returns a basis for the submodule generated by the given vectors
+function(Q,vecs)
+ # Returns the sub quotient module generated by the given vectors
 
- local basis, v, bv, s;
-
- basis:= SubWeylModule(V, vecs[1]);
+ local S,v,SM;
+ if Length(vecs) = 0 then
+    SM:=Objectify(NewType(FamilyObj(Q), IsSubQuotientWeylModule),
+     rec(eltbasis:=[],repbasis:=[],gens:=[],
+     quotientWeylModule:=Q) );
+ return(SM);
+ fi;
+ 
+ S:= SubWeylModule(Q, vecs[1]);
  for v in vecs{ [2..Length(vecs)] } do
-   s:= SubWeylModule(V,v);
-   for bv in s do
-     if not IsWithin(V,basis,bv) then
-       Add(basis, bv);
-     fi;
-   od;
+   S:= SubWeylModule(S,v);
  od;
- return( basis );
+ return( S );
 end );
+
+#############################################################################
+InstallMethod(PrintObj, "for a sub quotient Weyl module", true,
+[IsSubQuotientWeylModule], 0,
+function(S)
+ Print("<SubQuotient WeylModule of dimension ", Dim(S),
+ ", generated by elements ", S!.gens, " of weights ",
+ List(S!.gens, Weight), ">, in\n", S!.quotientWeylModule);
+end );
+
+InstallMethod(Generators, "for a sub quotient Weyl module", true,
+[IsSubQuotientWeylModule], 0,
+function(S)
+ return(S!.gens);
+end );
+
+InstallMethod(BasisVecs, "for a sub quotient Weyl module", true,
+[IsSubQuotientWeylModule], 0,
+function(S)
+ # returns the basis vectors of <S>
+ return(S!.eltbasis);
+end );
+
+InstallMethod(Dim, "for a sub quotient Weyl module", true,
+[IsSubQuotientWeylModule], 0,
+function(S)
+ # returns the dimension of <S>
+ return(Length(S!.eltbasis));
+end );
+
+InstallMethod(AmbientQuotient, "for a sub quotient Weyl module", true,
+[IsSubQuotientWeylModule], 0,
+function(S)
+ # returns the ambient quotient Weyl module
+ return(S!.quotientWeylModule);
+end );
+
+InstallMethod(Weights, "for a sub quotient Weyl module", true, 
+[IsSubQuotientWeylModule], 0, 
+function(S)
+ # returns a list of the weight space labels of <S>
+ return( DuplicateFreeList(List(BasisVecs(S), Weight)) );
+end );
+
+InstallMethod(WeightSpaces, "for a sub quotient Weyl module", true,
+[IsSubQuotientWeylModule], 0,
+function(S)
+ # returns a list of the weight spaces of <S>
+ local wts,out,w;
+
+ wts:=Weights(S);
+ out:= [ ];
+ for w in wts do
+   Add(out, w);
+   Add(out, WeightSpace(S,w));
+ od;
+ return(out);
+end );
+
+InstallMethod(Character, "for a sub quotient Weyl module", true, 
+[IsSubQuotientWeylModule], 0, 
+function(S)
+ # returns the character (a list of the weights and their multiplicities)
+ # for the given sub quotient Wey module S
+ local ws, k, out;
+ out:= [ ];
+ ws:= WeightSpaces(S);
+ for k in [2,4..Length(ws)] do
+   Add(out, ws[k-1]);
+   Add(out, Length(ws[k]));
+ od;
+ return(out);
+end );
+
+InstallMethod(DominantWeightSpaces, "for a sub quotient Weyl module", true, 
+[IsSubQuotientWeylModule], 0, 
+function(S)
+ # returns a list of the dominant weight spaces of S
+ local out, k, ws;
+ out:= [ ];
+ ws:= WeightSpaces(S);
+ for k in [2,4..Length(ws)] do
+   if IsDominant( ws[k-1] ) then 
+     Add(out, ws[k-1]);
+     Add(out, ws[k]);
+   fi;
+ od;
+ return(out);
+end );
+
+InstallMethod(WeightSpace, "for a sub quotient Weyl module", true, 
+[IsSubQuotientWeylModule,IsList], 0, 
+function(S,wt)
+ # returns a basis for the given weight space in <S> of weight <wt>
+ local bb,out,b;
+ bb:=BasisVecs(S); out:=[ ];
+ for b in bb do
+   if Weight(b) = wt then Add(out,b); fi;
+ od;
+ return(out);
+end );
+
 
 #############################################################################
 InstallMethod(SimpleCharacter, 
@@ -1455,25 +1667,25 @@ function(V, wt)
 end );
 
 #############################################################################
-InstallMethod(SocleWeyl, "for a quotientWeyl module", true, 
+InstallMethod(SocleWeyl, "for a quotient Weyl module", true, 
 [IsQuotientWeylModule], 0, 
 function(Q)
  # Returns a list of maximal vectors that generate the socle of <Q> 
  
- local outlist, v, mvecs, s, V, p, a, b, dima, dimb;
+ local outlist, v, mvecs, s, V, p, b, dima, dimb;
  
  V:= Q!.WeylModule; p:=V!.prime;
  outlist:= []; 
  mvecs:= MaximalVectors(Q);
  for v in mvecs do
      s:= SubWeylModule(Q,v); 
-     a:= Character(s); dima:= CharacterDim(a);
+     dima:= Dim(s);
      b:= SimpleCharacter(p,Weight(v),V!.type,V!.rank); dimb:=CharacterDim(b);
      if dima = dimb then
-       Add(outlist, v);
+       Add(outlist, s);
      fi;
  od;
- return outlist;
+ return SubWeylModuleDirectSum(outlist);
 end );
 
 #############################################################################
@@ -1481,19 +1693,19 @@ InstallMethod(SocleWeyl, "for a Weyl module", true,
 [IsWeylModule], 0, 
 function(V)
  # Returns a list of maximal vectors that generate the socle of <V> 
- local mvecs,outlist,p,s,a,b,dima,dimb,v;
+ local mvecs,outlist,p,s,b,dima,dimb,v;
  p:= V!.prime;
  outlist:= []; 
  mvecs:= MaximalVectors(V);
  for v in mvecs do
      s:= SubWeylModule(V,v); 
-     a:= Character(s); dima:= CharacterDim(a);
+     dima:= Dim(s);
      b:= SimpleCharacter(p,Weight(v),V!.type,V!.rank); dimb:=CharacterDim(b);
      if dima = dimb then
-         Add(outlist, v);
+         Add(outlist, s);
      fi;
  od;
- return outlist;
+ return SubWeylModuleDirectSum(outlist);
 end );
 
 #############################################################################
