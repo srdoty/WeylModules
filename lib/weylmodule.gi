@@ -478,7 +478,7 @@ end );
 InstallMethod(SocleWeyl, "for a Weyl module", true, 
 [IsWeylModule], 0, 
 function(V)
- # Returns a list of maximal vectors that generate the socle of <V> 
+ # Returns the socle of <V> 
  local mvecs,outlist,p,s,b,dima,dimb,v;
  p:= V!.prime;
  outlist:= []; 

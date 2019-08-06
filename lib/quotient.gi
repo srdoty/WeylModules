@@ -291,8 +291,8 @@ function(Q,wt)
    Add(outlist, result);
  od;
  if Length(outlist) > 1 then
-    Add(V!.maximalVecsAmbiguous, outlist);
-    if Length(V!.maximalVecsAmbiguous) = 1 then # first time
+    Add(Q!.maximalVecsAmbiguous, outlist);
+    if Length(Q!.maximalVecsAmbiguous) = 1 then # first time
        Print("***** WARNING: Ambiguous quotient module detected *****\n");
     fi;
  fi; 
@@ -328,7 +328,7 @@ end );
 InstallMethod(SocleWeyl, "for a quotient Weyl module", true, 
 [IsQuotientWeylModule], 0, 
 function(Q)
- # Returns a list of maximal vectors that generate the socle of <Q> 
+ # Returns the socle of the given quotient module <Q> 
  
  local outlist, v, mvecs, s, V, p, b, dima, dimb;
  
@@ -343,7 +343,7 @@ function(Q)
        Add(outlist, s);
      fi;
  od;
- return SubWeylModuleDirectSum(outlist);
+ return SubWeylModule(Q,outlist);
 end );
 
 #############################################################################
