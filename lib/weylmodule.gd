@@ -72,8 +72,6 @@ DeclareOperation("SimpleTopFactorCharacter", [IsWeylModule]);
 # The following command is not documented at this time
 DeclareOperation("SimpleTopFactorDim", [IsWeylModule]);
 
-DeclareOperation("SocleWeyl", [IsWeylModule]);
-
 DeclareOperation("SubmoduleStructure", [IsWeylModule]);
 
 DeclareOperation("DecompositionNumbers", [IsWeylModule]);

@@ -13,6 +13,8 @@ DeclareOperation( "SubWeylModule",
 DeclareOperation( "SubWeylModule", 
             [IsQuotientWeylModule,IsList]);
 
+DeclareOperation("SubWeylModuleDirectSum", [IsQuotientWeylModule,IsList]);
+
 DeclareOperation("Generators", [IsSubQuotientWeylModule]);
 
 DeclareOperation("BasisVecs", [IsSubQuotientWeylModule]);
@@ -30,3 +32,7 @@ DeclareOperation("Character", [IsSubQuotientWeylModule]);
 DeclareOperation("DominantWeightSpaces", [IsSubQuotientWeylModule]);
 
 DeclareOperation("WeightSpace", [IsSubQuotientWeylModule,IsList]);
+
+DeclareOperation("SocleWeyl", [IsQuotientWeylModule]);
+
+DeclareOperation("NextSocle", [IsSubQuotientWeylModule]);

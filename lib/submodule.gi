@@ -160,16 +160,16 @@ function(V,vecs)
 end );
 
 #############################################################################
-InstallMethod(SubWeylModuleDirectSum, "for a list of sub Weyl modules", true,
-[IsList], 0,
-function(inlist)
+InstallMethod(SubWeylModuleDirectSum,
+"for a Weyl module and a list of sub Weyl modules", true,
+[IsWeylModule,IsList], 0,
+function(V,inlist)
  # returns the direct sum of the inputs (which are assumed independent)
  # Note: No checking of the assumption is done!
 
- local V, S, lbasis, rowbasis, generators, SM;
+ local S, lbasis, rowbasis, generators, SM;
 
  lbasis:= []; rowbasis:= []; generators:= [];
- V:=inlist[1]!.weylModule;
  for S in inlist do
     Append(lbasis, S!.eltbasis);
     Append(rowbasis, S!.repbasis);
@@ -314,6 +314,26 @@ function(V,low,high,wtspace)
    fi;
  od;
  return( fail );
+end );
+
+#############################################################################
+InstallMethod(SocleWeyl, "for a Weyl module", true, 
+[IsWeylModule], 0, 
+function(V)
+ # Returns the socle of <V> 
+ local mvecs,outlist,p,s,b,dima,dimb,v;
+ p:= V!.prime;
+ outlist:= []; 
+ mvecs:= MaximalVectors(V);
+ for v in mvecs do
+     s:= SubWeylModule(V,v); 
+     dima:= Dim(s);
+     b:= SimpleCharacter(p,Weight(v),V!.type,V!.rank); dimb:=CharacterDim(b);
+     if dima = dimb then
+         Add(outlist, s);
+     fi;
+ od;
+ return SubWeylModuleDirectSum(V,outlist);
 end );
 
 #############################################################################

@@ -146,6 +146,31 @@ function(Q,vecs)
 end );
 
 #############################################################################
+InstallMethod(SubWeylModuleDirectSum,
+"for a quotient Weyl module and a list of sub Weyl modules", true,
+[IsQuotientWeylModule,IsList], 0,
+function(Q,inlist)
+ # returns the direct sum of the inputs (which are assumed independent)
+ # Note: No checking of the assumption is done!
+
+ local S, lbasis, rowbasis, generators, SM;
+
+ lbasis:= []; rowbasis:= []; generators:= [];
+ for S in inlist do
+    Append(lbasis, S!.eltbasis);
+    Append(rowbasis, S!.repbasis);
+    Append(generators, S!.gens);
+    Assert(0,Q = S!.quotientWeylModule);
+ od;
+
+ SM:= Objectify(NewType(FamilyObj(Q), IsSubQuotientWeylModule),
+     rec(eltbasis:=lbasis,repbasis:=rowbasis,gens:=generators,
+     quotientWeylModule:=Q) );
+ return(SM);
+end );
+
+
+#############################################################################
 InstallMethod(PrintObj, "for a sub quotient Weyl module", true,
 [IsSubQuotientWeylModule], 0,
 function(S)
@@ -256,5 +281,59 @@ function(S,wt)
 end );
 
 #############################################################################
+InstallMethod(SocleWeyl, "for a quotient Weyl module", true, 
+[IsQuotientWeylModule], 0, 
+function(Q)
+ # Returns the socle of the given quotient module <Q> 
+ 
+ local outlist, v, mvecs, s, V, p, b, dima, dimb;
+ 
+ V:= Q!.WeylModule; p:=V!.prime;
+ outlist:= []; 
+ mvecs:= MaximalVectors(Q);
+ for v in mvecs do
+     s:= SubWeylModule(Q,v); 
+     dima:= Dim(s);
+     b:= SimpleCharacter(p,Weight(v),V!.type,V!.rank); dimb:=CharacterDim(b);
+     if dima = dimb then
+       Add(outlist, s);
+     fi;
+ od;
+ return SubWeylModuleDirectSum(Q,outlist);
+end );
 
+#############################################################################
+InstallMethod(NextSocle, "for a sub quotient Weyl module", true,
+[IsSubQuotientWeylModule], 0, 
+function(S)
+ # Returns the next socle of V (the submodule that maps onto soc(V/S))
+
+ local V, Q, mvecs, m, sub, lam, p, t, r, ans, K, gens, g, SS, QQ;
+ Q:= AmbientQuotient(S); # the parent quotient module
+ V:= AmbientWeylModule(Q); 
+ p:=TheCharacteristic(V);
+ t:=V!.type;
+ r:=V!.rank;
+ ans:= S; # initially
+
+ # calculate the preimage SS of S under V -> V/K
+ K:= DefiningKernel(Q);
+ gens:= Generators(S);
+ SS:=K; # initially
+ for g in gens do
+   SS:= SubWeylModule(SS,g);
+ od;
+
+ QQ:= QuotientWeylModule(SS);
+ mvecs:= MaximalVectors(QQ);
+ for m in mvecs do
+    sub:= SubWeylModule(QQ, m);
+    lam:= Weight(m);
+    if SortedCharacter(Character(sub))
+       = SortedCharacter(SimpleCharacter(p,lam,t,r)) then
+       ans:= SubWeylModule(ans, m);
+    fi;
+ od;
+ return ans;
+end );
 

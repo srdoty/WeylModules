@@ -40,4 +40,4 @@ DeclareOperation( "MaximalVectors", [IsQuotientWeylModule,IsList]);
 
 DeclareOperation( "MaximalVectors", [IsQuotientWeylModule]);
 
-DeclareOperation("SocleWeyl", [IsQuotientWeylModule]);
+DeclareOperation( "SocleSeries", [IsQuotientWeylModule]);

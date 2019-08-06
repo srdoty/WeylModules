@@ -9,8 +9,6 @@
 ##  Weyl modules, simple characters, etc.
 ##
 #############################################################################
-
-#############################################################################
 InstallMethod(WeylModule, 
 "for a prime <p>, a list <wt>, and a simple Lie algebra of type <t>, rank <r>",
 true, [IsPosInt, IsList, IsString, IsPosInt], 0, 
@@ -475,26 +473,6 @@ function(V)
 end );
  
 #############################################################################
-InstallMethod(SocleWeyl, "for a Weyl module", true, 
-[IsWeylModule], 0, 
-function(V)
- # Returns the socle of <V> 
- local mvecs,outlist,p,s,b,dima,dimb,v;
- p:= V!.prime;
- outlist:= []; 
- mvecs:= MaximalVectors(V);
- for v in mvecs do
-     s:= SubWeylModule(V,v); 
-     dima:= Dim(s);
-     b:= SimpleCharacter(p,Weight(v),V!.type,V!.rank); dimb:=CharacterDim(b);
-     if dima = dimb then
-         Add(outlist, s);
-     fi;
- od;
- return SubWeylModuleDirectSum(outlist);
-end );
-
-#############################################################################
 InstallMethod(SubmoduleStructure, "for a Weyl module", true, 
 [IsWeylModule], 0, 
 function(V)
@@ -615,3 +593,5 @@ function(V)
  od;
  return decnums;
 end );     
+
+#############################################################################

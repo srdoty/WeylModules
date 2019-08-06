@@ -13,7 +13,7 @@ DeclareOperation( "SubWeylModule",
 
 DeclareOperation("SubWeylModule", [IsWeylModule,IsList]);
 
-DeclareOperation("SubWeylModuleDirectSum", [IsList]);
+DeclareOperation("SubWeylModuleDirectSum", [IsWeylModule,IsList]);
 
 DeclareOperation("Generators", [IsSubWeylModule]);
 
@@ -35,6 +35,8 @@ DeclareOperation("WeightSpace", [IsSubWeylModule,IsList]);
 
 # The following command is not documented at this time
 DeclareOperation("SubWeylModule", [IsWeylModule,IsPosInt,IsPosInt,IsList]);
+
+DeclareOperation("SocleWeyl", [IsWeylModule]);
 
 DeclareOperation("NextSocle", [IsSubWeylModule]);
 

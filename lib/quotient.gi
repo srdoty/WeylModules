@@ -325,25 +325,21 @@ function(Q)
 end );
 
 #############################################################################
-InstallMethod(SocleWeyl, "for a quotient Weyl module", true, 
+InstallMethod(SocleSeries, "for a quotient Weyl module", true,
 [IsQuotientWeylModule], 0, 
-function(Q)
- # Returns the socle of the given quotient module <Q> 
+function(V)
+ # Returns the socle series of V
+
+ local S, ans;
+
+ S:= SocleWeyl(V);
+ ans:= [S];
  
- local outlist, v, mvecs, s, V, p, b, dima, dimb;
- 
- V:= Q!.WeylModule; p:=V!.prime;
- outlist:= []; 
- mvecs:= MaximalVectors(Q);
- for v in mvecs do
-     s:= SubWeylModule(Q,v); 
-     dima:= Dim(s);
-     b:= SimpleCharacter(p,Weight(v),V!.type,V!.rank); dimb:=CharacterDim(b);
-     if dima = dimb then
-       Add(outlist, s);
-     fi;
+ while Dim(S) < Dim(V) do
+   S:= NextSocle(S);
+   Add(ans,S);
  od;
- return SubWeylModule(Q,outlist);
+ return ans;
 end );
 
 #############################################################################
