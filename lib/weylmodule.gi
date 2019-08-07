@@ -426,66 +426,13 @@ InstallMethod(DecompositionNumbers, "for a Weyl module", true,
 function(V)
  # returns the decomposition numbers of the given Weyl module
 
- local ch, m, wt, mult, ms, decnums,
-       maximalWeight, multiple, dominates;
-
- multiple:= function(scalar, char)
-    # returns a <scalar> multiple of the given <char>
-    local k, out;
-    out:= [];
-    for k in [2,4..Length(char)] do
-       Add(out, char[k-1]);
-       Add(out, scalar*char[k]);
-    od;
-    return out;
- end;
-
- dominates:= function(lambda, mu)
-    # returns true if <lambda> dominates <mu>, false otherwise
-    local cf, R, L, B, space, bas, zero, c;
-    L:= TheLieAlgebra(V);
-    R:= RootSystem(L);
-    bas:= SimpleSystem(R); #the simple roots
-    space:= Rationals^Length(bas);
-    B:= Basis(space, bas);
-    cf:= Coefficients(B, lambda - mu);
-    zero:= [];
-    for c in cf do
-       Add(zero, 0);
-    if cf = zero then return false; fi;
-    od;
-    for c in cf do
-       if not c in NonnegativeIntegers then 
-          return false; fi;
-    od;
-    return true;
- end;
-
- maximalWeight:= function(char)
-    # returns a maximal [weight, mult] pair of the given <char>
-    local winner, winnermult, k;
-    winner:= char[1]; winnermult:= char[2];
-
-    for k in [4,6..Length(char)] do
-        if dominates(char[k-1], winner) then
-           winner:= char[k-1];
-           winnermult:= char[k];
-        fi;
-    od;
-    return [winner, winnermult];
- end;   
+ local ch, p, t, r, m, wt, mult, ms, decnums;
  
- decnums:= [];
- ch:= Character(V);
- while ch <> [] do 
-     m:= maximalWeight(ch);
-     wt:= m[1]; mult:= m[2];
-     Add(decnums, wt);
-     Add(decnums, mult);
-     ms:= multiple(mult, SimpleCharacter(V,wt));
-     ch:= DifferenceCharacter(ch, ms); 
- od;
- return decnums;
+ p:= TheCharacteristic(V);
+ r:= V!.rank;
+ t:=V!.type;
+ ch:=Character(V);
+ return DecomposeCharacter(ch,p,t,r);
 end );     
 
 #############################################################################
