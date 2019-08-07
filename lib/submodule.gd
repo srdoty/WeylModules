@@ -40,5 +40,5 @@ DeclareOperation("SocleWeyl", [IsWeylModule]);
 
 DeclareOperation("NextSocle", [IsSubWeylModule]);
 
-
+DeclareOperation("GensNextSocle", [IsSubWeylModule]);
 

@@ -58,10 +58,6 @@ DeclareOperation( "MaximalVectors", [IsWeylModule]);
 
 DeclareOperation("SocleSeries", [IsWeylModule]);
 
-DeclareOperation("ExtWeyl", [IsWeylModule,IsList]);
-
-DeclareOperation("PrimitiveVectors", [IsWeylModule]);
-
 DeclareOperation("SimpleQuotient", [IsWeylModule]);
 
 DeclareOperation("MaximalSubmodule", [IsWeylModule]);
@@ -71,8 +67,6 @@ DeclareOperation("SimpleTopFactorCharacter", [IsWeylModule]);
 
 # The following command is not documented at this time
 DeclareOperation("SimpleTopFactorDim", [IsWeylModule]);
-
-DeclareOperation("SubmoduleStructure", [IsWeylModule]);
 
 DeclareOperation("DecompositionNumbers", [IsWeylModule]);
 

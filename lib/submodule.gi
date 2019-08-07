@@ -361,3 +361,26 @@ function(S)
 end );
 
 #############################################################################
+InstallMethod(GensNextSocle, "for a sub Weyl module", true,
+[IsSubWeylModule], 0, 
+function(S)
+ # Returns a list of the maximal vectors of V/S generating its socle
+ 
+ local V, Q, mvecs, m, sub, lam, p, t, r, socleVecs;
+ V:= AmbientWeylModule(S);
+ p:=V!.prime; t:=V!.type; r:=V!.rank;
+ socleVecs:= [];
+ Q:= QuotientWeylModule(S);
+ mvecs:= MaximalVectors(Q);
+ for m in mvecs do
+    sub:= SubWeylModule(Q, m);
+    lam:= Weight(m);
+    if SortedCharacter(Character(sub))
+       = SortedCharacter(SimpleCharacter(p,lam,t,r)) then
+       Add(socleVecs, m);
+    fi;
+ od;
+ return socleVecs;
+end );
+
+#############################################################################
