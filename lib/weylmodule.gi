@@ -58,6 +58,7 @@ InstallMethod(IsAmbiguous,  "for a Weyl module", true,
 [IsWeylModule], 0, 
 function(W)
   if Length(W!.maximalVecsAmbiguous) > 0 then return true; fi;
+  return false; # otherwise
 end );
 
 #############################################################################
