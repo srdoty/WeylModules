@@ -447,6 +447,9 @@ function(V)
  p:= V!.prime;
  outlist:= []; 
  mvecs:= MaximalVectors(V);
+ if Length(mvecs) = 1 then   # V is simple
+     return SubWeylModule(V, mvecs[1]);
+ fi;
  for k in [2,3..Length(mvecs)] do
      s:= SubWeylModule(V,mvecs[k]); 
      dima:= Dim(s);
