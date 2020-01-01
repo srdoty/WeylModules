@@ -1,0 +1,45 @@
+\begin{thebibliography}{BDM11}
+
+\bibitem[BDM11]{BDM}
+C.~Bowman, S.~R. Doty, and S.~Martin.
+\newblock Decomposition of tensor products of modular irreducible
+  representations for {${\rm SL}_3$}.
+\newblock {\em Int. Electron. J. Algebra}, 9:177--219, 2011.
+\newblock With an appendix by C. M. Ringel.
+
+\bibitem[CPS75]{CPS}
+Edward Cline, Brian Parshall, and Leonard Scott.
+\newblock Cohomology of finite groups of {L}ie type. {I}.
+\newblock {\em Inst. Hautes \'{E}tudes Sci. Publ. Math.}, (45):169--191, 1975.
+
+\bibitem[Gre07]{Green}
+J.~A. Green.
+\newblock {\em Polynomial representations of {${\rm GL}_{n}$}}, volume 830 of
+  {\em Lecture Notes in Mathematics}.
+\newblock Springer, Berlin, augmented edition, 2007.
+\newblock With an appendix on Schensted correspondence and Littelmann paths by
+  K. Erdmann, Green and M. Schocker.
+
+\bibitem[Irv86]{Irving}
+Ronald~S. Irving.
+\newblock The structure of certain highest weight modules for {${\rm SL}_3$}.
+\newblock {\em J. Algebra}, 99(2):438--457, 1986.
+
+\bibitem[Jam78]{James}
+G.~D. James.
+\newblock {\em The representation theory of the symmetric groups}, volume 682
+  of {\em Lecture Notes in Mathematics}.
+\newblock Springer, Berlin, 1978.
+
+\bibitem[Jan03]{Jantzen}
+Jens~Carsten Jantzen.
+\newblock {\em Representations of algebraic groups}, volume 107 of {\em
+  Mathematical Surveys and Monographs}.
+\newblock American Mathematical Society, Providence, RI, second edition, 2003.
+
+\bibitem[Xi99]{Xi}
+Nanhua Xi.
+\newblock Maximal and primitive elements in {W}eyl modules for type {$A_2$}.
+\newblock {\em J. Algebra}, 215(2):735--756, 1999.
+
+\end{thebibliography}

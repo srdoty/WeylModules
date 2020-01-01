@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>GAP (Weyl) - Chapter 3: Schur algebras and Symmetric Groups</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap3"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chapBib.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap3_mj.html">[MathJax on]</a></p>
+<p><a id="X7817A3B07E17884E" name="X7817A3B07E17884E"></a></p>
+<div class="ChapSects"><a href="chap3.html#X7817A3B07E17884E">3 <span class="Heading">Schur algebras and Symmetric Groups</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X82C9B62E81E4B44F">3.1 <span class="Heading">Compositions and Weights</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7F5BE0C778965ED9">3.1-1 CompositionToWeight</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X87B4FF987D56A4EF">3.1-2 BoundedPartitions</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X802799E57A84025C">3.2 <span class="Heading">Schur Algebras</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7F659C2A83FD5ECB">3.2-1 SchurAlgebraWeylModule</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X837F199C864C8E6C">3.2-2 DecompositionNumbers</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X79BFB3007DCB9CF1">3.2-3 SchurAlgebraDecompositionMatrix</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X7BE4F15F78127B12">3.3 <span class="Heading">Symmetric groups</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X78755A2F79DE1B84">3.3-1 SymmetricGroupDecompositionNumbers</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X833A2717839A8F36">3.3-2 SymmetricGroupDecompositionMatrix</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X873D727E7E1A113A">3.3-3 AllPartitions</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X78EDAF2F86560B70">3.4 <span class="Heading">The Mullineux correspondence</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7BDED41984BEFB59">3.4-1 Mullineux</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7A951CB38756FC42">3.4-2 pRegularPartitions</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X824418F6788DE833">3.5 <span class="Heading">Miscellaneous functions for partitions</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X87C9E8597DDE0431">3.5-1 Conjugate</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X867CC58F7B74C723">3.5-2 pRestricted</a></span>
+</div></div>
+</div>
+
+<h3>3 <span class="Heading">Schur algebras and Symmetric Groups</span></h3>
+
+<p>In principle, the decomposition numbers for the algebraic group <span class="SimpleMath">SL_n</span> of Type <span class="SimpleMath">A_n-1</span> determine the decomposition numbers for Schur algebras, and thus determine also the decomposiotion numbers for symmetric groups. People working with Schur algebras and symmetric groups often prefer to use partitions to label highest weights. Of course, it is trivial to convert between <span class="SimpleMath">SL_n</span> weight and partition notation. This section covers functions that perform such conversions, and various other functions for Schur algebras and symmetric groups.</p>
+
+<p><a id="X82C9B62E81E4B44F" name="X82C9B62E81E4B44F"></a></p>
+
+<h4>3.1 <span class="Heading">Compositions and Weights</span></h4>
+
+<p>A <em>composition</em> of degree <span class="SimpleMath">r</span> is a finite sequence <span class="SimpleMath">c = [c_1, dots, c_n]</span> of non-negative integers which sum to <span class="SimpleMath">r</span>. The number <span class="SimpleMath">n</span> of parts of <span class="SimpleMath">c</span> is called its <em>length</em>. One may identify the set of compositions of length <span class="SimpleMath">n</span> with the set of <em>polynomial</em> weights of the algebraic group <span class="SimpleMath">GL_n</span>.</p>
+
+<p>Note that a composition is a partition if and only if it is a dominant weight relative to the diagonal maximal torus in <span class="SimpleMath">GL_n</span>.</p>
+
+<p><a id="X7F5BE0C778965ED9" name="X7F5BE0C778965ED9"></a></p>
+
+<h5>3.1-1 CompositionToWeight</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CompositionToWeight</code>( <var class="Arg">c</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; WeightToComposition</code>( <var class="Arg">r</var>, <var class="Arg">wt</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p><code class="code">CompositionToWeight</code> converts a given list <var class="Arg">c</var> (of length <var class="Arg">n</var>) into an <span class="SimpleMath">SL_n</span> weight, by taking successive differences in the parts of <var class="Arg">c</var>. This produces a list of length <span class="SimpleMath">n-1</span>.</p>
+
+<p><code class="code">WeightToComposition</code> does the reverse operation, padding with zeros if necessary in order to return a composition of degree <var class="Arg">r</var>. The degree must be specified since it is not uniquely determined by the given weight. Note that degree is unique modulo <var class="Arg">n</var>. The length <var class="Arg">n</var> of the output is always one more than the length of the input.</p>
+
+<p>As a special case, these operations take partitions to dominant weights, and vice versa.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">wt:= CompositionToWeight( [3,3,2,1,1,0,0] );</span>
+[ 0, 1, 1, 0, 1, 0 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">WeightToComposition(10, wt);</span>
+[ 3, 3, 2, 1, 1, 0, 0 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">WeightToComposition(17, wt);</span>
+[ 4, 4, 3, 2, 2, 1, 1 ]
+</pre></div>
+
+<p><a id="X87B4FF987D56A4EF" name="X87B4FF987D56A4EF"></a></p>
+
+<h5>3.1-2 BoundedPartitions</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BoundedPartitions</code>( <var class="Arg">n</var>, <var class="Arg">r</var>, <var class="Arg">s</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BoundedPartitions</code>( <var class="Arg">n</var>, <var class="Arg">r</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p><code class="code">BoundedPartitions(<var class="Arg">n</var>,<var class="Arg">r</var>,<var class="Arg">s</var>)</code> returns a list of <var class="Arg">n</var>-part partitions of degree <var class="Arg">r</var>, where each part lies in the interval [0,<var class="Arg">s</var>]. Note that some parts of the partition may be equal to zero.</p>
+
+<p><code class="code">BoundedPartitions(<var class="Arg">n</var>,<var class="Arg">r</var>)</code> is equivalent to <code class="code">BoundedPartitions(<var class="Arg">n</var>,<var class="Arg">r</var>,<var class="Arg">r</var>)</code>, which returns a list of all <var class="Arg">n</var>-part partitions of degree <var class="Arg">r</var>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">BoundedPartitions(4,3,2);           </span>
+[ [ 2, 1, 0, 0 ], [ 1, 1, 1, 0 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">BoundedPartitions(4,3,3);</span>
+[ [ 3, 0, 0, 0 ], [ 2, 1, 0, 0 ], [ 1, 1, 1, 0 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">BoundedPartitions(4,3);</span>
+[ [ 3, 0, 0, 0 ], [ 2, 1, 0, 0 ], [ 1, 1, 1, 0 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">BoundedPartitions(4,4,4);</span>
+[ [ 4, 0, 0, 0 ], [ 3, 1, 0, 0 ], [ 2, 2, 0, 0 ], [ 2, 1, 1, 0 ], 
+  [ 1, 1, 1, 1 ] ]
+</pre></div>
+
+<p>Note that running <code class="code">BoundedPartitions(<var class="Arg">n</var>,<var class="Arg">n</var>,<var class="Arg">n</var>)</code> produces a list of all partitions of <var class="Arg">n</var>.</p>
+
+<p><a id="X802799E57A84025C" name="X802799E57A84025C"></a></p>
+
+<h4>3.2 <span class="Heading">Schur Algebras</span></h4>
+
+<p><a id="X7F659C2A83FD5ECB" name="X7F659C2A83FD5ECB"></a></p>
+
+<h5>3.2-1 SchurAlgebraWeylModule</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SchurAlgebraWeylModule</code>( <var class="Arg">p</var>, <var class="Arg">lambda</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a Weyl module</p>
+
+<p><code class="code">SchurAlgebraWeylModule</code> returns the Weyl module of highest weight <var class="Arg">wt</var> in characteristic <var class="Arg">p</var>, regarded as a module for <span class="SimpleMath">GL_n</span> where <var class="Arg">n</var> is the length of the given partition <var class="Arg">lambda</var>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">V:= SchurAlgebraWeylModule(3, [2,2,1,1,0]);</span>
+&lt;Schur algebra Weyl module of highest weight [ 2, 2, 1, 1, 0 ] at prime p = 3&gt;
+</pre></div>
+
+<p><a id="X837F199C864C8E6C" name="X837F199C864C8E6C"></a></p>
+
+<h5>3.2-2 DecompositionNumbers</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DecompositionNumbers</code>( <var class="Arg">V</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p><code class="code">DecompositionNumbers</code> returns the decomposition numbers of a given Schur algebra Weyl module <var class="Arg">V</var>, using partition notation for dominant weights.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">V:= SchurAlgebraWeylModule(3, [2,2,1,1,0]);</span>
+&lt;Schur algebra Weyl module of highest weight [ 2, 2, 1, 1, 0 ] at prime p = 3&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DecompositionNumbers(V);</span>
+[ [ 2, 2, 1, 1, 0 ], 1 ]
+</pre></div>
+
+<p>The above example shows an irreducible Weyl module for <span class="SimpleMath">GL_5</span>. Here is a more interesting example:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">V:= SchurAlgebraWeylModule(2, [4,2,1,1,0]);</span>
+&lt;Schur algebra Weyl module of highest weight [ 4, 2, 1, 1, 0 ] at prime p = 2&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DecompositionNumbers(V);                   </span>
+[ [ 4, 2, 1, 1, 0 ], 1, [ 3, 3, 1, 1, 0 ], 1, [ 3, 2, 2, 1, 0 ], 1, 
+  [ 4, 1, 1, 1, 1 ], 1, [ 2, 2, 2, 2, 0 ], 1, [ 2, 2, 2, 1, 1 ], 1 ]
+</pre></div>
+
+<p><a id="X79BFB3007DCB9CF1" name="X79BFB3007DCB9CF1"></a></p>
+
+<h5>3.2-3 SchurAlgebraDecompositionMatrix</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SchurAlgebraDecompositionMatrix</code>( <var class="Arg">p</var>, <var class="Arg">n</var>, <var class="Arg">r</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list of lists</p>
+
+<p><code class="code">SchurAlgebraDecompositionMatrix</code> returns the decomposition matrix for a Schur algebra <span class="SimpleMath">S(n,r)</span> in characteristic <var class="Arg">p</var>. The rows and columns of the matrix are indexed by the partitions produced by <code class="code">BoundedPartitions(<var class="Arg">n</var>,<var class="Arg">r</var>)</code>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SchurAlgebraDecompositionMatrix(2, 4, 5);</span>
+[ [ 1, 0, 1, 1, 0, 0 ], [ 0, 1, 0, 0, 0, 1 ], [ 0, 0, 1, 1, 1, 0 ], 
+  [ 0, 0, 0, 1, 1, 0 ], [ 0, 0, 0, 0, 1, 0 ], [ 0, 0, 0, 0, 0, 1 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">BoundedPartitions(4,5);</span>
+[ [ 5, 0, 0, 0 ], [ 4, 1, 0, 0 ], [ 3, 2, 0, 0 ], [ 3, 1, 1, 0 ], 
+  [ 2, 2, 1, 0 ], [ 2, 1, 1, 1 ] ]
+</pre></div>
+
+<p><a id="X7BE4F15F78127B12" name="X7BE4F15F78127B12"></a></p>
+
+<h4>3.3 <span class="Heading">Symmetric groups</span></h4>
+
+<p>Symmetric group decomposition numbers in positive characteristic may be obtained from corresponding decomposition numbers for a Schur algebra Weyl module, by means of the well known "Schur functor". (See for instance Chapter 6 of <a href="chapBib.html#biBGreen">[Gre07]</a> for details.)</p>
+
+<p>This is not a very efficient method to calculate those decomposition numbers. People needing such numbers for large partitions should use other methods. The approach taken here, through Schur algebras, is reasonably fast only up to about degree 7 at present.</p>
+
+<p><a id="X78755A2F79DE1B84" name="X78755A2F79DE1B84"></a></p>
+
+<h5>3.3-1 SymmetricGroupDecompositionNumbers</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SymmetricGroupDecompositionNumbers</code>( <var class="Arg">p</var>, <var class="Arg">mu</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p><code class="code">SymmetricGroupDecompositionNumbers</code> returns a list of the decomposition numbers <span class="SimpleMath">[S_μ: D_λ]</span> for the dual Specht module <span class="SimpleMath">S_μ</span> labeled by a partition <span class="SimpleMath">μ</span>, in characteristic <var class="Arg">p</var>. The simple modules <span class="SimpleMath">D_λ</span> are labeled by <var class="Arg">p</var>-restricted partitions of the same degree as <span class="SimpleMath">μ</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SymmetricGroupDecompositionNumbers(3, [3,2,1]);</span>
+[ [ 3, 2, 1 ], 1, [ 2, 2, 2 ], 1, [ 3, 1, 1, 1 ], 1, [ 2, 1, 1, 1, 1 ], 1, 
+  [ 1, 1, 1, 1, 1, 1 ], 1 ]
+</pre></div>
+
+<p><a id="X833A2717839A8F36" name="X833A2717839A8F36"></a></p>
+
+<h5>3.3-2 SymmetricGroupDecompositionMatrix</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SymmetricGroupDecompositionMatrix</code>( <var class="Arg">p</var>, <var class="Arg">n</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list of lists</p>
+
+<p><code class="code">SymmetricGroupDecompositionMatrix</code> returns the decomposition matrix for the symmetric group on <var class="Arg">n</var> letters, in characteristic <var class="Arg">p</var>. The rows of the matrix are labeled by partitions of <var class="Arg">n</var> and columns are labeled by the <var class="Arg">p</var>-restricted partitions of <var class="Arg">n</var>.</p>
+
+<p>To obtain lists of the row and column labels use the following functions.</p>
+
+<p><a id="X873D727E7E1A113A" name="X873D727E7E1A113A"></a></p>
+
+<h5>3.3-3 AllPartitions</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllPartitions</code>( <var class="Arg">n</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; pRestrictedPartitions</code>( <var class="Arg">p</var>, <var class="Arg">n</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p>These functions respectively return a list of all partitions of <var class="Arg">n</var>, and a list of all <var class="Arg">p</var>-restricted partitions of <var class="Arg">n</var>. Note that trailing zeros are omitted in such partitions. (<strong class="pkg">GAP</strong> has a built-in <code class="code">Partitions</code> function that also gives all the partitions of <var class="Arg">n</var>, but the ordering is different from the ordering in <code class="code">AllPartitions</code> above. To correctly interpret row labels in the decomposition matrix, one must use the ordering in <code class="code">AllPartitions</code>.)</p>
+
+<p>For example, we compute the decomposition matrix for the symmetric group on 5 letters in characteristic 2, along with the row and column labels for the matrix:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SymmetricGroupDecompositionMatrix(2, 5);</span>
+[ [ 0, 0, 1 ], [ 0, 1, 0 ], [ 1, 0, 1 ], [ 1, 0, 2 ], [ 1, 0, 1 ], 
+  [ 0, 1, 0 ], [ 0, 0, 1 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllPartitions(5);</span>
+[ [ 5 ], [ 4, 1 ], [ 3, 2 ], [ 3, 1, 1 ], [ 2, 2, 1 ], [ 2, 1, 1, 1 ], 
+  [ 1, 1, 1, 1, 1 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pRestrictedPartitions(2,5);</span>
+[ [ 2, 2, 1 ], [ 2, 1, 1, 1 ], [ 1, 1, 1, 1, 1 ] ]
+</pre></div>
+
+<p><a id="X78EDAF2F86560B70" name="X78EDAF2F86560B70"></a></p>
+
+<h4>3.4 <span class="Heading">The Mullineux correspondence</span></h4>
+
+<p>Computing symmetric group decomposition numbers by means of the Schur functor naturally produces the decomposition numbers <span class="SimpleMath">[S_μ: D_λ]</span> for partitions <span class="SimpleMath">μ</span> and <span class="SimpleMath">p</span>-restricted partitions <span class="SimpleMath">λ</span>. Here <span class="SimpleMath">S^μ</span> is the dual Specht module labeled by <span class="SimpleMath">μ</span> and <span class="SimpleMath">D_λ</span> the dual simple module labeled by <span class="SimpleMath">μ</span>.</p>
+
+<p>Let <span class="SimpleMath">λ'</span> be the conjugate partition of a partition <span class="SimpleMath">λ</span>, obtained by transposing rows and columns of the corresponding Young diagram. We have <span class="SimpleMath">(S^μ)^∗ ≃ S_μ</span> for a partition <span class="SimpleMath">μ</span> and <span class="SimpleMath">D^λ ⊗ sgn ≃ D_λ'</span> for a <span class="SimpleMath">p</span>-regular partition <span class="SimpleMath">λ</span>, where <span class="SimpleMath">S^μ</span> is the usual Specht module and <span class="SimpleMath">D^λ</span> the usual simple module, using notation in accord with <a href="chapBib.html#biBJames">[Jam78]</a>. The notation <span class="SimpleMath">sgn</span> refers to the sign representation.</p>
+
+<p>Thus it follows that <span class="SimpleMath">[S_μ: D_λ] = [S^μ: D^{ Mull(λ')]</span> if <span class="SimpleMath">λ</span> is <span class="SimpleMath">p</span>-restricted. So by sending <span class="SimpleMath">λ -&gt; Mull(λ')</span>, one obtains the column labels for the decomposition matrix that appear in <a href="chapBib.html#biBJames">[Jam78]</a>.</p>
+
+<p><a id="X7BDED41984BEFB59" name="X7BDED41984BEFB59"></a></p>
+
+<h5>3.4-1 Mullineux</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Mullineux</code>( <var class="Arg">p</var>, <var class="Arg">mu</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p><code class="code">Mullineux</code> returns the partition <span class="SimpleMath">Mull(μ)</span> corresponding to a given <span class="SimpleMath">p</span>-regular partition <span class="SimpleMath">μ</span> under the Mullineux map. This means by definition that <span class="SimpleMath">D^μ ⊗ sgn ≃ D^{ Mull(μ)</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Mullineux(3, [5,4,1,1]);</span>
+[ 9, 2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Mullineux(3, [9,2]);    </span>
+[ 5, 4, 1, 1 ]
+</pre></div>
+
+<p><a id="X7A951CB38756FC42" name="X7A951CB38756FC42"></a></p>
+
+<h5>3.4-2 pRegularPartitions</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; pRegularPartitions</code>( <var class="Arg">p</var>, <var class="Arg">n</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p><code class="code">pRegularPartitions</code> returns a list of the <span class="SimpleMath">p</span>-regular partitions of <var class="Arg">n</var>, in bijection with the list of <span class="SimpleMath">p</span>-restricted partitions of <var class="Arg">n</var> produced by <code class="code">pRestrictedPartitions</code>, using the bijection <span class="SimpleMath">λ -&gt; Mull(λ')</span>. Thus, to read a symmetric group decomposition matrix using <span class="SimpleMath">p</span>-regular partition notation, one uses the output of <code class="code">pRegularPartitions</code> to index the columns of the matrix.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SymmetricGroupDecompositionMatrix(3, 5);</span>
+[ [ 0, 0, 1, 0, 0 ], [ 1, 0, 0, 0, 0 ], [ 1, 0, 0, 0, 1 ], [ 0, 1, 0, 0, 0 ], 
+  [ 0, 0, 1, 1, 0 ], [ 0, 0, 0, 1, 0 ], [ 0, 0, 0, 0, 1 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllPartitions(5);                       </span>
+[ [ 5 ], [ 4, 1 ], [ 3, 2 ], [ 3, 1, 1 ], [ 2, 2, 1 ], [ 2, 1, 1, 1 ], 
+  [ 1, 1, 1, 1, 1 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pRegularPartitions(3, 5);</span>
+[ [ 4, 1 ], [ 3, 1, 1 ], [ 5 ], [ 2, 2, 1 ], [ 3, 2 ] ]
+</pre></div>
+
+<p>In the above example, we computed a decomposition matrix in characteristic 3 for the symmetric group on 5 letters, along with labels for its rows and columns, using <span class="SimpleMath">p</span>-regular partitions to label the columns. If one wants instead to use <span class="SimpleMath">p</span>-restricted column labels, one needs to run:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pRestrictedPartitions(3, 5);</span>
+[ [ 3, 2 ], [ 3, 1, 1 ], [ 2, 2, 1 ], [ 2, 1, 1, 1 ], [ 1, 1, 1, 1, 1 ] ]
+</pre></div>
+
+<p>from the preceding section, to see the correspondence.</p>
+
+<p><a id="X824418F6788DE833" name="X824418F6788DE833"></a></p>
+
+<h4>3.5 <span class="Heading">Miscellaneous functions for partitions</span></h4>
+
+<p>Here are a few additional miscellaneous functions useful for computing with partitions.</p>
+
+<p><a id="X87C9E8597DDE0431" name="X87C9E8597DDE0431"></a></p>
+
+<h5>3.5-1 Conjugate</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Conjugate</code>( <var class="Arg">mu</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p><code class="code">Conjugate</code> returns the conjugate partition <span class="SimpleMath">μ'</span> of its input <span class="SimpleMath">μ</span>. The Young diagram of <span class="SimpleMath">μ'</span> is obtained from that of <span class="SimpleMath">μ</span> by transposing rows and columns. For example,</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Conjugate( [4,4,2,1] );</span>
+[ 4, 3, 2, 2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Conjugate( [4,3,2,2] );</span>
+[ 4, 4, 2, 1 ]
+</pre></div>
+
+<p><a id="X867CC58F7B74C723" name="X867CC58F7B74C723"></a></p>
+
+<h5>3.5-2 pRestricted</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; pRestricted</code>( <var class="Arg">p</var>, <var class="Arg">mu</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; pRegular</code>( <var class="Arg">p</var>, <var class="Arg">mu</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p><code class="code">pRestricted</code> returns <code class="keyw">true</code> iff the partition <var class="Arg">mu</var> is <span class="SimpleMath">p</span>-restricted (succesive differences <span class="SimpleMath">μ_i - μ_i+1</span> are strictly bounded above by <span class="SimpleMath">p</span>); similarly <code class="code">pRegular</code> returns <code class="keyw">true</code> iff the partition <var class="Arg">mu</var> is <span class="SimpleMath">p</span>-regular (equivalently, the conjugate of <var class="Arg">mu</var> is <span class="SimpleMath">p</span>-restricted).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pRestricted(3, [6,6,6,4,4,2,1,1]);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pRestricted(3, [6,3,1,1]);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pRegular(3, [8,6,5,5,3,3]);       </span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pRegular(3, [3,3,3,2,2,1,1]);</span>
+false
+</pre></div>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chapBib.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

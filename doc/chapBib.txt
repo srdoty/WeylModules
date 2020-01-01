@@ -1,0 +1,33 @@
+  
+  
+  [1XReferences[101X
+  
+  [[20XBDM11[120X]  [16XBowman,  C.,  Doty,  S.  R. and Martin, S.[116X, [17XDecomposition of tensor
+  products  of modular irreducible representations for SL_3[117X, [18XInt. Electron. J.
+  Algebra[118X, [19X9[119X (2011), 177--219, ((With an appendix by C. M. Ringel)).
+  
+  [[20XCPS75[120X]  [16XCline,  E., Parshall, B. and Scott, L.[116X, [17XCohomology of finite groups
+  of  Lie  type.  I[117X,  [18XInst.  Hautes  \'{E}tudes  Sci.  Publ. Math.[118X, 45 (1975),
+  169--191.
+  
+  [[20XGre07[120X]  [16XGreen, J. A.[116X, [17XPolynomial representations of GL_n[117X, Springer, Berlin,
+  augmented  edition,  Lecture  Notes in Mathematics, [19X830[119X (2007), x+161 pages,
+  ((With  an  appendix  on Schensted correspondence and Littelmann paths by K.
+  Erdmann, Green and M. Schocker)).
+  
+  [[20XIrv86[120X]  [16XIrving,  R. S.[116X, [17XThe structure of certain highest weight modules for
+  SL_3[117X, [18XJ. Algebra[118X, [19X99[119X, 2 (1986), 438--457.
+  
+  [[20XJam78[120X]  [16XJames,  G.  D.[116X,  [17XThe representation theory of the symmetric groups[117X,
+  Springer, Berlin, Lecture Notes in Mathematics, [19X682[119X (1978), v+156 pages.
+  
+  [[20XJan03[120X]  [16XJantzen,  J.  C.[116X,  [17XRepresentations  of  algebraic  groups[117X, American
+  Mathematical  Society,  Providence, RI, Second edition, Mathematical Surveys
+  and Monographs, [19X107[119X (2003), xiv+576 pages.
+  
+  [[20XXi99[120X]  [16XXi, N.[116X, [17XMaximal and primitive elements in Weyl modules for type A_2[117X,
+  [18XJ. Algebra[118X, [19X215[119X, 2 (1999), 735--756.
+  
+  
+  
+  [32X

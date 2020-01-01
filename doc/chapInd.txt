@@ -1,0 +1,53 @@
+  
+  
+  [1XIndex[101X
+  
+  [2XActOn[102X 1.3-2 
+  [2XAllPartitions[102X 3.3-3 
+  [2XBasisVecs[102X 1.3-1 
+  [2XBoundedPartitions[102X 3.1-2  3.1-2 
+  [2XCharacter[102X 2.1-1  2.1-3 
+  [2XCompositionToWeight[102X 3.1-1 
+  [2XConjugate[102X 3.5-1 
+  [2XDecomposeCharacter[102X 2.3-1 
+  [2XDecompositionNumbers[102X 2.2-1  3.2-2 
+  [2XDifferenceCharacter[102X 2.1-4 
+  [2XDim[102X 1.3-1 
+  [2XDominantWeights[102X 1.8-1 
+  [2XDominantWeightSpaces[102X 1.8-1 
+  [2XExtWeyl[102X 1.5-3 
+  [2XGenerator[102X 1.3-1 
+  [2XIsMaximalVector[102X 1.6-2  1.6-2 
+  [2XIsQuotientWeylModule[102X 1.2-2 
+  [2XIsWeylModule[102X 1.1-2 
+  [2XIsWithin[102X 1.7-2 
+  [2XList[102X 1.4-2 
+  [2XMaximalSubmodule[102X 1.5-4 
+  [2XMaximalVectors[102X 1.6-1  1.6-1 
+  [2XMullineux[102X 3.4-1 
+  [2XpRegular[102X 3.5-2 
+  [2XpRegularPartitions[102X 3.4-2 
+  [2XpRestricted[102X 3.5-2 
+  [2XpRestrictedPartitions[102X 3.3-3 
+  [2XPrimitiveVectors[102X 1.6-3 
+  [2XProductCharacter[102X 2.3-1 
+  [2XQuotientWeylModule[102X 1.2-1 
+  [2XSchurAlgebraDecompositionMatrix[102X 3.2-3 
+  [2XSchurAlgebraWeylModule[102X 3.2-1 
+  [2XSimpleCharacter[102X 2.1-2  2.1-2 
+  [2XSocleWeyl[102X 1.5-2 
+  [2XSubmoduleStructure[102X 1.5-1 
+  [2XSubWeylModule[102X 1.7-1  1.7-1 
+  [2XSymmetricGroupDecompositionMatrix[102X 3.3-2 
+  [2XSymmetricGroupDecompositionNumbers[102X 3.3-1 
+  [2XTheCharacteristic[102X 1.3-1 
+  [2XTheLieAlgebra[102X 1.3-1 
+  [2XWeight[102X 1.4-1 
+  [2XWeights[102X 1.8-1 
+  [2XWeightSpace[102X 1.8-1 
+  [2XWeightSpaces[102X 1.8-1 
+  [2XWeightToComposition[102X 3.1-1 
+  [2XWeylModule[102X 1.1-1  1.1-1 
+  
+  
+  -------------------------------------------------------

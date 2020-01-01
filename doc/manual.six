@@ -1,73 +1,187 @@
-C weyl.tex 1. Weyl modules
-S 1.1. Creating Weyl modules
-F 1.1. WeylModule
-F 1.1. WeylModule
-F 1.1. IsWeylModule
-S 1.2. Creating quotients of Weyl modules
-F 1.2. QuotientWeylModule
-F 1.2. IsQuotientWeylModule
-S 1.3. Basis, dimension, and other miscellaneous commands
-F 1.3. TheLieAlgebra
-F 1.3. BasisVecs
-F 1.3. Dim
-F 1.3. Generator
-F 1.3. TheCharacteristic
-F 1.3. ActOn
-S 1.4. Weight of a vector; weights of a list of vectors
-F 1.4. Weight
-F 1.4. List
-S 1.5. Structure of Weyl modules
-F 1.5. SubmoduleStructure
-F 1.5. SocleWeyl
-F 1.5. ExtWeyl
-F 1.5. MaximalSubmodule
-S 1.6. Maximal and primitive vectors; homomorphisms between Weyl modules
-F 1.6. MaximalVectors
-F 1.6. MaximalVectors
-F 1.6. IsMaximalVector
-F 1.6. IsMaximalVector
-F 1.6. PrimitiveVectors
-S 1.7. Submodules
-F 1.7. SubWeylModule
-F 1.7. SubWeylModule
-F 1.7. IsWithin
-S 1.8. Weights and weight spaces
-F 1.8. Weights
-F 1.8. DominantWeights
-F 1.8. WeightSpaces
-F 1.8. DominantWeightSpaces
-F 1.8. WeightSpace
-C weyl.tex 2. Characters and decomposition numbers
-S 2.1. Characters
-F 2.1. Character
-F 2.1. SimpleCharacter
-F 2.1. SimpleCharacter
-F 2.1. Character
-F 2.1. DifferenceCharacter
-S 2.2. Decomposition numbers
-F 2.2. DecompositionNumbers
-S 2.3. Decomposing tensor products
-F 2.3. ProductCharacter
-F 2.3. DecomposeCharacter
-C weyl.tex 3. Schur algebras and Symmetric Groups
-S 3.1. Compositions and Weights
-F 3.1. CompositionToWeight
-F 3.1. WeightToComposition
-F 3.1. BoundedPartitions
-F 3.1. BoundedPartitions
-S 3.2. Schur Algebras
-F 3.2. SchurAlgebraWeylModule
-F 3.2. DecompositionNumbers
-F 3.2. SchurAlgebraDecompositionMatrix
-S 3.3. Symmetric groups
-F 3.3. SymmetricGroupDecompositionNumbers
-F 3.3. SymmetricGroupDecompositionMatrix
-F 3.3. AllPartitions
-F 3.3. pRestrictedPartitions
-S 3.4. The Mullineux correspondence
-F 3.4. Mullineux
-F 3.4. pRegularPartitions
-S 3.5. Miscellaneous functions for partitions
-F 3.5. Conjugate
-F 3.5. pRestricted
-F 3.5. pRegular
+#SIXFORMAT  GapDocGAP
+HELPBOOKINFOSIXTMP := rec(
+encoding := "UTF-8",
+bookname := "Weyl",
+entries :=
+[ [ "Title page", ".", [ 0, 0, 0 ], 1, 1, "title page", "X7D2C85EC87DD46E5" ],
+  [ "Copyright", ".-1", [ 0, 0, 1 ], 17, 2, "copyright", "X81488B807F2A1CF1" ]
+    , [ "Table of Contents", ".-2", [ 0, 0, 2 ], 32, 3, "table of contents", 
+      "X8537FEB07AF2BEC8" ], 
+  [ "\033[1X\033[33X\033[0;-2YWeyl modules\033[133X\033[101X", "1", 
+      [ 1, 0, 0 ], 1, 4, "weyl modules", "X7DA94D8C7F214621" ], 
+  [ "\033[1X\033[33X\033[0;-2YCreating Weyl modules\033[133X\033[101X", 
+      "1.1", [ 1, 1, 0 ], 34, 4, "creating weyl modules", "X8660D150822142AE" 
+     ], 
+  [ 
+      "\033[1X\033[33X\033[0;-2YCreating quotients of Weyl modules\033[133X\033[1\
+01X", "1.2", [ 1, 2, 0 ], 74, 5, "creating quotients of weyl modules", 
+      "X788C5B07860225CA" ], 
+  [ 
+      "\033[1X\033[33X\033[0;-2YBasis, dimension, and other miscellaneous command\
+s\033[133X\033[101X", "1.3", [ 1, 3, 0 ], 119, 6, 
+      "basis dimension and other miscellaneous commands", "X7DB0F0387FD8A3D1" 
+     ], 
+  [ 
+      "\033[1X\033[33X\033[0;-2YWeight of a vector; weights of a list of vectors\\
+033[133X\033[101X", "1.4", [ 1, 4, 0 ], 183, 7, 
+      "weight of a vector weights of a list of vectors", "X840F07F57A1D0709" ]
+    , 
+  [ "\033[1X\033[33X\033[0;-2YStructure of Weyl modules\033[133X\033[101X", 
+      "1.5", [ 1, 5, 0 ], 224, 8, "structure of weyl modules", 
+      "X828B7C387A3461C6" ], 
+  [ 
+      "\033[1X\033[33X\033[0;-2YMaximal and primitive vectors; homomorphisms betw\
+een Weyl modules\033[133X\033[101X", "1.6", [ 1, 6, 0 ], 362, 10, 
+      "maximal and primitive vectors homomorphisms between weyl modules", 
+      "X7BEC97387E9AAB22" ], 
+  [ "\033[1X\033[33X\033[0;-2YSubmodules\033[133X\033[101X", "1.7", 
+      [ 1, 7, 0 ], 472, 12, "submodules", "X7934FAE97B6D2AD8" ], 
+  [ "\033[1X\033[33X\033[0;-2YWeights and weight spaces\033[133X\033[101X", 
+      "1.8", [ 1, 8, 0 ], 545, 13, "weights and weight spaces", 
+      "X7AED4BBA83011A1F" ], 
+  [ 
+      "\033[1X\033[33X\033[0;-2YCharacters and decomposition numbers\033[133X\\
+033[101X", "2", [ 2, 0, 0 ], 1, 15, "characters and decomposition numbers", 
+      "X7C2B4D9A846DF9F0" ], 
+  [ "\033[1X\033[33X\033[0;-2YCharacters\033[133X\033[101X", "2.1", 
+      [ 2, 1, 0 ], 10, 15, "characters", "X7CCB304878D99999" ], 
+  [ "\033[1X\033[33X\033[0;-2YDecomposition numbers\033[133X\033[101X", 
+      "2.2", [ 2, 2, 0 ], 111, 17, "decomposition numbers", 
+      "X81B34497828786F5" ], 
+  [ "\033[1X\033[33X\033[0;-2YDecomposing tensor products\033[133X\033[101X", 
+      "2.3", [ 2, 3, 0 ], 136, 17, "decomposing tensor products", 
+      "X7EB8D9D77D19DE97" ], 
+  [ 
+      "\033[1X\033[33X\033[0;-2YSchur algebras and Symmetric Groups\033[133X\033[\
+101X", "3", [ 3, 0, 0 ], 1, 19, "schur algebras and symmetric groups", 
+      "X7817A3B07E17884E" ], 
+  [ "\033[1X\033[33X\033[0;-2YCompositions and Weights\033[133X\033[101X", 
+      "3.1", [ 3, 1, 0 ], 13, 19, "compositions and weights", 
+      "X82C9B62E81E4B44F" ], 
+  [ "\033[1X\033[33X\033[0;-2YSchur Algebras\033[133X\033[101X", "3.2", 
+      [ 3, 2, 0 ], 80, 20, "schur algebras", "X802799E57A84025C" ], 
+  [ "\033[1X\033[33X\033[0;-2YSymmetric groups\033[133X\033[101X", "3.3", 
+      [ 3, 3, 0 ], 141, 21, "symmetric groups", "X7BE4F15F78127B12" ], 
+  [ "\033[1X\033[33X\033[0;-2YThe Mullineux correspondence\033[133X\033[101X",
+      "3.4", [ 3, 4, 0 ], 210, 22, "the mullineux correspondence", 
+      "X78EDAF2F86560B70" ], 
+  [ 
+      "\033[1X\033[33X\033[0;-2YMiscellaneous functions for partitions\033[133X\\
+033[101X", "3.5", [ 3, 5, 0 ], 279, 23, 
+      "miscellaneous functions for partitions", "X824418F6788DE833" ], 
+  [ "Bibliography", "bib", [ "Bib", 0, 0 ], 1, 25, "bibliography", 
+      "X7A6F98FD85F02BFE" ], 
+  [ "References", "bib", [ "Bib", 0, 0 ], 1, 25, "references", 
+      "X7A6F98FD85F02BFE" ], 
+  [ "Index", "ind", [ "Ind", 0, 0 ], 1, 26, "index", "X83A0356F839C696F" ], 
+  [ "\033[2XWeylModule\033[102X", "1.1-1", [ 1, 1, 1 ], 39, 4, "weylmodule", 
+      "X8559E5C5867FB091" ], 
+  [ "\033[2XWeylModule\033[102X", "1.1-1", [ 1, 1, 1 ], 39, 4, "weylmodule", 
+      "X8559E5C5867FB091" ], 
+  [ "\033[2XIsWeylModule\033[102X", "1.1-2", [ 1, 1, 2 ], 62, 5, 
+      "isweylmodule", "X7C3D6BB17AFD771C" ], 
+  [ "\033[2XQuotientWeylModule\033[102X", "1.2-1", [ 1, 2, 1 ], 80, 5, 
+      "quotientweylmodule", "X7893DF5B807DF77F" ], 
+  [ "\033[2XIsQuotientWeylModule\033[102X", "1.2-2", [ 1, 2, 2 ], 107, 6, 
+      "isquotientweylmodule", "X85565F29822787B3" ], 
+  [ "\033[2XTheLieAlgebra\033[102X", "1.3-1", [ 1, 3, 1 ], 125, 6, 
+      "theliealgebra", "X8472B03E8370745D" ], 
+  [ "\033[2XBasisVecs\033[102X", "1.3-1", [ 1, 3, 1 ], 125, 6, "basisvecs", 
+      "X8472B03E8370745D" ], 
+  [ "\033[2XDim\033[102X", "1.3-1", [ 1, 3, 1 ], 125, 6, "dim", 
+      "X8472B03E8370745D" ], 
+  [ "\033[2XGenerator\033[102X", "1.3-1", [ 1, 3, 1 ], 125, 6, "generator", 
+      "X8472B03E8370745D" ], 
+  [ "\033[2XTheCharacteristic\033[102X", "1.3-1", [ 1, 3, 1 ], 125, 6, 
+      "thecharacteristic", "X8472B03E8370745D" ], 
+  [ "\033[2XActOn\033[102X", "1.3-2", [ 1, 3, 2 ], 154, 6, "acton", 
+      "X7EA043B481E8841B" ], 
+  [ "\033[2XWeight\033[102X", "1.4-1", [ 1, 4, 1 ], 189, 7, "weight", 
+      "X786C659C83E249A1" ], 
+  [ "\033[2XList\033[102X", "1.4-2", [ 1, 4, 2 ], 201, 7, "list", 
+      "X7EBA57FC7CCF8449" ], 
+  [ "\033[2XSubmoduleStructure\033[102X", "1.5-1", [ 1, 5, 1 ], 229, 8, 
+      "submodulestructure", "X8051037D8125EABB" ], 
+  [ "\033[2XSocleWeyl\033[102X", "1.5-2", [ 1, 5, 2 ], 276, 8, "socleweyl", 
+      "X79C52EB184D3B8D7" ], 
+  [ "\033[2XExtWeyl\033[102X", "1.5-3", [ 1, 5, 3 ], 291, 9, "extweyl", 
+      "X79B412037E52648D" ], 
+  [ "\033[2XMaximalSubmodule\033[102X", "1.5-4", [ 1, 5, 4 ], 335, 9, 
+      "maximalsubmodule", "X79D8492F7B32876C" ], 
+  [ "\033[2XMaximalVectors\033[102X", "1.6-1", [ 1, 6, 1 ], 369, 10, 
+      "maximalvectors", "X7E2F4CF283259D48" ], 
+  [ "\033[2XMaximalVectors\033[102X", "1.6-1", [ 1, 6, 1 ], 369, 10, 
+      "maximalvectors", "X7E2F4CF283259D48" ], 
+  [ "\033[2XIsMaximalVector\033[102X", "1.6-2", [ 1, 6, 2 ], 434, 11, 
+      "ismaximalvector", "X85751A937E3FE648" ], 
+  [ "\033[2XIsMaximalVector\033[102X", "1.6-2", [ 1, 6, 2 ], 434, 11, 
+      "ismaximalvector", "X85751A937E3FE648" ], 
+  [ "\033[2XPrimitiveVectors\033[102X", "1.6-3", [ 1, 6, 3 ], 452, 11, 
+      "primitivevectors", "X7CB5F6C57BE6D4EF" ], 
+  [ "\033[2XSubWeylModule\033[102X", "1.7-1", [ 1, 7, 1 ], 480, 12, 
+      "subweylmodule", "X87BB881B83E8678D" ], 
+  [ "\033[2XSubWeylModule\033[102X", "1.7-1", [ 1, 7, 1 ], 480, 12, 
+      "subweylmodule", "X87BB881B83E8678D" ], 
+  [ "\033[2XIsWithin\033[102X", "1.7-2", [ 1, 7, 2 ], 535, 13, "iswithin", 
+      "X796F6BF77AE2D92E" ], 
+  [ "\033[2XWeights\033[102X", "1.8-1", [ 1, 8, 1 ], 551, 13, "weights", 
+      "X82C5F58D8788C097" ], 
+  [ "\033[2XDominantWeights\033[102X", "1.8-1", [ 1, 8, 1 ], 551, 13, 
+      "dominantweights", "X82C5F58D8788C097" ], 
+  [ "\033[2XWeightSpaces\033[102X", "1.8-1", [ 1, 8, 1 ], 551, 13, 
+      "weightspaces", "X82C5F58D8788C097" ], 
+  [ "\033[2XDominantWeightSpaces\033[102X", "1.8-1", [ 1, 8, 1 ], 551, 13, 
+      "dominantweightspaces", "X82C5F58D8788C097" ], 
+  [ "\033[2XWeightSpace\033[102X", "1.8-1", [ 1, 8, 1 ], 551, 13, 
+      "weightspace", "X82C5F58D8788C097" ], 
+  [ "\033[2XCharacter\033[102X", "2.1-1", [ 2, 1, 1 ], 15, 15, "character", 
+      "X7BF731DC84FF733A" ], 
+  [ "\033[2XSimpleCharacter\033[102X", "2.1-2", [ 2, 1, 2 ], 40, 15, 
+      "simplecharacter", "X871B3F6E8718C28A" ], 
+  [ "\033[2XSimpleCharacter\033[102X", "2.1-2", [ 2, 1, 2 ], 40, 15, 
+      "simplecharacter", "X871B3F6E8718C28A" ], 
+  [ "\033[2XCharacter\033[102X", "2.1-3", [ 2, 1, 3 ], 56, 16, "character", 
+      "X7BF731DC84FF733A" ], 
+  [ "\033[2XDifferenceCharacter\033[102X", "2.1-4", [ 2, 1, 4 ], 81, 16, 
+      "differencecharacter", "X7C0E139B7F9F7F83" ], 
+  [ "\033[2XDecompositionNumbers\033[102X", "2.2-1", [ 2, 2, 1 ], 116, 17, 
+      "decompositionnumbers", "X837F199C864C8E6C" ], 
+  [ "\033[2XProductCharacter\033[102X", "2.3-1", [ 2, 3, 1 ], 142, 17, 
+      "productcharacter", "X7FC861037804763F" ], 
+  [ "\033[2XDecomposeCharacter\033[102X", "2.3-1", [ 2, 3, 1 ], 142, 17, 
+      "decomposecharacter", "X7FC861037804763F" ], 
+  [ "\033[2XCompositionToWeight\033[102X", "3.1-1", [ 3, 1, 1 ], 24, 19, 
+      "compositiontoweight", "X7F5BE0C778965ED9" ], 
+  [ "\033[2XWeightToComposition\033[102X", "3.1-1", [ 3, 1, 1 ], 24, 19, 
+      "weighttocomposition", "X7F5BE0C778965ED9" ], 
+  [ "\033[2XBoundedPartitions\033[102X", "3.1-2", [ 3, 1, 2 ], 52, 20, 
+      "boundedpartitions", "X87B4FF987D56A4EF" ], 
+  [ "\033[2XBoundedPartitions\033[102X", "3.1-2", [ 3, 1, 2 ], 52, 20, 
+      "boundedpartitions", "X87B4FF987D56A4EF" ], 
+  [ "\033[2XSchurAlgebraWeylModule\033[102X", "3.2-1", [ 3, 2, 1 ], 83, 20, 
+      "schuralgebraweylmodule", "X7F659C2A83FD5ECB" ], 
+  [ "\033[2XDecompositionNumbers\033[102X", "3.2-2", [ 3, 2, 2 ], 97, 20, 
+      "decompositionnumbers", "X837F199C864C8E6C" ], 
+  [ "\033[2XSchurAlgebraDecompositionMatrix\033[102X", "3.2-3", [ 3, 2, 3 ], 
+      123, 21, "schuralgebradecompositionmatrix", "X79BFB3007DCB9CF1" ], 
+  [ "\033[2XSymmetricGroupDecompositionNumbers\033[102X", "3.3-1", 
+      [ 3, 3, 1 ], 154, 21, "symmetricgroupdecompositionnumbers", 
+      "X78755A2F79DE1B84" ], 
+  [ "\033[2XSymmetricGroupDecompositionMatrix\033[102X", "3.3-2", 
+      [ 3, 3, 2 ], 170, 21, "symmetricgroupdecompositionmatrix", 
+      "X833A2717839A8F36" ], 
+  [ "\033[2XAllPartitions\033[102X", "3.3-3", [ 3, 3, 3 ], 182, 22, 
+      "allpartitions", "X873D727E7E1A113A" ], 
+  [ "\033[2XpRestrictedPartitions\033[102X", "3.3-3", [ 3, 3, 3 ], 182, 22, 
+      "prestrictedpartitions", "X873D727E7E1A113A" ], 
+  [ "\033[2XMullineux\033[102X", "3.4-1", [ 3, 4, 1 ], 229, 22, "mullineux", 
+      "X7BDED41984BEFB59" ], 
+  [ "\033[2XpRegularPartitions\033[102X", "3.4-2", [ 3, 4, 2 ], 245, 23, 
+      "pregularpartitions", "X7A951CB38756FC42" ], 
+  [ "\033[2XConjugate\033[102X", "3.5-1", [ 3, 5, 1 ], 285, 23, "conjugate", 
+      "X87C9E8597DDE0431" ], 
+  [ "\033[2XpRestricted\033[102X", "3.5-2", [ 3, 5, 2 ], 301, 24, 
+      "prestricted", "X867CC58F7B74C723" ], 
+  [ "\033[2XpRegular\033[102X", "3.5-2", [ 3, 5, 2 ], 301, 24, "pregular", 
+      "X867CC58F7B74C723" ] ]
+);

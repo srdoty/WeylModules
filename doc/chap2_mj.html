@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<title>GAP (Weyl) - Chapter 2: Characters and decomposition numbers</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap2"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap1_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap3_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap2.html">[MathJax off]</a></p>
+<p><a id="X7C2B4D9A846DF9F0" name="X7C2B4D9A846DF9F0"></a></p>
+<div class="ChapSects"><a href="chap2_mj.html#X7C2B4D9A846DF9F0">2 <span class="Heading">Characters and decomposition numbers</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap2_mj.html#X7CCB304878D99999">2.1 <span class="Heading">Characters</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X7BF731DC84FF733A">2.1-1 Character</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X871B3F6E8718C28A">2.1-2 SimpleCharacter</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X7BF731DC84FF733A">2.1-3 Character</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X7C0E139B7F9F7F83">2.1-4 DifferenceCharacter</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap2_mj.html#X81B34497828786F5">2.2 <span class="Heading">Decomposition numbers</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X837F199C864C8E6C">2.2-1 DecompositionNumbers</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap2_mj.html#X7EB8D9D77D19DE97">2.3 <span class="Heading">Decomposing tensor products</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X7FC861037804763F">2.3-1 ProductCharacter</a></span>
+</div></div>
+</div>
+
+<h3>2 <span class="Heading">Characters and decomposition numbers</span></h3>
+
+<p>(Formal) characters can be computed for Weyl modules and simple modules. In the latter case, this is done recursively using Steinberg's tensor product theorem; the characters of the simple modules of restricted highest weight are obtained by first computing the maximal submodule and then forming the corresponding quotient.</p>
+
+<p><a id="X7CCB304878D99999" name="X7CCB304878D99999"></a></p>
+
+<h4>2.1 <span class="Heading">Characters</span></h4>
+
+<p>We now discuss the functions available for computing characters.</p>
+
+<p><a id="X7BF731DC84FF733A" name="X7BF731DC84FF733A"></a></p>
+
+<h5>2.1-1 Character</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Character</code>( <var class="Arg">V</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p>Suppose that <var class="Arg">V</var> is a given Weyl module or quotient Weyl module. This function returns the formal character of <var class="Arg">V</var>, in the form of a list of weights and multiplicities (the multiplicity of each weight follows the weight in the list). For example,</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">V:= WeylModule(3, [3,0], "A", 2);</span>
+&lt;Type A2 Weyl module of highest weight [ 3, 0 ] at prime p = 3&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Character(V);</span>
+[ [ 3, 0 ], 1, [ 1, 1 ], 1, [ 2, -1 ], 1, [ -1, 2 ], 1, [ 0, 0 ], 1, 
+  [ -3, 3 ], 1, [ 1, -2 ], 1, [ -2, 1 ], 1, [ -1, -1 ], 1, [ 0, -3 ], 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S:= MaximalSubmodule(V);</span>
+[ y1*v0, 2*y1^(2)*v0, 2*y3*v0, y1*y3*v0, 2*y1^(2)*y3*v0, y3^(2)*v0, 
+  2*y1*y3^(2)*v0 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Character( QuotientWeylModule(V, S) );</span>
+[ [ 3, 0 ], 1, [ -3, 3 ], 1, [ 0, -3 ], 1 ]
+</pre></div>
+
+<p>Of course, characters of Weyl modules are independent of the characteristic.</p>
+
+<p><a id="X871B3F6E8718C28A" name="X871B3F6E8718C28A"></a></p>
+
+<h5>2.1-2 SimpleCharacter</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimpleCharacter</code>( <var class="Arg">p</var>, <var class="Arg">wt</var>, <var class="Arg">t</var>, <var class="Arg">r</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimpleCharacter</code>( <var class="Arg">V</var>, <var class="Arg">wt</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p>In the first form, the command <code class="code">SimpleCharacter</code> returns the character of the simple module of highest weight <var class="Arg">wt</var> in characteristic <var class="Arg">p</var>, for the root system of Type <var class="Arg">t</var> and rank <var class="Arg">r</var>. In the second form, <var class="Arg">V</var> is an existing Weyl module and the data <var class="Arg">p</var>, <var class="Arg">t</var>, and <var class="Arg">r</var> are taken from the same data used to define <var class="Arg">V</var>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SimpleCharacter(3, [3,0], "A", 2);    </span>
+[ [ 3, 0 ], 1, [ -3, 3 ], 1, [ 0, -3 ], 1 ]
+</pre></div>
+
+<p><a id="X7BF731DC84FF733A" name="X7BF731DC84FF733A"></a></p>
+
+<h5>2.1-3 Character</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Character</code>( <var class="Arg">lst</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p>This function returns the character of the submodule (of a Weyl module, or a quotient Weyl module) spanned by the independent weight vectors in the given list <var class="Arg">lst</var>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">V:= WeylModule(2, [4,0], "A", 2);</span>
+&lt;Type A2 Weyl module of highest weight [ 4, 0 ] at prime p = 2&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">m:= MaximalVectors(V);</span>
+[ 1*v0, y1*v0 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">simple:= SubWeylModule(V, m[2]);</span>
+[ y1*v0, y3*v0, y1*y3*v0, y1^(3)*v0, y1*y3^(2)*v0, y1^(2)*y3*v0, y3^(3)*v0, 
+  y1^(3)*y3*v0, y1*y3^(3)*v0 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Character(simple);</span>
+[ [ 2, 1 ], 1, [ 3, -1 ], 1, [ 1, 0 ], 1, [ -2, 3 ], 1, [ 0, -1 ], 1, 
+  [ -1, 1 ], 1, [ 1, -3 ], 1, [ -3, 2 ], 1, [ -1, -2 ], 1 ]
+</pre></div>
+
+<p>In the preceding example, we obtain the character of the simple socle of the Type <span class="SimpleMath">\(A_2\)</span> Weyl module of highest weight [4,0], in characteristic 2.</p>
+
+<p><a id="X7C0E139B7F9F7F83" name="X7C0E139B7F9F7F83"></a></p>
+
+<h5>2.1-4 DifferenceCharacter</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DifferenceCharacter</code>( <var class="Arg">c1</var>, <var class="Arg">c2</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p><code class="code">DifferenceCharacter</code> returns the difference of two given characters, or <code class="keyw">fail</code> if the difference is not another character. The arguments must be characters.</p>
+
+<p>In the following example, we compute the character of the maximal submodule of the Weyl module of highest weight [6,0] for Type <span class="SimpleMath">\(A_2\)</span> in characteristic 2.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ch1:= Character( WeylModule(2, [6,0], "A", 2) ); </span>
+[ [ 6, 0 ], 1, [ 4, 1 ], 1, [ 5, -1 ], 1, [ 2, 2 ], 1, [ 3, 0 ], 1, [ 0, 3 ], 
+  1, [ 4, -2 ], 1, [ 1, 1 ], 1, [ -2, 4 ], 1, [ 2, -1 ], 1, [ -1, 2 ], 1, 
+  [ -4, 5 ], 1, [ 3, -3 ], 1, [ 0, 0 ], 1, [ -3, 3 ], 1, [ -6, 6 ], 1, 
+  [ 1, -2 ], 1, [ -2, 1 ], 1, [ -5, 4 ], 1, [ 2, -4 ], 1, [ -1, -1 ], 1, 
+  [ -4, 2 ], 1, [ 0, -3 ], 1, [ -3, 0 ], 1, [ 1, -5 ], 1, [ -2, -2 ], 1, 
+  [ -1, -4 ], 1, [ 0, -6 ], 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ch2:= SimpleCharacter(2, [6,0], "A", 2);        </span>
+[ [ 6, 0 ], 1, [ -2, 4 ], 1, [ 2, -4 ], 1, [ 2, 2 ], 1, [ -6, 6 ], 1, 
+  [ -2, -2 ], 1, [ 4, -2 ], 1, [ -4, 2 ], 1, [ 0, -6 ], 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">d:= DifferenceCharacter(ch1, ch2);              </span>
+[ [ 4, 1 ], 1, [ 5, -1 ], 1, [ 3, 0 ], 1, [ 0, 3 ], 1, [ 1, 1 ], 1, 
+  [ 2, -1 ], 1, [ -1, 2 ], 1, [ -4, 5 ], 1, [ 3, -3 ], 1, [ 0, 0 ], 1, 
+  [ -3, 3 ], 1, [ 1, -2 ], 1, [ -2, 1 ], 1, [ -5, 4 ], 1, [ -1, -1 ], 1, 
+  [ 0, -3 ], 1, [ -3, 0 ], 1, [ 1, -5 ], 1, [ -1, -4 ], 1 ]
+</pre></div>
+
+<p><a id="X81B34497828786F5" name="X81B34497828786F5"></a></p>
+
+<h4>2.2 <span class="Heading">Decomposition numbers</span></h4>
+
+<p>We can also compute decomposition numbers of Weyl modules.</p>
+
+<p><a id="X837F199C864C8E6C" name="X837F199C864C8E6C"></a></p>
+
+<h5>2.2-1 DecompositionNumbers</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DecompositionNumbers</code>( <var class="Arg">V</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p>If <var class="Arg">V</var> is a given Weyl module, this command returns a list of highest weights of the composition factors of <var class="Arg">V</var>, along with their corresponding multiplicities.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">V:= WeylModule(2, [8,0], "A", 2);</span>
+&lt;Type A2 Weyl module of highest weight [ 8, 0 ] at prime p = 2&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DecompositionNumbers(V);</span>
+[ [ 8, 0 ], 1, [ 6, 1 ], 1, [ 4, 2 ], 1, [ 0, 4 ], 1, [ 0, 1 ], 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">V:= WeylModule(3, [1,1], "A", 2);</span>
+&lt;Type A2 Weyl module of highest weight [ 1, 1 ] at prime p = 3&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DecompositionNumbers(V);         </span>
+[ [ 1, 1 ], 1, [ 0, 0 ], 1 ]
+</pre></div>
+
+<p><a id="X7EB8D9D77D19DE97" name="X7EB8D9D77D19DE97"></a></p>
+
+<h4>2.3 <span class="Heading">Decomposing tensor products</span></h4>
+
+<p>One can also decompose tensor products of modules whose characters are known, using the following functions.</p>
+
+<p><a id="X7FC861037804763F" name="X7FC861037804763F"></a></p>
+
+<h5>2.3-1 ProductCharacter</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ProductCharacter</code>( <var class="Arg">a</var>, <var class="Arg">b</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DecomposeCharacter</code>( <var class="Arg">ch</var>, <var class="Arg">p</var>, <var class="Arg">t</var>, <var class="Arg">r</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p>The function <code class="code">ProductCharacter</code> returns the product of two given characters, and <code class="code">DecomposeCharacter</code> computes the decomposition numbers of a given character <var class="Arg">ch</var>, relative to simple characters in characteristic <var class="Arg">p</var> for a given type and rank.</p>
+
+<p>In the following example, we compute the multiplicities of simple composition factors in the tensor square of the natural representation for the group of Type <span class="SimpleMath">\(A_4\)</span> in characteristic 2.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ch:= SimpleCharacter(2, [1,0,0,0], "A", 4);</span>
+[ [ 1, 0, 0, 0 ], 1, [ -1, 1, 0, 0 ], 1, [ 0, -1, 1, 0 ], 1, [ 0, 0, -1, 1 ], 
+  1, [ 0, 0, 0, -1 ], 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">chsquared:= ProductCharacter(ch, ch);</span>
+[ [ 2, 0, 0, 0 ], 1, [ 0, 1, 0, 0 ], 2, [ 1, -1, 1, 0 ], 2, [ 1, 0, -1, 1 ], 
+  2, [ 1, 0, 0, -1 ], 2, [ -2, 2, 0, 0 ], 1, [ -1, 0, 1, 0 ], 2, 
+  [ -1, 1, -1, 1 ], 2, [ -1, 1, 0, -1 ], 2, [ 0, -2, 2, 0 ], 1, 
+  [ 0, -1, 0, 1 ], 2, [ 0, -1, 1, -1 ], 2, [ 0, 0, -2, 2 ], 1, 
+  [ 0, 0, -1, 0 ], 2, [ 0, 0, 0, -2 ], 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DecomposeCharacter(chsquared, 2, "A", 4);</span>
+[ [ 2, 0, 0, 0 ], 1, [ 0, 1, 0, 0 ], 2 ]
+</pre></div>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap1_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap3_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

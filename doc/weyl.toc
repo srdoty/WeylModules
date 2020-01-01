@@ -1,0 +1,57 @@
+\contentsline {chapter}{\numberline {1}\leavevmode {\color {Chapter }Weyl modules}}{4}{chapter.1}
+\contentsline {section}{\numberline {1.1}\leavevmode {\color {Chapter }Creating Weyl modules}}{4}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}\leavevmode {\color {Chapter }WeylModule}}{4}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}\leavevmode {\color {Chapter }IsWeylModule}}{5}{subsection.1.1.2}
+\contentsline {section}{\numberline {1.2}\leavevmode {\color {Chapter }Creating quotients of Weyl modules}}{5}{section.1.2}
+\contentsline {subsection}{\numberline {1.2.1}\leavevmode {\color {Chapter }QuotientWeylModule}}{5}{subsection.1.2.1}
+\contentsline {subsection}{\numberline {1.2.2}\leavevmode {\color {Chapter }IsQuotientWeylModule}}{6}{subsection.1.2.2}
+\contentsline {section}{\numberline {1.3}\leavevmode {\color {Chapter }Basis, dimension, and other miscellaneous commands}}{6}{section.1.3}
+\contentsline {subsection}{\numberline {1.3.1}\leavevmode {\color {Chapter }TheLieAlgebra}}{6}{subsection.1.3.1}
+\contentsline {subsection}{\numberline {1.3.2}\leavevmode {\color {Chapter }ActOn}}{6}{subsection.1.3.2}
+\contentsline {section}{\numberline {1.4}\leavevmode {\color {Chapter }Weight of a vector; weights of a list of vectors}}{7}{section.1.4}
+\contentsline {subsection}{\numberline {1.4.1}\leavevmode {\color {Chapter }Weight}}{7}{subsection.1.4.1}
+\contentsline {subsection}{\numberline {1.4.2}\leavevmode {\color {Chapter }List}}{7}{subsection.1.4.2}
+\contentsline {section}{\numberline {1.5}\leavevmode {\color {Chapter }Structure of Weyl modules}}{8}{section.1.5}
+\contentsline {subsection}{\numberline {1.5.1}\leavevmode {\color {Chapter }SubmoduleStructure}}{8}{subsection.1.5.1}
+\contentsline {subsection}{\numberline {1.5.2}\leavevmode {\color {Chapter }SocleWeyl}}{8}{subsection.1.5.2}
+\contentsline {subsection}{\numberline {1.5.3}\leavevmode {\color {Chapter }ExtWeyl}}{9}{subsection.1.5.3}
+\contentsline {subsection}{\numberline {1.5.4}\leavevmode {\color {Chapter }MaximalSubmodule}}{9}{subsection.1.5.4}
+\contentsline {section}{\numberline {1.6}\leavevmode {\color {Chapter }Maximal and primitive vectors; homomorphisms between Weyl modules}}{10}{section.1.6}
+\contentsline {subsection}{\numberline {1.6.1}\leavevmode {\color {Chapter }MaximalVectors}}{10}{subsection.1.6.1}
+\contentsline {subsection}{\numberline {1.6.2}\leavevmode {\color {Chapter }IsMaximalVector}}{11}{subsection.1.6.2}
+\contentsline {subsection}{\numberline {1.6.3}\leavevmode {\color {Chapter }PrimitiveVectors}}{11}{subsection.1.6.3}
+\contentsline {section}{\numberline {1.7}\leavevmode {\color {Chapter }Submodules}}{12}{section.1.7}
+\contentsline {subsection}{\numberline {1.7.1}\leavevmode {\color {Chapter }SubWeylModule}}{12}{subsection.1.7.1}
+\contentsline {subsection}{\numberline {1.7.2}\leavevmode {\color {Chapter }IsWithin}}{13}{subsection.1.7.2}
+\contentsline {section}{\numberline {1.8}\leavevmode {\color {Chapter }Weights and weight spaces}}{13}{section.1.8}
+\contentsline {subsection}{\numberline {1.8.1}\leavevmode {\color {Chapter }Weights}}{13}{subsection.1.8.1}
+\contentsline {chapter}{\numberline {2}\leavevmode {\color {Chapter }Characters and decomposition numbers}}{15}{chapter.2}
+\contentsline {section}{\numberline {2.1}\leavevmode {\color {Chapter }Characters}}{15}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}\leavevmode {\color {Chapter }Character}}{15}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}\leavevmode {\color {Chapter }SimpleCharacter}}{15}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.3}\leavevmode {\color {Chapter }Character}}{16}{subsection.2.1.3}
+\contentsline {subsection}{\numberline {2.1.4}\leavevmode {\color {Chapter }DifferenceCharacter}}{16}{subsection.2.1.4}
+\contentsline {section}{\numberline {2.2}\leavevmode {\color {Chapter }Decomposition numbers}}{17}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}\leavevmode {\color {Chapter }DecompositionNumbers}}{17}{subsection.2.2.1}
+\contentsline {section}{\numberline {2.3}\leavevmode {\color {Chapter }Decomposing tensor products}}{17}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}\leavevmode {\color {Chapter }ProductCharacter}}{17}{subsection.2.3.1}
+\contentsline {chapter}{\numberline {3}\leavevmode {\color {Chapter }Schur algebras and Symmetric Groups}}{19}{chapter.3}
+\contentsline {section}{\numberline {3.1}\leavevmode {\color {Chapter }Compositions and Weights}}{19}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}\leavevmode {\color {Chapter }CompositionToWeight}}{19}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}\leavevmode {\color {Chapter }BoundedPartitions}}{20}{subsection.3.1.2}
+\contentsline {section}{\numberline {3.2}\leavevmode {\color {Chapter }Schur Algebras}}{20}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}\leavevmode {\color {Chapter }SchurAlgebraWeylModule}}{20}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}\leavevmode {\color {Chapter }DecompositionNumbers}}{20}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}\leavevmode {\color {Chapter }SchurAlgebraDecompositionMatrix}}{21}{subsection.3.2.3}
+\contentsline {section}{\numberline {3.3}\leavevmode {\color {Chapter }Symmetric groups}}{21}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}\leavevmode {\color {Chapter }SymmetricGroupDecompositionNumbers}}{21}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}\leavevmode {\color {Chapter }SymmetricGroupDecompositionMatrix}}{21}{subsection.3.3.2}
+\contentsline {subsection}{\numberline {3.3.3}\leavevmode {\color {Chapter }AllPartitions}}{22}{subsection.3.3.3}
+\contentsline {section}{\numberline {3.4}\leavevmode {\color {Chapter }The Mullineux correspondence}}{22}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}\leavevmode {\color {Chapter }Mullineux}}{22}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}\leavevmode {\color {Chapter }pRegularPartitions}}{23}{subsection.3.4.2}
+\contentsline {section}{\numberline {3.5}\leavevmode {\color {Chapter }Miscellaneous functions for partitions}}{23}{section.3.5}
+\contentsline {subsection}{\numberline {3.5.1}\leavevmode {\color {Chapter }Conjugate}}{23}{subsection.3.5.1}
+\contentsline {subsection}{\numberline {3.5.2}\leavevmode {\color {Chapter }pRestricted}}{24}{subsection.3.5.2}
+\contentsline {chapter}{References}{25}{chapter*.3}
+\contentsline {chapter}{Index}{26}{section*.4}

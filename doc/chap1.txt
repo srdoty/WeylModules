@@ -1,0 +1,591 @@
+  
+  [1X1 [33X[0;0YWeyl modules[133X[101X
+  
+  [33X[0;0YThis  chapter  discusses  the  commands available for computations with Weyl
+  modules  for  a  given simple simply-connected algebraic group [22XG[122X in positive
+  characteristic  [22Xp[122X.  Actually  the group [22XG[122X itself never appears in any of the
+  computations,  which  take  place instead using the [13Xalgebra of distributions[113X
+  (also  known  as  the  [13Xhyperalgebra[113X)  of  [22XG[122X, taken over the prime field. One
+  should  refer to [Jan03] for the definition of the algebra of distributions,
+  and other basic definitions and properties related to Weyl modules.[133X
+  
+  [33X[0;0YThe  algorithms  are  based  on  the method of [Irv86] (see also [Xi99]) and
+  build  on  the  existing Lie algebra functionality in [5XGAP[105X. In principle, one
+  can  work  with  arbitrary weights for an arbitrary (simple) root system; in
+  practice,  the  functionality  is  limited  by the size of the objects being
+  computed.  If  your Weyl module has dimension in the thousands, you may have
+  to wait a very long time for certain computations to finish.[133X
+  
+  [33X[0;0YThe package is possibly most useful for doing computations in characteristic
+  [22Xp[122X  where  [22Xp[122X  is  smaller than the Coxeter number. For such small primes, the
+  general theory offers very little information.[133X
+  
+  [33X[0;0Y[13XWarning.[113X At the core of many of the computations is a routine which produces
+  a basis for the space of maximal vectors of a specified dominant weight in a
+  Weyl  module.  Usually,  that space has dimension at most 1. Cases for which
+  there exist two or more independent maximal vectors of the same weight could
+  possibly  cause  problems,  so the code will emit an warning message if this
+  occurs  (and then try to continue). Such situations are relatively rare (and
+  interesting); the smallest example known to the author occurs in Type [22XD_4[122X in
+  the  Weyl  module of highest weight [0,1,0,0], as pointed out on page 173 of
+  [CPS75].  (I  am grateful to Anton Cox for this reference.) See the examples
+  in Section [14X1.6[114X to see the explicit form of the warning message.[133X
+  
+  
+  [1X1.1 [33X[0;0YCreating Weyl modules[133X[101X
+  
+  [33X[0;0YThere are two functions for creating a Weyl module.[133X
+  
+  [1X1.1-1 WeylModule[101X
+  
+  [33X[1;0Y[29X[2XWeylModule[102X( [3Xp[103X, [3Xlambda[103X, [3Xt[103X, [3Xr[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XWeylModule[102X( [3XV[103X, [3Xlambda[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10YA Weyl module[133X
+  
+  [33X[0;0YThe  function  [10XWeylModule[110X  with  four arguments creates a Weyl module over a
+  field  of characteristic [3Xp[103X, of highest weight [3Xlambda[103X, for the root system of
+  Type [3Xt[103X and rank [3Xr[103X. The type should be a string of the form [21XA[121X through [21XG[121X.[133X
+  
+  [33X[0;0YIn the second form, with two arguments, [3XV[103X is an existing Weyl module and the
+  new  Weyl module has the same characteristic and root system as the existing
+  one.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(3, [3,4], "A", 2);[127X[104X
+    [4X[28X<Type A2 Weyl module of highest weight [ 3, 4 ] at prime p = 3>[128X[104X
+    [4X[25Xgap>[125X [27XW:= WeylModule(V, [3,0]);[127X[104X
+    [4X[28X<Type A2 Weyl module of highest weight [ 3, 0 ] at prime p = 3>[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThere is also a category of Weyl modules.[133X
+  
+  [1X1.1-2 IsWeylModule[101X
+  
+  [33X[1;0Y[29X[2XIsWeylModule[102X( [3XV[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThis function returns [9Xtrue[109X iff [3XV[103X is a Weyl module.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsWeylModule(W);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X1.2 [33X[0;0YCreating quotients of Weyl modules[133X[101X
+  
+  [33X[0;0YQuotients  of  Weyl  modules  are  also  supported.  They are created by the
+  following command.[133X
+  
+  [1X1.2-1 QuotientWeylModule[101X
+  
+  [33X[1;0Y[29X[2XQuotientWeylModule[102X( [3XV[103X, [3Xlist[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10YA quotient Weyl module[133X
+  
+  [33X[0;0YHere  [3XV[103X  is  an  existing  Weyl  module  and [3Xlist[103X is a list of basis vectors
+  spanning  a  submodule  of  [3XV[103X.  Usually  one  gets  such  a basis by running
+  SubWeylModule (see Section [14X1.7[114X below).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(2,[2,2],"B",2);[127X[104X
+    [4X[28X<Type B2 Weyl module of highest weight [ 2, 2 ] at prime p = 2>[128X[104X
+    [4X[25Xgap>[125X [27Xm:= MaximalVectors(V);[127X[104X
+    [4X[28X[ 1*v0, y1*v0, y2*v0, y1*y2*v0+y3*v0, y2*y3*v0, y1*y2*y3*v0, y1*y2*y3*y4*v0 ][128X[104X
+    [4X[25Xgap>[125X [27Xsub:=SubWeylModule(V, m[7]);[127X[104X
+    [4X[28X[ y1*y2*y3*y4*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XQ:= QuotientWeylModule(V, sub);[127X[104X
+    [4X[28X<Quotient of Type B2 Weyl module of highest weight [ 2, 2 ] at prime p = 2>[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIn  the  above  example,  we  first created a Weyl module, then computed its
+  maximal  vectors.  The  last  maximal  vector  generates  a  one dimensional
+  submodule  (a  copy  of  the trivial module) and we formed the corresponding
+  quotient Weyl module.[133X
+  
+  [33X[0;0YThere is also a category of quotient Weyl modules.[133X
+  
+  [1X1.2-2 IsQuotientWeylModule[101X
+  
+  [33X[1;0Y[29X[2XIsQuotientWeylModule[102X( [3XQ[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThis function returns [9Xtrue[109X iff [3XQ[103X is a quotient Weyl module[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsQuotientWeylModule(Q);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X1.3 [33X[0;0YBasis, dimension, and other miscellaneous commands[133X[101X
+  
+  [33X[0;0YLet [3XV[103X be a Weyl module or a quotient Weyl module. The following commands are
+  available.[133X
+  
+  [1X1.3-1 TheLieAlgebra[101X
+  
+  [33X[1;0Y[29X[2XTheLieAlgebra[102X( [3XV[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XBasisVecs[102X( [3XV[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XDim[102X( [3XV[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XGenerator[102X( [3XV[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XTheCharacteristic[102X( [3XV[103X ) [32X function[133X
+  
+  [33X[0;0YThese  commands  return  the underlying Lie algebra associated to [3XV[103X, a basis
+  (of  weight vectors) for [3XV[103X, the dimension of [3XV[103X, the standard generator of [3XV[103X,
+  and the characteristic of the underlying field, respectively. In case [3XV[103X is a
+  quotient   Weyl  module,  BasisVecs  returns  a  complete  set  of  linearly
+  independent coset representatives for the quotient.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(2, [1,0], "G", 2);[127X[104X
+    [4X[28X<Type G2 Weyl module of highest weight [ 1, 0 ] at prime p = 2>[128X[104X
+    [4X[25Xgap>[125X [27XTheLieAlgebra(V);[127X[104X
+    [4X[28X<Lie algebra of dimension 14 over Rationals>[128X[104X
+    [4X[25Xgap>[125X [27Xb:= BasisVecs(V);[127X[104X
+    [4X[28X[ 1*v0, y1*v0, y3*v0, y4*v0, y5*v0, y6*v0, y1*y6*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XDim(V);[127X[104X
+    [4X[28X7[128X[104X
+    [4X[25Xgap>[125X [27Xg:= Generator(V);[127X[104X
+    [4X[28X1*v0[128X[104X
+    [4X[25Xgap>[125X [27XTheCharacteristic(V);[127X[104X
+    [4X[28X2[128X[104X
+  [4X[32X[104X
+  
+  [1X1.3-2 ActOn[101X
+  
+  [33X[1;0Y[29X[2XActOn[102X( [3XV[103X, [3Xu[103X, [3Xv[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10YA vector in [3XV[103X[133X
+  
+  [33X[0;0YActOn  returns  the result of acting by a hyperalgebra element [3Xu[103X on a vector
+  [3Xv[103X.  Here  [3Xv[103X  must be an element of [3XV[103X, where [3XV[103X is a Weyl module or a quotient
+  Weyl module.[133X
+  
+  [33X[0;0YFor example, with [3XV[103X as defined above in the preceding example, we have[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XL:= TheLieAlgebra(V);[127X[104X
+    [4X[28X<Lie algebra of dimension 14 over Rationals>[128X[104X
+    [4X[25Xgap>[125X [27Xb:= BasisVecs(V);[127X[104X
+    [4X[28X[ 1*v0, y1*v0, y3*v0, y4*v0, y5*v0, y6*v0, y1*y6*v0 ][128X[104X
+    [4X[25Xgap>[125X [27Xg:= LatticeGeneratorsInUEA(L);[127X[104X
+    [4X[28X[ y1, y2, y3, y4, y5, y6, x1, x2, x3, x4, x5, x6, ( h13/1 ), ( h14/1 ) ][128X[104X
+    [4X[25Xgap>[125X [27XActOn(V, g[1]^2 + g[7], b[1]);[127X[104X
+    [4X[28X0*v0[128X[104X
+    [4X[25Xgap>[125X [27XActOn(V, g[1]*g[6], b[1]); [127X[104X
+    [4X[28Xy1*y6*v0[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNote  that the command LatticeGeneratorsInUEA is a pre-existing [5XGAP[105X command;
+  see  the  chapter  on  Lie  algebras in the [5XGAP[105X reference manual for further
+  details.   For  our  purposes,  these  elements  are  regarded  as  standard
+  generators of the hyperalgebra.[133X
+  
+  
+  [1X1.4 [33X[0;0YWeight of a vector; weights of a list of vectors[133X[101X
+  
+  [33X[0;0YOne  often  wants to know the weight of a given vector in a Weyl module or a
+  quotient Weyl module. Of course, the vector has to be a weight vector.[133X
+  
+  [1X1.4-1 Weight[101X
+  
+  [33X[1;0Y[29X[2XWeight[102X( [3Xv[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list of integers[133X
+  
+  [33X[0;0YThe  return  value  is  a  list  representing the weight of the given weight
+  vector [3Xv[103X.[133X
+  
+  [33X[0;0YAnother common situation is that one has a list [3Xlst[103X of weight vectors (maybe
+  a  basis  or  a  list of maximal vectors, or a basis of a submodule) and one
+  wants to know the weight of each vector in the list.[133X
+  
+  [1X1.4-2 List[101X
+  
+  [33X[1;0Y[29X[2XList[102X( [3Xlst[103X, [3XWeight[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list of weights[133X
+  
+  [33X[0;0YThis  function  (a built-in [5XGAP[105X function) maps the Weight function onto each
+  element of the given list [3Xlst[103X in turn, making a list of the results.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(2, [2,0], "A", 2);[127X[104X
+    [4X[28X<Type A2 Weyl module of highest weight [ 2, 0 ] at prime p = 2>[128X[104X
+    [4X[25Xgap>[125X [27Xb:= BasisVecs(V);[127X[104X
+    [4X[28X[ 1*v0, y1*v0, y3*v0, y1^(2)*v0, y1*y3*v0, y3^(2)*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XList(b, Weight);[127X[104X
+    [4X[28X[ [ 2, 0 ], [ 0, 1 ], [ 1, -1 ], [ -2, 2 ], [ -1, 0 ], [ 0, -2 ] ][128X[104X
+    [4X[25Xgap>[125X [27XWeight( b[2] );[127X[104X
+    [4X[28X[ 0, 1 ][128X[104X
+    [4X[25Xgap>[125X [27Xm:= MaximalVectors(V);[127X[104X
+    [4X[28X[ 1*v0, y1*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XList(m, Weight);[127X[104X
+    [4X[28X[ [ 2, 0 ], [ 0, 1 ] ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X1.5 [33X[0;0YStructure of Weyl modules[133X[101X
+  
+  [33X[0;0YOne of the most useful commands is[133X
+  
+  [1X1.5-1 SubmoduleStructure[101X
+  
+  [33X[1;0Y[29X[2XSubmoduleStructure[102X( [3XV[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Yvarious data structures[133X
+  
+  [33X[0;0YThis  function returns a complete list of primitive vectors in a Weyl module
+  [3XV[103X,  and  along  the  way  prints  out  an  analysis of the submodule lattice
+  structure of [3XV[103X. WARNING: If the dimension of [3XV[103X is large this can take a very
+  long time.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(3, [3,3], "A", 2);[127X[104X
+    [4X[28X<Type A2 Weyl module of highest weight [ 3, 3 ] at prime p = 3>[128X[104X
+    [4X[25Xgap>[125X [27Xv:= SubmoduleStructure(V);[127X[104X
+    [4X[28XLevel 1[128X[104X
+    [4X[28X-maximal vector v1 = y1*y2*y3*v0+y1^(2)*y2^(2)*v0 of weight [ 1, 1 ][128X[104X
+    [4X[28XLevel 2[128X[104X
+    [4X[28X-maximal vector v2 = y1^(2)*y2*v0 of weight [ 0, 3 ][128X[104X
+    [4X[28X-maximal vector v3 = -1*y1*y2^(2)*v0+y2*y3*v0 of weight [ 3, 0 ][128X[104X
+    [4X[28X-primitive vector v4 = y1*y2*y3^(2)*v0 of weight [ 0, 0 ][128X[104X
+    [4X[28XLevel 3[128X[104X
+    [4X[28X-maximal vector v5 = y1*v0 of weight [ 1, 4 ][128X[104X
+    [4X[28X-maximal vector v6 = y2*v0 of weight [ 4, 1 ][128X[104X
+    [4X[28XLevel 4[128X[104X
+    [4X[28X-primitive vector v7 = y1^(3)*y2^(3)*v0+y3^(3)*v0 of weight [ 0, 0 ][128X[104X
+    [4X[28XLevel 5[128X[104X
+    [4X[28X-maximal vector v8 = 1*v0 of weight [ 3, 3 ][128X[104X
+    [4X[28XThe submodule <v1> contains v1 [128X[104X
+    [4X[28XThe submodule <v2> contains v1 v2 [128X[104X
+    [4X[28XThe submodule <v3> contains v1 v3 [128X[104X
+    [4X[28XThe submodule <v4> contains v1 v4 [128X[104X
+    [4X[28XThe submodule <v5> contains v1 v2 v3 v4 v5 [128X[104X
+    [4X[28XThe submodule <v6> contains v1 v2 v3 v4 v6 [128X[104X
+    [4X[28XThe submodule <v7> contains v1 v2 v3 v4 v5 v6 v7 [128X[104X
+    [4X[28XThe submodule <v8> contains v1 v2 v3 v4 v5 v6 v7 v8 [128X[104X
+    [4X[28X[ y1*y2*y3*v0+y1^(2)*y2^(2)*v0, y1^(2)*y2*v0, -1*y1*y2^(2)*v0+y2*y3*v0, [128X[104X
+    [4X[28X  y1*y2*y3^(2)*v0, y1*v0, y2*v0, y1^(3)*y2^(3)*v0+y3^(3)*v0, 1*v0 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis shows that [3XV[103X has eight primitive vectors, six of which are maximal. The
+  submodule  generated  by  each primitive vector is shown. The levels are the
+  subquotient  layers  of  the  socle  series  of [3XV[103X, so this Weyl module has a
+  simple  socle  of  highest  weight  [1,1],  there are two simple composition
+  factors  of  highest  weight [0,3] and [3,0] extending the socle, and so on.
+  This  example  is  treated  in  [BDM11],  where  one can also find a diagram
+  depicting the structure.[133X
+  
+  [1X1.5-2 SocleWeyl[101X
+  
+  [33X[1;0Y[29X[2XSocleWeyl[102X( [3XV[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YThis  function  returns  a list of maximal vectors of the Weyl module [3XV[103X that
+  generate the socle of [3XV[103X. Note that [3XV[103X can also be a quotient Weyl module.[133X
+  
+  [33X[0;0YFor example, with [3XV[103X as above, we have:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSocleWeyl(V);[127X[104X
+    [4X[28X[ y1*y2*y3*v0+y1^(2)*y2^(2)*v0 ][128X[104X
+  [4X[32X[104X
+  
+  [1X1.5-3 ExtWeyl[101X
+  
+  [33X[1;0Y[29X[2XExtWeyl[102X( [3XV[103X, [3Xlst[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YThis  function returns a list of maximal vectors generating the socle of the
+  quotient  [22XV/S[122X  where [22XS[122X is the submodule of [3XV[103X generated by the vectors in the
+  given list [3Xlst[103X.[133X
+  
+  [33X[0;0YFor example, with [3XV[103X as above, we have:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsoc:= SocleWeyl(V);[127X[104X
+    [4X[28X[ y1*y2*y3*v0+y1^(2)*y2^(2)*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XExtWeyl(V, soc);[127X[104X
+    [4X[28X[ y1^(2)*y2*v0, -1*y1*y2^(2)*v0+y2*y3*v0, y1*y2*y3^(2)*v0 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YMaximal  vectors generating extensions are only determined modulo [22XS[122X. In some
+  cases,  the  maximal  vectors  returned  by  [9XExtWeyl[109X are not the same as the
+  maximal  vectors returned by [10XSocleWeyl([3XV[103X[10X/[3XS[103X[10X)[110X. In order to properly detect the
+  splitting  of  some extension groups, the [9XExtWeyl[109X function may in some cases
+  replace  a  maximal  vector  by  a  different  choice of representative. For
+  example,  the  Weyl  module  of highest weight [2,0] in characteristic 2 for
+  Type [22XG_2[122X exhibits such a difference:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(2,[2,0],"G",2);[127X[104X
+    [4X[28X<Type G2 Weyl module of highest weight [ 2, 0 ] at prime p = 2>[128X[104X
+    [4X[25Xgap>[125X [27XS:= SocleWeyl(V);[127X[104X
+    [4X[28X[ y1*v0, y4*v0 ][128X[104X
+    [4X[25Xgap>[125X [27Xe:= ExtWeyl(V,S);[127X[104X
+    [4X[28X[ y1*y6*v0+y3*y5*v0+y4^(2)*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XSocleWeyl( QuotientWeylModule(V,SubWeylModule(V,S)) );[127X[104X
+    [4X[28X[ y4^(2)*v0 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIn this case, the vector [22Xy_1 y_6 v_0+y_3y_5v_0+y_4^(2)v_0[122X is a better choice
+  of  generator  than  [22Xy_4^(2)v_0[122X.  Both  choices  are  equivalent  module the
+  submodule generated by the socle, but the first choice reveals that only one
+  of  the socle factors is extended, as one sees by running [9XSubmoduleStructure[109X
+  on this module. (I am indebted to Yutaka Yoshii for finding this example and
+  pointing out some bugs in an earlier version of the [5XGAP[105X code.)[133X
+  
+  [1X1.5-4 MaximalSubmodule[101X
+  
+  [33X[1;0Y[29X[2XMaximalSubmodule[102X( [3XV[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0Y[9XMaximalSubmodule[109X  returns a basis of weight vectors for the (unique) maximal
+  submodule  of  the  given  Weyl  module  [3XV[103X.  The  corresponding  quotient is
+  irreducible, of the same highest weight as [3XV[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(2, [4,0], "A", 2); [127X[104X
+    [4X[28XUNKNOWNEntity(ly)Type A2 Weyl module of highest weight [ 4, 0 ] at prime p = 2>[128X[104X
+    [4X[25Xgap>[125X [27XDim(V);                          [127X[104X
+    [4X[28X15[128X[104X
+    [4X[25Xgap>[125X [27Xmax:= MaximalSubmodule(V);[127X[104X
+    [4X[28X[ y1*v0, y3*v0, y1*y3*v0, y1^(3)*v0, y1*y3^(2)*v0, y1^(2)*y3*v0, y3^(3)*v0, [128X[104X
+    [4X[28X  y1^(3)*y3*v0, y1*y3^(3)*v0, y1^(2)*v0, y3^(2)*v0, y1^(2)*y3^(2)*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XLength(max);[127X[104X
+    [4X[28X12[128X[104X
+    [4X[25Xgap>[125X [27XQ:= QuotientWeylModule(V, max);[127X[104X
+    [4X[28X<Quotient of Type A2 Weyl module of highest weight [ 4, 0 ] at prime p = 2>[128X[104X
+    [4X[25Xgap>[125X [27Xb:= BasisVecs(Q);[127X[104X
+    [4X[28X[ 1*v0, y1^(4)*v0, y3^(4)*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XList(b, Weight);[127X[104X
+    [4X[28X[ [ 4, 0 ], [ -4, 4 ], [ 0, -4 ] ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X1.6 [33X[0;0YMaximal and primitive vectors; homomorphisms between Weyl modules[133X[101X
+  
+  [33X[0;0YA  [13Xmaximal vector[113X is by definition a non-zero vector killed by the action of
+  the  unipotent  radical  of  the  positive  Borel  subgroup; see [Jan03] for
+  further details.[133X
+  
+  [1X1.6-1 MaximalVectors[101X
+  
+  [33X[1;0Y[29X[2XMaximalVectors[102X( [3XV[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XMaximalVectors[102X( [3XV[103X, [3Xlambda[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YSuppose  that  [3XV[103X  is a Weyl module or a quotient Weyl module. These commands
+  respectively return a list of linearly independent vectors in [3XV[103X spanning the
+  subspace  of  all  maximal  vectors  of [3XV[103X, or a list of linearly independent
+  vectors  spanning  the subspace of maximal vectors of the given weight space
+  of  weight  [3Xlambda[103X.  (Note  that  linear combinations of maximal vectors are
+  again maximal.)[133X
+  
+  [33X[0;0YIn  case  [3XV[103X  is  a  Weyl  module,  each maximal vector of [3XV[103X corresponds to a
+  nontrivial  homomorphism from the Weyl module of that highest weight into [3XV[103X.
+  Hence  the  above  commands can be used to determine the space [10XHom([3XW[103X[10X, [3XV[103X[10X)[110X for
+  two given Weyl modules [3XW[103X, [3XV[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(2, [2,2,2], "A", 3);[127X[104X
+    [4X[28X<Type A3 Weyl module of highest weight [ 2, 2, 2 ] at prime p = 2>[128X[104X
+    [4X[25Xgap>[125X [27Xm:= MaximalVectors(V);             [127X[104X
+    [4X[28X[ 1*v0, y1*v0, y2*v0, y3*v0, y1*y3*v0, y1*y2*y3*v0+y3*y4*v0+y6*v0, [128X[104X
+    [4X[28X  y1*y2*y5*v0+y2*y3*y4*v0+y4*y5*v0, y1*y2*y4*v0, y2*y3*y5*v0, [128X[104X
+    [4X[28X  y1*y2*y3*y4*v0+y1*y4*y5*v0, y1*y2*y3*y5*v0, y1*y2*y3*y4*y5*y6*v0 ][128X[104X
+    [4X[25Xgap>[125X [27Xm:= MaximalVectors(V, [0,3,2]);   [127X[104X
+    [4X[28X[ y1*v0 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YHere  are  two  examples  where the space of maximal vectors for a specified
+  weight  has dimension strictly greater than 1. As mentioned at the beginning
+  of  the  chapter, such examples generate a warning message (which is safe to
+  ignore in the two cases given below).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(2, [0,1,0,0], "D", 4); [127X[104X
+    [4X[28X<Type D4 Weyl module of highest weight [ 0, 1, 0, 0 ] at prime p = 2>[128X[104X
+    [4X[25Xgap>[125X [27Xm:= MaximalVectors(V);[127X[104X
+    [4X[28X********************************************************[128X[104X
+    [4X[28X** WARNING! Dimension > 1 detected[128X[104X
+    [4X[28X** in maximal vecs of weight [ 0, 0, 0, 0 ][128X[104X
+    [4X[28X** in Weyl module of highest weight[128X[104X
+    [4X[28X** [ 0, 1, 0, 0 ][128X[104X
+    [4X[28X********************************************************[128X[104X
+    [4X[28X[ 1*v0, y5*y10*v0+y6*y9*v0, y2*y11*v0+y5*y10*v0+y12*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XList(m, Weight);[127X[104X
+    [4X[28X[ [ 0, 1, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ] ][128X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(2, [0,1,0,0,0,0], "D", 6);[127X[104X
+    [4X[28X<Type D6 Weyl module of highest weight [ 0, 1, 0, 0, 0, 0 ] at prime p = 2>[128X[104X
+    [4X[25Xgap>[125X [27Xm:= MaximalVectors(V);                   [127X[104X
+    [4X[28X********************************************************[128X[104X
+    [4X[28X** WARNING! Dimension > 1 detected[128X[104X
+    [4X[28X** in maximal vecs of weight [ 0, 0, 0, 0, 0, 0 ][128X[104X
+    [4X[28X** in Weyl module of highest weight[128X[104X
+    [4X[28X** [ 0, 1, 0, 0, 0, 0 ][128X[104X
+    [4X[28X********************************************************[128X[104X
+    [4X[28X[ 1*v0, y7*y28*v0+y8*y27*v0+y13*y25*v0+y18*y22*v0, y2*y29*v0+y7*y28*v0+y30*v0 [128X[104X
+    [4X[28X ][128X[104X
+    [4X[25Xgap>[125X [27XList(m, Weight);                         [127X[104X
+    [4X[28X[ [ 0, 1, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YGiven  a  weight vector [3Xv[103X in a Weyl module, or quotient Weyl module, one can
+  test whether or not the vector [3Xv[103X is maximal.[133X
+  
+  [1X1.6-2 IsMaximalVector[101X
+  
+  [33X[1;0Y[29X[2XIsMaximalVector[102X( [3XV[103X, [3Xv[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XIsMaximalVector[102X( [3XV[103X, [3Xlst[103X, [3Xv[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YIn  the second form [3Xlst[103X must be a basis of weight vectors for a submodule of
+  [3XV[103X.  The  first  form  of the command returns [9Xtrue[109X iff [3Xv[103X is maximal in [3XV[103X; the
+  second  form  returns [9Xtrue[109X iff the image of [3Xv[103X is maximal in the quotient [3XV[103X/[3XS[103X
+  where [3XS[103X is the submodule spanned by [3Xlst[103X.[133X
+  
+  [33X[0;0YIf  [3XV[103X  is  a Weyl module, a [13Xprimitive vector[113X in [3XV[103X is a vector whose image in
+  some  sub-quotient  is  maximal  (see  [Xi99]).  Maximal  vectors are always
+  primitive,  by  definition.  The  (independent)  primitive  vectors  are  in
+  bijective correspondence with the composition factors of [3XV[103X.[133X
+  
+  [33X[0;0YIf [3XV[103X is a Weyl module, the command[133X
+  
+  [1X1.6-3 PrimitiveVectors[101X
+  
+  [33X[1;0Y[29X[2XPrimitiveVectors[102X( [3XV[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YThis function returns a list of the primitive vectors of [3XV[103X. This is the same
+  list  returned  by  [9XSubmoduleStructure[109X but it should execute faster since it
+  does not bother about computing structure. For example:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(3, [3,3], "A", 2);[127X[104X
+    [4X[28X<Type A2 Weyl module of highest weight [ 3, 3 ] at prime p = 3>[128X[104X
+    [4X[25Xgap>[125X [27Xp:= PrimitiveVectors(V);[127X[104X
+    [4X[28X[ y1*y2*y3*v0+y1^(2)*y2^(2)*v0, y1^(2)*y2*v0, -1*y1*y2^(2)*v0+y2*y3*v0, [128X[104X
+    [4X[28X  y1*y2*y3^(2)*v0, y1*v0, y2*v0, y1^(3)*y2^(3)*v0+y3^(3)*v0, 1*v0 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWARNING:  If  the dimension of [3XV[103X is large, this command can take a very long
+  time to execute.[133X
+  
+  
+  [1X1.7 [33X[0;0YSubmodules[133X[101X
+  
+  [33X[0;0YGiven  a  vector  [3Xv[103X  or  a  list  [3Xlst[103X  of vectors, in a given Weyl module or
+  quotient  Weyl  module,  [3XV[103X,  one  obtains  a basis of weight vectors for the
+  submodule  of  [3XV[103X  generated  by  [3Xv[103X  or [3Xlst[103X by the appropriate command listed
+  below.[133X
+  
+  [1X1.7-1 SubWeylModule[101X
+  
+  [33X[1;0Y[29X[2XSubWeylModule[102X( [3XV[103X, [3Xv[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XSubWeylModule[102X( [3XV[103X, [3Xlst[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YThese  functions  return  a  list  of  linearly  independent  weight vectors
+  spanning  the  submodule generated by either the given vector [3Xv[103X or the given
+  list  [3Xlst[103X.  WARNING: This can take a very long time if the dimension of [3XV[103X is
+  large.[133X
+  
+  [33X[0;0YHere  is  an  example,  in  which  we  find  a  submodule  and  compute  the
+  corresponding quotient of the Weyl module:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(2, [8,0], "A", 2);[127X[104X
+    [4X[28X<Type A2 Weyl module of highest weight [ 8, 0 ] at prime p = 2>[128X[104X
+    [4X[25Xgap>[125X [27Xm:= MaximalVectors(V);           [127X[104X
+    [4X[28X[ 1*v0, y1*v0, y1^(3)*y3^(2)*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XList(m, Weight);                 [127X[104X
+    [4X[28X[ [ 8, 0 ], [ 6, 1 ], [ 0, 1 ] ][128X[104X
+    [4X[25Xgap>[125X [27Xs:= SubWeylModule(V, m[2]);[127X[104X
+    [4X[28X[ y1*v0, y3*v0, y1*y3*v0, y1^(3)*v0, y1*y3^(2)*v0, y1^(5)*v0, y1*y3^(4)*v0, [128X[104X
+    [4X[28X  y1^(2)*y3*v0, y3^(3)*v0, y1^(4)*y3*v0, y3^(5)*v0, y1^(3)*y3*v0, [128X[104X
+    [4X[28X  y1*y3^(3)*v0, y1^(5)*y3*v0, y1*y3^(5)*v0, y1^(3)*y3^(2)*v0, y1^(7)*v0, [128X[104X
+    [4X[28X  y1^(3)*y3^(4)*v0, y1^(5)*y3^(2)*v0, y1*y3^(6)*v0, y1^(2)*y3^(3)*v0, [128X[104X
+    [4X[28X  y1^(6)*y3*v0, y1^(2)*y3^(5)*v0, y1^(4)*y3^(3)*v0, y3^(7)*v0, [128X[104X
+    [4X[28X  y1^(3)*y3^(3)*v0, y1^(7)*y3*v0, y1^(3)*y3^(5)*v0, y1^(5)*y3^(3)*v0, [128X[104X
+    [4X[28X  y1*y3^(7)*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XQ:= QuotientWeylModule(V, s);[127X[104X
+    [4X[28X<Quotient of Type A2 Weyl module of highest weight [ 8, 0 ] at prime p = 2>[128X[104X
+    [4X[25Xgap>[125X [27XBasisVecs(Q);[127X[104X
+    [4X[28X[ 1*v0, y1^(2)*v0, y3^(2)*v0, y1^(4)*v0, y1^(2)*y3^(2)*v0, y1^(6)*v0, [128X[104X
+    [4X[28X  y3^(4)*v0, y1^(4)*y3^(2)*v0, y1^(8)*v0, y1^(2)*y3^(4)*v0, y1^(6)*y3^(2)*v0, [128X[104X
+    [4X[28X  y3^(6)*v0, y1^(4)*y3^(4)*v0, y1^(2)*y3^(6)*v0, y3^(8)*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XDim(Q);[127X[104X
+    [4X[28X15[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YOne can also construct sub-quotients (continuing the preceding computation):[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xmm:= MaximalVectors(Q);[127X[104X
+    [4X[28X[ 1*v0, y1^(2)*v0 ][128X[104X
+    [4X[25Xgap>[125X [27Xsubq:= SubWeylModule(Q, mm[2]);[127X[104X
+    [4X[28X[ y1^(2)*v0, y3^(2)*v0, y1^(2)*y3^(2)*v0, y1^(6)*v0, y1^(2)*y3^(4)*v0, [128X[104X
+    [4X[28X  y1^(4)*y3^(2)*v0, y3^(6)*v0, y1^(6)*y3^(2)*v0, y1^(2)*y3^(6)*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XList(subq, Weight);[127X[104X
+    [4X[28X[ [ 4, 2 ], [ 6, -2 ], [ 2, 0 ], [ -4, 6 ], [ 0, -2 ], [ -2, 2 ], [ 2, -6 ], [128X[104X
+    [4X[28X  [ -6, 4 ], [ -2, -4 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YHere,  we have constructed a basis of weight vectors for the simple socle of
+  the quotient [3XQ[103X.[133X
+  
+  [1X1.7-2 IsWithin[101X
+  
+  [33X[1;0Y[29X[2XIsWithin[102X( [3XV[103X, [3Xlst[103X, [3Xv[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YLet [3XV[103X be a Weyl module or a quotient Weyl module. Given a list [3Xlst[103X of weight
+  vectors  forming  a basis for a submodule, and a vector [3Xv[103X, the above command
+  returns  [9Xtrue[109X  iff the given vector [3Xv[103X lies within the submodule given by the
+  basis [3Xlst[103X.[133X
+  
+  
+  [1X1.8 [33X[0;0YWeights and weight spaces[133X[101X
+  
+  [33X[0;0YIf  [3XV[103X is a Weyl module or a quotient Weyl module, the following commands are
+  available.[133X
+  
+  [1X1.8-1 Weights[101X
+  
+  [33X[1;0Y[29X[2XWeights[102X( [3XV[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XDominantWeights[102X( [3XV[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XWeightSpaces[102X( [3XV[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XDominantWeightSpaces[102X( [3XV[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XWeightSpace[102X( [3XV[103X, [3Xlambda[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0Y[10XWeights[110X  returns  a  list  of  the  weights  of  [3XV[103X,  without multiplicities;
+  [10XDominantWeights[110X  returns  a list of the dominant weights of [3XV[103X, again without
+  multiplicities.[133X
+  
+  [33X[0;0Y[10XWeightSpaces[110X returns a list consisting of each weight followed by a basis of
+  the  corresponding  weight  space;  [10XDominantWeightSpaces[110X  returns  just  the
+  sublist containing the dominant weights and the corresponding weight spaces.[133X
+  
+  [33X[0;0YFinally, [10XWeightSpace[110X returns a basis of the particular weight space given by
+  the specified weight [3Xlambda[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(2, [1,0,0], "A", 3);[127X[104X
+    [4X[28X<Type A3 Weyl module of highest weight [ 1, 0, 0 ] at prime p = 2>[128X[104X
+    [4X[25Xgap>[125X [27XWeights(V);[127X[104X
+    [4X[28X[ [ 1, 0, 0 ], [ -1, 1, 0 ], [ 0, -1, 1 ], [ 0, 0, -1 ] ][128X[104X
+    [4X[25Xgap>[125X [27XDominantWeights(V);[127X[104X
+    [4X[28X[ [ 1, 0, 0 ] ][128X[104X
+    [4X[25Xgap>[125X [27XWeightSpaces(V);[127X[104X
+    [4X[28X[ [ 1, 0, 0 ], [ 1*v0 ], [ -1, 1, 0 ], [ y1*v0 ], [ 0, -1, 1 ], [ y4*v0 ], [128X[104X
+    [4X[28X  [ 0, 0, -1 ], [ y6*v0 ] ][128X[104X
+    [4X[25Xgap>[125X [27XDominantWeightSpaces(V);[127X[104X
+    [4X[28X[ [ 1, 0, 0 ], [ 1*v0 ] ][128X[104X
+    [4X[25Xgap>[125X [27XWeightSpace(V, [-1,1,0]);[127X[104X
+    [4X[28X[ y1*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XWeightSpace(V, [0,1,0]); [127X[104X
+    [4X[28Xfail[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  last  command prints [9Xfail[109X because there are no weight vectors of weight
+  [0,1,0] in the indicated Weyl module.[133X
+  

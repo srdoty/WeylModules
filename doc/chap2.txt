@@ -1,0 +1,170 @@
+  
+  [1X2 [33X[0;0YCharacters and decomposition numbers[133X[101X
+  
+  [33X[0;0Y(Formal)  characters can be computed for Weyl modules and simple modules. In
+  the  latter  case, this is done recursively using Steinberg's tensor product
+  theorem;  the  characters of the simple modules of restricted highest weight
+  are  obtained  by first computing the maximal submodule and then forming the
+  corresponding quotient.[133X
+  
+  
+  [1X2.1 [33X[0;0YCharacters[133X[101X
+  
+  [33X[0;0YWe now discuss the functions available for computing characters.[133X
+  
+  [1X2.1-1 Character[101X
+  
+  [33X[1;0Y[29X[2XCharacter[102X( [3XV[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YSuppose that [3XV[103X is a given Weyl module or quotient Weyl module. This function
+  returns  the  formal  character  of  [3XV[103X, in the form of a list of weights and
+  multiplicities  (the  multiplicity  of each weight follows the weight in the
+  list). For example,[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(3, [3,0], "A", 2);[127X[104X
+    [4X[28X<Type A2 Weyl module of highest weight [ 3, 0 ] at prime p = 3>[128X[104X
+    [4X[25Xgap>[125X [27XCharacter(V);[127X[104X
+    [4X[28X[ [ 3, 0 ], 1, [ 1, 1 ], 1, [ 2, -1 ], 1, [ -1, 2 ], 1, [ 0, 0 ], 1, [128X[104X
+    [4X[28X  [ -3, 3 ], 1, [ 1, -2 ], 1, [ -2, 1 ], 1, [ -1, -1 ], 1, [ 0, -3 ], 1 ][128X[104X
+    [4X[25Xgap>[125X [27XS:= MaximalSubmodule(V);[127X[104X
+    [4X[28X[ y1*v0, 2*y1^(2)*v0, 2*y3*v0, y1*y3*v0, 2*y1^(2)*y3*v0, y3^(2)*v0, [128X[104X
+    [4X[28X  2*y1*y3^(2)*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XCharacter( QuotientWeylModule(V, S) );[127X[104X
+    [4X[28X[ [ 3, 0 ], 1, [ -3, 3 ], 1, [ 0, -3 ], 1 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YOf course, characters of Weyl modules are independent of the characteristic.[133X
+  
+  [1X2.1-2 SimpleCharacter[101X
+  
+  [33X[1;0Y[29X[2XSimpleCharacter[102X( [3Xp[103X, [3Xwt[103X, [3Xt[103X, [3Xr[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XSimpleCharacter[102X( [3XV[103X, [3Xwt[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YIn  the first form, the command [10XSimpleCharacter[110X returns the character of the
+  simple  module of highest weight [3Xwt[103X in characteristic [3Xp[103X, for the root system
+  of  Type  [3Xt[103X and rank [3Xr[103X. In the second form, [3XV[103X is an existing Weyl module and
+  the data [3Xp[103X, [3Xt[103X, and [3Xr[103X are taken from the same data used to define [3XV[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSimpleCharacter(3, [3,0], "A", 2);    [127X[104X
+    [4X[28X[ [ 3, 0 ], 1, [ -3, 3 ], 1, [ 0, -3 ], 1 ][128X[104X
+  [4X[32X[104X
+  
+  [1X2.1-3 Character[101X
+  
+  [33X[1;0Y[29X[2XCharacter[102X( [3Xlst[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YThis function returns the character of the submodule (of a Weyl module, or a
+  quotient Weyl module) spanned by the independent weight vectors in the given
+  list [3Xlst[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(2, [4,0], "A", 2);[127X[104X
+    [4X[28X<Type A2 Weyl module of highest weight [ 4, 0 ] at prime p = 2>[128X[104X
+    [4X[25Xgap>[125X [27Xm:= MaximalVectors(V);[127X[104X
+    [4X[28X[ 1*v0, y1*v0 ][128X[104X
+    [4X[25Xgap>[125X [27Xsimple:= SubWeylModule(V, m[2]);[127X[104X
+    [4X[28X[ y1*v0, y3*v0, y1*y3*v0, y1^(3)*v0, y1*y3^(2)*v0, y1^(2)*y3*v0, y3^(3)*v0, [128X[104X
+    [4X[28X  y1^(3)*y3*v0, y1*y3^(3)*v0 ][128X[104X
+    [4X[25Xgap>[125X [27XCharacter(simple);[127X[104X
+    [4X[28X[ [ 2, 1 ], 1, [ 3, -1 ], 1, [ 1, 0 ], 1, [ -2, 3 ], 1, [ 0, -1 ], 1, [128X[104X
+    [4X[28X  [ -1, 1 ], 1, [ 1, -3 ], 1, [ -3, 2 ], 1, [ -1, -2 ], 1 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIn the preceding example, we obtain the character of the simple socle of the
+  Type [22XA_2[122X Weyl module of highest weight [4,0], in characteristic 2.[133X
+  
+  [1X2.1-4 DifferenceCharacter[101X
+  
+  [33X[1;0Y[29X[2XDifferenceCharacter[102X( [3Xc1[103X, [3Xc2[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0Y[10XDifferenceCharacter[110X  returns the difference of two given characters, or [9Xfail[109X
+  if   the  difference  is  not  another  character.  The  arguments  must  be
+  characters.[133X
+  
+  [33X[0;0YIn  the following example, we compute the character of the maximal submodule
+  of the Weyl module of highest weight [6,0] for Type [22XA_2[122X in characteristic 2.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xch1:= Character( WeylModule(2, [6,0], "A", 2) ); [127X[104X
+    [4X[28X[ [ 6, 0 ], 1, [ 4, 1 ], 1, [ 5, -1 ], 1, [ 2, 2 ], 1, [ 3, 0 ], 1, [ 0, 3 ], [128X[104X
+    [4X[28X  1, [ 4, -2 ], 1, [ 1, 1 ], 1, [ -2, 4 ], 1, [ 2, -1 ], 1, [ -1, 2 ], 1, [128X[104X
+    [4X[28X  [ -4, 5 ], 1, [ 3, -3 ], 1, [ 0, 0 ], 1, [ -3, 3 ], 1, [ -6, 6 ], 1, [128X[104X
+    [4X[28X  [ 1, -2 ], 1, [ -2, 1 ], 1, [ -5, 4 ], 1, [ 2, -4 ], 1, [ -1, -1 ], 1, [128X[104X
+    [4X[28X  [ -4, 2 ], 1, [ 0, -3 ], 1, [ -3, 0 ], 1, [ 1, -5 ], 1, [ -2, -2 ], 1, [128X[104X
+    [4X[28X  [ -1, -4 ], 1, [ 0, -6 ], 1 ][128X[104X
+    [4X[25Xgap>[125X [27Xch2:= SimpleCharacter(2, [6,0], "A", 2);        [127X[104X
+    [4X[28X[ [ 6, 0 ], 1, [ -2, 4 ], 1, [ 2, -4 ], 1, [ 2, 2 ], 1, [ -6, 6 ], 1, [128X[104X
+    [4X[28X  [ -2, -2 ], 1, [ 4, -2 ], 1, [ -4, 2 ], 1, [ 0, -6 ], 1 ][128X[104X
+    [4X[25Xgap>[125X [27Xd:= DifferenceCharacter(ch1, ch2);              [127X[104X
+    [4X[28X[ [ 4, 1 ], 1, [ 5, -1 ], 1, [ 3, 0 ], 1, [ 0, 3 ], 1, [ 1, 1 ], 1, [128X[104X
+    [4X[28X  [ 2, -1 ], 1, [ -1, 2 ], 1, [ -4, 5 ], 1, [ 3, -3 ], 1, [ 0, 0 ], 1, [128X[104X
+    [4X[28X  [ -3, 3 ], 1, [ 1, -2 ], 1, [ -2, 1 ], 1, [ -5, 4 ], 1, [ -1, -1 ], 1, [128X[104X
+    [4X[28X  [ 0, -3 ], 1, [ -3, 0 ], 1, [ 1, -5 ], 1, [ -1, -4 ], 1 ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X2.2 [33X[0;0YDecomposition numbers[133X[101X
+  
+  [33X[0;0YWe can also compute decomposition numbers of Weyl modules.[133X
+  
+  [1X2.2-1 DecompositionNumbers[101X
+  
+  [33X[1;0Y[29X[2XDecompositionNumbers[102X( [3XV[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YIf  [3XV[103X is a given Weyl module, this command returns a list of highest weights
+  of   the   composition   factors   of  [3XV[103X,  along  with  their  corresponding
+  multiplicities.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(2, [8,0], "A", 2);[127X[104X
+    [4X[28X<Type A2 Weyl module of highest weight [ 8, 0 ] at prime p = 2>[128X[104X
+    [4X[25Xgap>[125X [27XDecompositionNumbers(V);[127X[104X
+    [4X[28X[ [ 8, 0 ], 1, [ 6, 1 ], 1, [ 4, 2 ], 1, [ 0, 4 ], 1, [ 0, 1 ], 1 ][128X[104X
+    [4X[25Xgap>[125X [27XV:= WeylModule(3, [1,1], "A", 2);[127X[104X
+    [4X[28X<Type A2 Weyl module of highest weight [ 1, 1 ] at prime p = 3>[128X[104X
+    [4X[25Xgap>[125X [27XDecompositionNumbers(V);         [127X[104X
+    [4X[28X[ [ 1, 1 ], 1, [ 0, 0 ], 1 ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X2.3 [33X[0;0YDecomposing tensor products[133X[101X
+  
+  [33X[0;0YOne  can  also  decompose  tensor  products  of modules whose characters are
+  known, using the following functions.[133X
+  
+  [1X2.3-1 ProductCharacter[101X
+  
+  [33X[1;0Y[29X[2XProductCharacter[102X( [3Xa[103X, [3Xb[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XDecomposeCharacter[102X( [3Xch[103X, [3Xp[103X, [3Xt[103X, [3Xr[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YThe  function  [10XProductCharacter[110X returns the product of two given characters,
+  and  [10XDecomposeCharacter[110X  computes  the  decomposition  numbers  of  a  given
+  character  [3Xch[103X, relative to simple characters in characteristic [3Xp[103X for a given
+  type and rank.[133X
+  
+  [33X[0;0YIn   the   following  example,  we  compute  the  multiplicities  of  simple
+  composition  factors  in the tensor square of the natural representation for
+  the group of Type [22XA_4[122X in characteristic 2.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xch:= SimpleCharacter(2, [1,0,0,0], "A", 4);[127X[104X
+    [4X[28X[ [ 1, 0, 0, 0 ], 1, [ -1, 1, 0, 0 ], 1, [ 0, -1, 1, 0 ], 1, [ 0, 0, -1, 1 ], [128X[104X
+    [4X[28X  1, [ 0, 0, 0, -1 ], 1 ][128X[104X
+    [4X[25Xgap>[125X [27Xchsquared:= ProductCharacter(ch, ch);[127X[104X
+    [4X[28X[ [ 2, 0, 0, 0 ], 1, [ 0, 1, 0, 0 ], 2, [ 1, -1, 1, 0 ], 2, [ 1, 0, -1, 1 ], [128X[104X
+    [4X[28X  2, [ 1, 0, 0, -1 ], 2, [ -2, 2, 0, 0 ], 1, [ -1, 0, 1, 0 ], 2, [128X[104X
+    [4X[28X  [ -1, 1, -1, 1 ], 2, [ -1, 1, 0, -1 ], 2, [ 0, -2, 2, 0 ], 1, [128X[104X
+    [4X[28X  [ 0, -1, 0, 1 ], 2, [ 0, -1, 1, -1 ], 2, [ 0, 0, -2, 2 ], 1, [128X[104X
+    [4X[28X  [ 0, 0, -1, 0 ], 2, [ 0, 0, 0, -2 ], 1 ][128X[104X
+    [4X[25Xgap>[125X [27XDecomposeCharacter(chsquared, 2, "A", 4);[127X[104X
+    [4X[28X[ [ 2, 0, 0, 0 ], 1, [ 0, 1, 0, 0 ], 2 ][128X[104X
+  [4X[32X[104X
+  

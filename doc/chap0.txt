@@ -1,0 +1,93 @@
+  
+  
+                                  [1X[5XWeyl Modules[105X[101X
+  
+  
+                                  Version 2.0
+  
+  
+                                   S. R. Doty
+  
+  
+  
+  S. R. Doty
+      Email:    [7Xmailto:doty@math.luc.edu[107X
+  
+  -------------------------------------------------------
+  [1XCopyright[101X
+  [33X[0;0Y© 2009, 2019 S. R. Doty.[133X
+  
+  [33X[0;0YThis  package  is  free  software;  you can redistribute it and/or modify it
+  under  the  terms of the GNU General Public License as published by the Free
+  Software  Foundation;  either  version 3 of the License, or (at your option)
+  any          later         version.         For         details,         see
+  [7Xhttps://www.gnu.org/licenses/licenses.html[107X.[133X
+  
+  [33X[0;0YThis  software  is  distributed  [13Xas  is[113X without warranty of any kind, either
+  expressed  or implied, including, but not limited to, the implied warranties
+  of merchantability and fitness for a particular purpose.[133X
+  
+  
+  -------------------------------------------------------
+  
+  
+  [1XContents (Weyl)[101X
+  
+  1 [33X[0;0YWeyl modules[133X
+    1.1 [33X[0;0YCreating Weyl modules[133X
+      1.1-1 WeylModule
+      1.1-2 IsWeylModule
+    1.2 [33X[0;0YCreating quotients of Weyl modules[133X
+      1.2-1 QuotientWeylModule
+      1.2-2 IsQuotientWeylModule
+    1.3 [33X[0;0YBasis, dimension, and other miscellaneous commands[133X
+      1.3-1 TheLieAlgebra
+      1.3-2 ActOn
+    1.4 [33X[0;0YWeight of a vector; weights of a list of vectors[133X
+      1.4-1 Weight
+      1.4-2 List
+    1.5 [33X[0;0YStructure of Weyl modules[133X
+      1.5-1 SubmoduleStructure
+      1.5-2 SocleWeyl
+      1.5-3 ExtWeyl
+      1.5-4 MaximalSubmodule
+    1.6 [33X[0;0YMaximal and primitive vectors; homomorphisms between Weyl modules[133X
+      1.6-1 MaximalVectors
+      1.6-2 IsMaximalVector
+      1.6-3 PrimitiveVectors
+    1.7 [33X[0;0YSubmodules[133X
+      1.7-1 SubWeylModule
+      1.7-2 IsWithin
+    1.8 [33X[0;0YWeights and weight spaces[133X
+      1.8-1 Weights
+  2 [33X[0;0YCharacters and decomposition numbers[133X
+    2.1 [33X[0;0YCharacters[133X
+      2.1-1 Character
+      2.1-2 SimpleCharacter
+      2.1-3 Character
+      2.1-4 DifferenceCharacter
+    2.2 [33X[0;0YDecomposition numbers[133X
+      2.2-1 DecompositionNumbers
+    2.3 [33X[0;0YDecomposing tensor products[133X
+      2.3-1 ProductCharacter
+  3 [33X[0;0YSchur algebras and Symmetric Groups[133X
+    3.1 [33X[0;0YCompositions and Weights[133X
+      3.1-1 CompositionToWeight
+      3.1-2 BoundedPartitions
+    3.2 [33X[0;0YSchur Algebras[133X
+      3.2-1 SchurAlgebraWeylModule
+      3.2-2 DecompositionNumbers
+      3.2-3 SchurAlgebraDecompositionMatrix
+    3.3 [33X[0;0YSymmetric groups[133X
+      3.3-1 SymmetricGroupDecompositionNumbers
+      3.3-2 SymmetricGroupDecompositionMatrix
+      3.3-3 AllPartitions
+    3.4 [33X[0;0YThe Mullineux correspondence[133X
+      3.4-1 Mullineux
+      3.4-2 pRegularPartitions
+    3.5 [33X[0;0YMiscellaneous functions for partitions[133X
+      3.5-1 Conjugate
+      3.5-2 pRestricted
+  
+  
+  [32X

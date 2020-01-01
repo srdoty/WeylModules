@@ -1,0 +1,89 @@
+\begin{theindex}
+
+  \item \texttt  {ActOn}, \hyperpage{6}
+  \item \texttt  {AllPartitions}, \hyperpage{22}
+
+  \indexspace
+
+  \item \texttt  {BasisVecs}, \hyperpage{6}
+  \item \texttt  {BoundedPartitions}, \hyperpage{20}
+
+  \indexspace
+
+  \item \texttt  {Character}, \hyperpage{15, 16}
+  \item \texttt  {CompositionToWeight}, \hyperpage{19}
+  \item \texttt  {Conjugate}, \hyperpage{23}
+
+  \indexspace
+
+  \item \texttt  {DecomposeCharacter}, \hyperpage{17}
+  \item \texttt  {DecompositionNumbers}, \hyperpage{17}, \hyperpage{20}
+  \item \texttt  {DifferenceCharacter}, \hyperpage{16}
+  \item \texttt  {Dim}, \hyperpage{6}
+  \item \texttt  {DominantWeights}, \hyperpage{13}
+  \item \texttt  {DominantWeightSpaces}, \hyperpage{13}
+
+  \indexspace
+
+  \item \texttt  {ExtWeyl}, \hyperpage{9}
+
+  \indexspace
+
+  \item \texttt  {Generator}, \hyperpage{6}
+
+  \indexspace
+
+  \item \texttt  {IsMaximalVector}, \hyperpage{11}
+  \item \texttt  {IsQuotientWeylModule}, \hyperpage{6}
+  \item \texttt  {IsWeylModule}, \hyperpage{5}
+  \item \texttt  {IsWithin}, \hyperpage{13}
+
+  \indexspace
+
+  \item \texttt  {List}, \hyperpage{7}
+
+  \indexspace
+
+  \item \texttt  {MaximalSubmodule}, \hyperpage{9}
+  \item \texttt  {MaximalVectors}, \hyperpage{10}
+  \item \texttt  {Mullineux}, \hyperpage{22}
+
+  \indexspace
+
+  \item \texttt  {pRegular}, \hyperpage{24}
+  \item \texttt  {pRegularPartitions}, \hyperpage{23}
+  \item \texttt  {pRestricted}, \hyperpage{24}
+  \item \texttt  {pRestrictedPartitions}, \hyperpage{22}
+  \item \texttt  {PrimitiveVectors}, \hyperpage{11}
+  \item \texttt  {ProductCharacter}, \hyperpage{17}
+
+  \indexspace
+
+  \item \texttt  {QuotientWeylModule}, \hyperpage{5}
+
+  \indexspace
+
+  \item \texttt  {SchurAlgebraDecompositionMatrix}, \hyperpage{21}
+  \item \texttt  {SchurAlgebraWeylModule}, \hyperpage{20}
+  \item \texttt  {SimpleCharacter}, \hyperpage{15}
+  \item \texttt  {SocleWeyl}, \hyperpage{8}
+  \item \texttt  {SubmoduleStructure}, \hyperpage{8}
+  \item \texttt  {SubWeylModule}, \hyperpage{12}
+  \item \texttt  {SymmetricGroupDecompositionMatrix}, \hyperpage{21}
+  \item \texttt  {SymmetricGroupDecompositionNumbers}, \hyperpage{21}
+
+  \indexspace
+
+  \item \texttt  {TheCharacteristic}, \hyperpage{6}
+  \item \texttt  {TheLieAlgebra}, \hyperpage{6}
+
+  \indexspace
+
+  \item \texttt  {Weight}, \hyperpage{7}
+  \item \texttt  {Weights}, \hyperpage{13}
+  \item \texttt  {WeightSpace}, \hyperpage{13}
+  \item \texttt  {WeightSpaces}, \hyperpage{13}
+  \item \texttt  {WeightToComposition}, \hyperpage{19}
+  \item \texttt  {WeylModule}, \hyperpage{4}
+
+\end{theindex}
