@@ -7,7 +7,7 @@ SetPackageInfo( rec(
 PackageName := "WeylModules",
 Subtitle := "A GAP Package",
 Version := "2.0",
-Date := "5 August 2019",
+Date := "05/08/2019",
 ArchiveURL := 
           "http://doty.math.luc.edu/WeylModules",
 ArchiveFormats := ".zip",

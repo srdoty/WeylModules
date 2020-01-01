@@ -11,14 +11,14 @@ The package is not yet submitted to GAP.  For updates between releases
 of GAP itself check the package Web page, at
 http://doty.math.luc.edu/weylmodules.
   
-After downloading the package, start GAP and type:
+After downloading the package, start GAP in the download folder, and type:
 ```
-gap> SetPackagePath("WeylModules","package/path")
+gap> SetPackagePath("WeylModules",".");
 gap> LoadPackage("WeylModules");
 ```
 You can also run `ExtendRootDirectories` to tell GAP where to
 find the package. (See Chapter 76 of the
 [GAP Manual](https://www.gap-system.org/Manuals/doc/ref/chap76.html).)
 
-For details on  how  to  use  the  WeylModules  package  see  the  package
-documentation `manual.pdf' in the `doc' subdirectory. 
+For details on how to use the WeylModules package see the package
+documentation in the `doc` subdirectory.
