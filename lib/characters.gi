@@ -110,7 +110,7 @@ true, [IsPosInt, IsList], 0,
 function(p, wt)
  local k;
  for k in wt do
-   if k >= p then return(false); fi;
+   if k >= p or k < 0 then return(false); fi;
  od;
  return(true);
 end );
